@@ -6,4 +6,9 @@ interface Config {
   range: boolean;
 }
 
-export { Config };
+interface Coords {
+  top: number;
+  left: number;
+}
+
+export { Config, Coords };

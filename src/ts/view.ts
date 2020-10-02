@@ -1,5 +1,5 @@
 import { FROM, TO } from './utils';
-import { Config } from './interface';
+import { Config, Coords } from './interface';
 
 class View {
   public options: Config;
@@ -205,7 +205,7 @@ class View {
     }
   }
 
-  getCoords(element: HTMLElement): Record<string, number> {
+  getCoords(element: HTMLElement): Coords {
     const box = element.getBoundingClientRect();
     return {
       top: box.top + pageYOffset,
@@ -213,7 +213,7 @@ class View {
     };
   }
 
-  setCoords(): Array<Record<string, number>> {
+  setCoords(): Array<Coords> {
     const sliderCoords = this.getCoords(this.slider);
     const fromCoords = this.getCoords(this.from);
     const toCoords = this.getCoords(this.to);
