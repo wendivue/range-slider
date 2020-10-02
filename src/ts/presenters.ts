@@ -79,16 +79,23 @@ class Presenters {
         fromPercentage = this.validateEdgePercentage(fromPercentage);
         toPercentage = this.validateEdgePercentage(toPercentage);
 
+        fromValue = this.calcValue(toPercentage);
+        toValue = this.calcValue(fromPercentage);
+        fromValue = this.validateEdgeValue(fromValue);
+        toValue = this.validateEdgeValue(toValue);
+
+        this.model.add(fromValue, INPUTFROM);
+        this.model.add(toValue, INPUTTO);
+
+        this.view.changeLabelValue(
+          this.model.get(INPUTFROM),
+          this.model.get(INPUTTO)
+        );
+
         if (fromPercentage > toPercentage) {
           fromValue = this.calcValue(toPercentage);
           toValue = this.calcValue(fromPercentage);
-        } else {
-          fromValue = this.calcValue(fromPercentage);
-          toValue = this.calcValue(toPercentage);
         }
-
-        fromValue = this.validateEdgeValue(fromValue);
-        toValue = this.validateEdgeValue(toValue);
 
         this.model.add(fromPercentage, FROM);
         this.model.add(toPercentage, TO);

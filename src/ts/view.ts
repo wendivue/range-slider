@@ -14,6 +14,8 @@ class View {
   public rangeMax: HTMLInputElement;
   public inputFrom: HTMLInputElement;
   public inputTo: HTMLInputElement;
+  public labelFrom: HTMLInputElement;
+  public labelTo: HTMLInputElement;
 
   private base: string;
   private base_input: string;
@@ -31,6 +33,8 @@ class View {
   private id_inputTo: string;
   private id_rangeMin: string;
   private id_rangeMax: string;
+  private id_labelFrom: string;
+  private id_labelTo: string;
 
   constructor(options: Config, id: string) {
     this.getDefaultConfig();
@@ -46,6 +50,8 @@ class View {
     this.id_inputTo = this.getId(id);
     this.id_rangeMin = this.getId(id);
     this.id_rangeMax = this.getId(id);
+    this.id_labelFrom = this.getId(id);
+    this.id_labelTo = this.getId(id);
 
     this.app = document.getElementById(id);
     this.getHtml();
@@ -59,7 +65,9 @@ class View {
       this.id_inputFrom,
       this.id_inputTo,
       this.id_rangeMin,
-      this.id_rangeMax
+      this.id_rangeMax,
+      this.id_labelFrom,
+      this.id_labelTo
     );
   }
 
@@ -70,10 +78,14 @@ class View {
   getHtml(): void {
     this.double_html =
       `<div id="${this.id_from}" class="thumb thumb__from">` +
-      '<span class="thumb__label"></span>' +
+      '<div class="thumb__label">' +
+      `<div id="${this.id_labelFrom}" class="thumb__label-text"></div>` +
+      '</div>' +
       '</div>' +
       `<div id="${this.id_to}" class="thumb thumb__to">` +
-      '<span class="thumb__label"></span>' +
+      '<div class="thumb__label">' +
+      `<div id="${this.id_labelTo}" class="thumb__label-text"></div>` +
+      '</div>' +
       '</div>';
 
     this.single_html =
@@ -121,7 +133,9 @@ class View {
     inputFrom: string,
     inputTo: string,
     rangeMin: string,
-    rangeMax: string
+    rangeMax: string,
+    labelTo: string,
+    labelFrom: string
   ): void {
     this.slider = document.getElementById(slider);
     this.between = document.getElementById(between);
@@ -131,6 +145,8 @@ class View {
     this.inputTo = <HTMLInputElement>document.getElementById(inputTo);
     this.rangeMin = <HTMLInputElement>document.getElementById(rangeMin);
     this.rangeMax = <HTMLInputElement>document.getElementById(rangeMax);
+    this.labelFrom = <HTMLInputElement>document.getElementById(labelFrom);
+    this.labelTo = <HTMLInputElement>document.getElementById(labelTo);
   }
 
   getDefaultConfig(): Config {
@@ -169,6 +185,11 @@ class View {
       this.between.style.width = to - from + '%';
       this.between.style.left = from + '%';
     }
+  }
+
+  changeLabelValue(fromValue: string, toValue: string): void {
+    this.labelFrom.innerHTML = fromValue;
+    this.labelTo.innerHTML = toValue;
   }
 
   changeValue(fromValue: string, toValue: string): void {
