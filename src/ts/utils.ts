@@ -1,6 +1,8 @@
+const SINGLE = 'single';
 const FROM = 'from';
 const TO = 'to';
+const INPUTSINGLE = 'inputSingle';
 const INPUTFROM = 'inputFrom';
 const INPUTTO = 'inputTo';
 
-export { FROM, TO, INPUTFROM, INPUTTO };
+export { SINGLE, FROM, TO, INPUTSINGLE, INPUTFROM, INPUTTO };

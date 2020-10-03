@@ -3,8 +3,10 @@ class Model {
 
   constructor() {
     this.data = {
+      single: null,
       from: null,
       to: null,
+      inputSingle: null,
       inputFrom: null,
       inputTo: null,
     };

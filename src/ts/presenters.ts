@@ -1,4 +1,4 @@
-import { FROM, TO, INPUTFROM, INPUTTO } from './utils';
+import { SINGLE, FROM, TO, INPUTSINGLE, INPUTFROM, INPUTTO } from './utils';
 
 class Presenters {
   private view: any;
@@ -8,25 +8,40 @@ class Presenters {
     this.view = view;
     this.model = model;
 
-    this.onMouseDown(this.view.from);
-    this.onMouseDown(this.view.to);
+    if (this.view.config.type === SINGLE) {
+      this.onMouseDownSingle(this.view.single);
+    } else {
+      this.onMouseDown(this.view.from);
+      this.onMouseDown(this.view.to);
+    }
 
     if (this.view.config.input) {
-      this.onChange(
-        this.view.inputFrom,
-        this.view.inputFrom,
-        this.view.inputTo
-      );
-      this.onChange(this.view.inputTo, this.view.inputFrom, this.view.inputTo);
+      if (this.view.config.type === SINGLE) {
+        this.onChangeSingle(this.view.inputSingle, this.view.inputSingle);
+      } else {
+        this.onChange(
+          this.view.inputFrom,
+          this.view.inputFrom,
+          this.view.inputTo
+        );
+        this.onChange(
+          this.view.inputTo,
+          this.view.inputFrom,
+          this.view.inputTo
+        );
+      }
     }
 
     if (this.view.config.range) {
       this.onChangeRange(this.view.rangeMin);
       this.onChangeRange(this.view.rangeMax);
     }
-
-    this.onDragStart(this.view.from);
-    this.onDragStart(this.view.to);
+    if (this.view.config.type === SINGLE) {
+      this.onDragStart(this.view.single);
+    } else {
+      this.onDragStart(this.view.from);
+      this.onDragStart(this.view.to);
+    }
   }
 
   calcPercentage(left: number): number {
@@ -58,10 +73,10 @@ class Presenters {
 
   onMouseDown(element: HTMLElement): void {
     element.onmousedown = (event: MouseEvent) => {
+      const elementType = this.view.checkElementType(element);
       const [sliderCoords, fromCoords, toCoords] = this.view.setCoords() ?? [];
       let shiftXFrom = event.pageX - fromCoords.left;
       let shiftXTo = event.pageX - toCoords.left;
-      const elementType = this.view.checkElementType(element);
 
       document.onmousemove = (event) => {
         if (elementType === FROM) {
@@ -124,6 +139,39 @@ class Presenters {
     };
   }
 
+  onMouseDownSingle(element: HTMLElement): void {
+    element.onmousedown = (event: MouseEvent) => {
+      const elementType = this.view.checkElementType(element);
+      const [sliderCoords, singleCoords] = this.view.setCoords() ?? [];
+      const shiftXSingle = event.pageX - singleCoords.left;
+
+      document.onmousemove = (event) => {
+        const singleLeft = event.pageX - shiftXSingle - sliderCoords.left;
+        let singlePercentage = this.calcPercentage(singleLeft);
+        let singleValue: number;
+        singlePercentage = this.validateEdgePercentage(singlePercentage);
+
+        singleValue = this.calcValue(singlePercentage);
+        singleValue = this.validateEdgeValue(singleValue);
+
+        this.model.add(singlePercentage, SINGLE);
+        this.model.add(singleValue, INPUTSINGLE);
+
+        this.view.changeLabelValue(this.model.get(INPUTSINGLE));
+        this.view.moveElement(this.model.get(elementType), elementType);
+        this.view.changeBetween(this.model.get(SINGLE));
+
+        if (this.view.config.input) {
+          this.view.changeValue(this.model.get(INPUTSINGLE));
+        }
+      };
+
+      document.onmouseup = () => {
+        document.onmousemove = document.onmouseup = null;
+      };
+    };
+  }
+
   onChange(
     element: HTMLElement,
     inputFrom: Record<string, number>,
@@ -148,6 +196,22 @@ class Presenters {
       this.view.changeBetween(this.model.get(FROM), this.model.get(TO));
       this.view.moveElement(this.model.get(FROM), FROM);
       this.view.moveElement(this.model.get(TO), TO);
+    };
+  }
+
+  onChangeSingle(
+    element: HTMLElement,
+    inputSingle: Record<string, number>
+  ): void {
+    element.onchange = () => {
+      inputSingle.value = this.validateEdgeValue(inputSingle.value);
+      const singlePercentage: number = this.checkInput(inputSingle.value);
+
+      this.model.add(singlePercentage, SINGLE);
+      this.model.add(inputSingle, INPUTSINGLE);
+
+      this.view.changeBetween(this.model.get(SINGLE));
+      this.view.moveElement(this.model.get(SINGLE), SINGLE);
     };
   }
 
