@@ -45,7 +45,13 @@ class Presenters {
   }
 
   calcPercentage(left: number): number {
-    return (100 * left) / this.view.slider.offsetWidth;
+    let slider;
+    if (this.view.config.vertical) {
+      slider = this.view.slider.offsetHeight;
+    } else {
+      slider = this.view.slider.offsetWidth;
+    }
+    return (100 * left) / slider;
   }
 
   calcValue(percentage: number): number {
@@ -73,24 +79,49 @@ class Presenters {
 
   onMouseDown(element: HTMLElement): void {
     element.onmousedown = (event: MouseEvent) => {
+      let shiftXFrom: number;
+      let shiftXTo: number;
       const elementType = this.view.checkElementType(element);
       const [sliderCoords, fromCoords, toCoords] = this.view.setCoords() ?? [];
-      let shiftXFrom = event.pageX - fromCoords.left;
-      let shiftXTo = event.pageX - toCoords.left;
+
+      if (this.view.config.vertical) {
+        shiftXFrom = event.pageY - fromCoords.top;
+        shiftXTo = event.pageY - toCoords.top;
+      } else {
+        shiftXFrom = event.pageX - fromCoords.left;
+        shiftXTo = event.pageX - toCoords.left;
+      }
 
       document.onmousemove = (event) => {
-        if (elementType === FROM) {
-          shiftXTo = event.pageX - toCoords.left;
-        } else if (elementType == TO) {
-          shiftXFrom = event.pageX - fromCoords.left;
-        }
-
-        const fromLeft = event.pageX - shiftXFrom - sliderCoords.left;
-        const toLeft = event.pageX - shiftXTo - sliderCoords.left;
-        let fromPercentage = this.calcPercentage(fromLeft);
-        let toPercentage = this.calcPercentage(toLeft);
+        let fromLeft: number;
+        let toLeft: number;
         let fromValue: number;
         let toValue: number;
+
+        if (this.view.config.vertical) {
+          if (elementType === FROM) {
+            shiftXTo = event.pageY - toCoords.top;
+          } else if (elementType == TO) {
+            shiftXFrom = event.pageY - fromCoords.top;
+          }
+        } else {
+          if (elementType === FROM) {
+            shiftXTo = event.pageX - toCoords.left;
+          } else if (elementType == TO) {
+            shiftXFrom = event.pageX - fromCoords.left;
+          }
+        }
+
+        if (this.view.config.vertical) {
+          fromLeft = event.pageY - shiftXFrom - sliderCoords.top;
+          toLeft = event.pageY - shiftXTo - sliderCoords.top;
+        } else {
+          fromLeft = event.pageX - shiftXFrom - sliderCoords.left;
+          toLeft = event.pageX - shiftXTo - sliderCoords.left;
+        }
+
+        let fromPercentage = this.calcPercentage(fromLeft);
+        let toPercentage = this.calcPercentage(toLeft);
         fromPercentage = this.validateEdgePercentage(fromPercentage);
         toPercentage = this.validateEdgePercentage(toPercentage);
 
@@ -143,12 +174,24 @@ class Presenters {
     element.onmousedown = (event: MouseEvent) => {
       const elementType = this.view.checkElementType(element);
       const [sliderCoords, singleCoords] = this.view.setCoords() ?? [];
-      const shiftXSingle = event.pageX - singleCoords.left;
+      let shiftXSingle: number;
+      if (this.view.config.vertical) {
+        shiftXSingle = event.pageY - singleCoords.top;
+      } else {
+        shiftXSingle = event.pageX - singleCoords.left;
+      }
 
       document.onmousemove = (event) => {
-        const singleLeft = event.pageX - shiftXSingle - sliderCoords.left;
-        let singlePercentage = this.calcPercentage(singleLeft);
+        let singleLeft: number;
         let singleValue: number;
+
+        if (this.view.config.vertical) {
+          singleLeft = event.pageY - shiftXSingle - sliderCoords.top;
+        } else {
+          singleLeft = event.pageX - shiftXSingle - sliderCoords.left;
+        }
+
+        let singlePercentage = this.calcPercentage(singleLeft);
         singlePercentage = this.validateEdgePercentage(singlePercentage);
 
         singleValue = this.calcValue(singlePercentage);

@@ -4,6 +4,7 @@ interface Config {
   type: string;
   input: boolean;
   range: boolean;
+  vertical: boolean;
 }
 
 interface Coords {

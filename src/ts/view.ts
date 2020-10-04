@@ -29,6 +29,10 @@ class View {
   private double_html: string;
   private single_html: string;
 
+  private class_wrapper_vertical: string;
+  private class_tumbr_vertical: string;
+  private class_between_vertical: string;
+  private class_tumbr_to_vertical: string;
   private id_slider: string;
   private id_between: string;
   private id_single: string;
@@ -89,20 +93,32 @@ class View {
   }
 
   getHtml(): void {
+    if (this.config.vertical) {
+      this.class_wrapper_vertical = 'slider__wrapper--vertical';
+      this.class_tumbr_vertical = 'thumb--vertical';
+      this.class_tumbr_to_vertical = 'thumb__to--vertical';
+      this.class_between_vertical = 'slider__between--vertical';
+    } else {
+      this.class_wrapper_vertical = '';
+      this.class_tumbr_vertical = '';
+      this.class_tumbr_to_vertical = '';
+      this.class_between_vertical = '';
+    }
+
     this.double_html =
-      `<div id="${this.id_from}" class="thumb thumb__from">` +
+      `<div id="${this.id_from}" class="thumb thumb__from ${this.class_tumbr_vertical}">` +
       '<div class="thumb__label">' +
       `<div id="${this.id_labelFrom}" class="thumb__label-text"></div>` +
       '</div>' +
       '</div>' +
-      `<div id="${this.id_to}" class="thumb thumb__to">` +
+      `<div id="${this.id_to}" class="thumb thumb__to ${this.class_tumbr_vertical} ${this.class_tumbr_to_vertical}">` +
       '<div class="thumb__label">' +
       `<div id="${this.id_labelTo}" class="thumb__label-text"></div>` +
       '</div>' +
       '</div>';
 
     this.single_html =
-      `<div id="${this.id_single}" class="thumb thumb__single">` +
+      `<div id="${this.id_single}" class="thumb thumb__single ${this.class_tumbr_vertical}">` +
       '<div class="thumb__label">' +
       `<div id="${this.id_labelSingle}" class="thumb__label-text"></div>` +
       '</div>' +
@@ -124,8 +140,8 @@ class View {
     }
 
     this.base =
-      `<div id="${this.id_slider}" class="slider__wrapper" >` +
-      `<div id="${this.id_between}" class="slider__between slider__between--single"></div>` +
+      `<div id="${this.id_slider}" class="slider__wrapper ${this.class_wrapper_vertical}" >` +
+      `<div id="${this.id_between}" class="slider__between slider__between--single ${this.class_between_vertical}"></div>` +
       this.base_thumb +
       '</div>';
 
@@ -183,6 +199,7 @@ class View {
       type: 'double',
       input: true,
       range: true,
+      vertical: false,
     });
   }
 
@@ -199,26 +216,50 @@ class View {
   }
 
   moveElement(percentage: number, elementType: string): void {
-    if (elementType === FROM) {
-      this.from.style.left = percentage + '%';
-    } else if (elementType === TO) {
-      this.to.style.left = percentage + '%';
-    } else if (elementType === SINGLE) {
-      this.single.style.left = percentage + '%';
+    if (this.config.vertical) {
+      if (elementType === FROM) {
+        this.from.style.top = percentage + '%';
+      } else if (elementType === TO) {
+        this.to.style.top = percentage + '%';
+      } else if (elementType === SINGLE) {
+        this.single.style.top = percentage + '%';
+      }
+    } else {
+      if (elementType === FROM) {
+        this.from.style.left = percentage + '%';
+      } else if (elementType === TO) {
+        this.to.style.left = percentage + '%';
+      } else if (elementType === SINGLE) {
+        this.single.style.left = percentage + '%';
+      }
     }
   }
 
-  changeBetween(from: number, to?: number): void {
-    if (this.config.type === SINGLE) {
-      this.between.style.width = from + 1 + '%';
-      this.between.style.left = -1.3 + '%';
-    } else {
-      if (from > to) {
-        this.between.style.width = from - to + '%';
-        this.between.style.left = to + '%';
+  changeBetween(from: number, to: number): void {
+    if (this.config.vertical) {
+      if (this.config.type === SINGLE) {
+        this.between.style.height = from + 1 + '%';
       } else {
-        this.between.style.width = to - from + '%';
-        this.between.style.left = from + '%';
+        if (from > to) {
+          this.between.style.height = from - to + '%';
+          this.between.style.top = to + '%';
+        } else {
+          this.between.style.height = to - from + '%';
+          this.between.style.top = from + '%';
+        }
+      }
+    } else {
+      if (this.config.type === SINGLE) {
+        this.between.style.width = from + 1 + '%';
+        this.between.style.left = -1.3 + '%';
+      } else {
+        if (from > to) {
+          this.between.style.width = from - to + '%';
+          this.between.style.left = to + '%';
+        } else {
+          this.between.style.width = to - from + '%';
+          this.between.style.left = from + '%';
+        }
       }
     }
   }
