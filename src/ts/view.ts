@@ -196,6 +196,8 @@ class View {
     return (this.config = {
       min: 0,
       max: 1000,
+      from: 0,
+      to: 0,
       type: 'double',
       input: true,
       range: true,
@@ -205,11 +207,11 @@ class View {
 
   checkElementType(element: HTMLElement): string {
     let elementType: string;
-    if (element == this.from) {
+    if (element == this.from || element == this.inputFrom) {
       elementType = FROM;
-    } else if (element == this.to) {
+    } else if (element == this.to || element == this.inputTo) {
       elementType = TO;
-    } else if (element == this.single) {
+    } else if (element == this.single || element == this.inputSingle) {
       elementType = SINGLE;
     }
     return elementType;
@@ -240,26 +242,16 @@ class View {
       if (this.config.type === SINGLE) {
         this.between.style.height = from + 1 + '%';
       } else {
-        if (from > to) {
-          this.between.style.height = from - to + '%';
-          this.between.style.top = to + '%';
-        } else {
-          this.between.style.height = to - from + '%';
-          this.between.style.top = from + '%';
-        }
+        this.between.style.height = to - from + '%';
+        this.between.style.top = from + '%';
       }
     } else {
       if (this.config.type === SINGLE) {
         this.between.style.width = from + 1 + '%';
         this.between.style.left = -1.3 + '%';
       } else {
-        if (from > to) {
-          this.between.style.width = from - to + '%';
-          this.between.style.left = to + '%';
-        } else {
-          this.between.style.width = to - from + '%';
-          this.between.style.left = from + '%';
-        }
+        this.between.style.width = to - from + '%';
+        this.between.style.left = from + '%';
       }
     }
   }

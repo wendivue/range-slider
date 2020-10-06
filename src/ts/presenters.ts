@@ -1,3 +1,4 @@
+import { Coords } from './interface';
 import { SINGLE, FROM, TO, INPUTSINGLE, INPUTFROM, INPUTTO } from './utils';
 
 class Presenters {
@@ -9,26 +10,21 @@ class Presenters {
     this.model = model;
 
     if (this.view.config.type === SINGLE) {
-      this.onMouseDownSingle(this.view.single);
+      this.initConfigValue(this.view.config.single, SINGLE);
+      this.onMouseDown(this.view.single);
     } else {
+      this.initConfigValue(this.view.config.from, FROM);
+      this.initConfigValue(this.view.config.to, TO);
       this.onMouseDown(this.view.from);
       this.onMouseDown(this.view.to);
     }
 
     if (this.view.config.input) {
       if (this.view.config.type === SINGLE) {
-        this.onChangeSingle(this.view.inputSingle, this.view.inputSingle);
+        this.onChange(this.view.inputSingle);
       } else {
-        this.onChange(
-          this.view.inputFrom,
-          this.view.inputFrom,
-          this.view.inputTo
-        );
-        this.onChange(
-          this.view.inputTo,
-          this.view.inputFrom,
-          this.view.inputTo
-        );
+        this.onChange(this.view.inputFrom);
+        this.onChange(this.view.inputTo);
       }
     }
 
@@ -36,6 +32,7 @@ class Presenters {
       this.onChangeRange(this.view.rangeMin);
       this.onChangeRange(this.view.rangeMax);
     }
+
     if (this.view.config.type === SINGLE) {
       this.onDragStart(this.view.single);
     } else {
@@ -77,136 +74,131 @@ class Presenters {
     return (value * 100) / this.view.config.max;
   }
 
-  onMouseDown(element: HTMLElement): void {
-    element.onmousedown = (event: MouseEvent) => {
-      let shiftXFrom: number;
-      let shiftXTo: number;
-      const elementType = this.view.checkElementType(element);
-      const [sliderCoords, fromCoords, toCoords] = this.view.setCoords() ?? [];
+  initConfigValue(value: number, elementType: string): void {
+    const percentage: number = this.checkInput(value);
 
-      if (this.view.config.vertical) {
-        shiftXFrom = event.pageY - fromCoords.top;
-        shiftXTo = event.pageY - toCoords.top;
+    if (elementType === FROM) {
+      this.model.add(percentage, FROM);
+      this.model.add(value, INPUTFROM);
+    } else if (elementType === TO) {
+      this.model.add(percentage, TO);
+      this.model.add(value, INPUTTO);
+    } else if (elementType === SINGLE) {
+      this.model.add(percentage, SINGLE);
+      this.model.add(value, INPUTSINGLE);
+    }
+
+    this.updateView(elementType, false);
+  }
+
+  validateTwotumbr(percentage: number, element: string): number {
+    const from: number = this.model.get(FROM);
+    const to: number = this.model.get(TO);
+
+    if (element === FROM) {
+      if (percentage > to) {
+        percentage = to;
+      }
+    }
+
+    if (element === TO) {
+      if (percentage < from) {
+        percentage = from;
+      }
+    }
+
+    return percentage;
+  }
+
+  updateView(elementType: string, input: boolean): void {
+    if (elementType === FROM) {
+      this.view.moveElement(this.model.get(elementType), elementType);
+    } else if (elementType === TO) {
+      this.view.moveElement(this.model.get(elementType), elementType);
+    } else if (elementType === SINGLE) {
+      this.view.moveElement(this.model.get(elementType), elementType);
+    }
+
+    if (this.view.config.type === SINGLE) {
+      this.view.changeBetween(this.model.get(SINGLE));
+    } else {
+      this.view.changeBetween(this.model.get(FROM), this.model.get(TO));
+    }
+
+    if (!input) {
+      if (this.view.config.type === SINGLE) {
+        this.view.changeLabelValue(this.model.get(INPUTSINGLE));
       } else {
-        shiftXFrom = event.pageX - fromCoords.left;
-        shiftXTo = event.pageX - toCoords.left;
+        this.view.changeLabelValue(
+          this.model.get(INPUTTO),
+          this.model.get(INPUTFROM)
+        );
       }
 
-      document.onmousemove = (event) => {
-        let fromLeft: number;
-        let toLeft: number;
-        let fromValue: number;
-        let toValue: number;
-
-        if (this.view.config.vertical) {
-          if (elementType === FROM) {
-            shiftXTo = event.pageY - toCoords.top;
-          } else if (elementType == TO) {
-            shiftXFrom = event.pageY - fromCoords.top;
-          }
+      if (this.view.config.input) {
+        if (this.view.config.type === SINGLE) {
+          this.view.changeValue(this.model.get(INPUTSINGLE));
         } else {
-          if (elementType === FROM) {
-            shiftXTo = event.pageX - toCoords.left;
-          } else if (elementType == TO) {
-            shiftXFrom = event.pageX - fromCoords.left;
-          }
-        }
-
-        if (this.view.config.vertical) {
-          fromLeft = event.pageY - shiftXFrom - sliderCoords.top;
-          toLeft = event.pageY - shiftXTo - sliderCoords.top;
-        } else {
-          fromLeft = event.pageX - shiftXFrom - sliderCoords.left;
-          toLeft = event.pageX - shiftXTo - sliderCoords.left;
-        }
-
-        let fromPercentage = this.calcPercentage(fromLeft);
-        let toPercentage = this.calcPercentage(toLeft);
-        fromPercentage = this.validateEdgePercentage(fromPercentage);
-        toPercentage = this.validateEdgePercentage(toPercentage);
-
-        fromValue = this.calcValue(toPercentage);
-        toValue = this.calcValue(fromPercentage);
-        fromValue = this.validateEdgeValue(fromValue);
-        toValue = this.validateEdgeValue(toValue);
-
-        this.model.add(fromValue, INPUTFROM);
-        this.model.add(toValue, INPUTTO);
-
-        this.view.changeLabelValue(
-          this.model.get(INPUTFROM),
-          this.model.get(INPUTTO)
-        );
-
-        if (fromPercentage > toPercentage) {
-          fromValue = this.calcValue(toPercentage);
-          toValue = this.calcValue(fromPercentage);
-        }
-
-        this.model.add(fromPercentage, FROM);
-        this.model.add(toPercentage, TO);
-        this.model.add(fromValue, INPUTFROM);
-        this.model.add(toValue, INPUTTO);
-
-        if (elementType === FROM) {
-          this.view.moveElement(this.model.get(elementType), elementType);
-        } else if (elementType === TO) {
-          this.view.moveElement(this.model.get(elementType), elementType);
-        }
-
-        this.view.changeBetween(this.model.get(FROM), this.model.get(TO));
-
-        if (this.view.config.input) {
           this.view.changeValue(
             this.model.get(INPUTFROM),
             this.model.get(INPUTTO)
           );
         }
-      };
-
-      document.onmouseup = () => {
-        document.onmousemove = document.onmouseup = null;
-      };
-    };
+      }
+    }
   }
 
-  onMouseDownSingle(element: HTMLElement): void {
+  onMouseDown(element: HTMLElement): void {
     element.onmousedown = (event: MouseEvent) => {
+      let shiftX: number;
+      let sliderCoords: Coords;
+      let singleCoords: Coords;
+      let fromCoords: Coords;
+      let toCoords: Coords;
       const elementType = this.view.checkElementType(element);
-      const [sliderCoords, singleCoords] = this.view.setCoords() ?? [];
-      let shiftXSingle: number;
-      if (this.view.config.vertical) {
-        shiftXSingle = event.pageY - singleCoords.top;
+
+      if (this.view.config.type === SINGLE) {
+        [sliderCoords, singleCoords] = this.view.setCoords() ?? [];
       } else {
-        shiftXSingle = event.pageX - singleCoords.left;
+        [sliderCoords, fromCoords, toCoords] = this.view.setCoords() ?? [];
+      }
+
+      if (elementType === FROM) {
+        shiftX = event.pageX - fromCoords.left;
+      } else if (elementType === TO) {
+        shiftX = event.pageX - toCoords.left;
+      } else if (SINGLE) {
+        shiftX = event.pageX - singleCoords.left;
       }
 
       document.onmousemove = (event) => {
-        let singleLeft: number;
-        let singleValue: number;
+        let left: number;
 
         if (this.view.config.vertical) {
-          singleLeft = event.pageY - shiftXSingle - sliderCoords.top;
+          left = event.pageY - shiftX - sliderCoords.top;
         } else {
-          singleLeft = event.pageX - shiftXSingle - sliderCoords.left;
+          left = event.pageX - shiftX - sliderCoords.left;
         }
 
-        let singlePercentage = this.calcPercentage(singleLeft);
-        singlePercentage = this.validateEdgePercentage(singlePercentage);
+        let percentage = this.calcPercentage(left);
+        percentage = this.validateEdgePercentage(percentage);
+        percentage = this.validateTwotumbr(percentage, elementType);
 
-        singleValue = this.calcValue(singlePercentage);
-        singleValue = this.validateEdgeValue(singleValue);
+        let value = this.calcValue(percentage);
+        value = this.validateEdgeValue(value);
 
-        this.model.add(singlePercentage, SINGLE);
-        this.model.add(singleValue, INPUTSINGLE);
-
-        this.view.changeLabelValue(this.model.get(INPUTSINGLE));
-        this.view.moveElement(this.model.get(elementType), elementType);
-        this.view.changeBetween(this.model.get(SINGLE));
-
-        if (this.view.config.input) {
-          this.view.changeValue(this.model.get(INPUTSINGLE));
+        if (elementType === FROM) {
+          this.model.add(percentage, FROM);
+          this.model.add(value, INPUTFROM);
+        } else if (elementType === TO) {
+          this.model.add(percentage, TO);
+          this.model.add(value, INPUTTO);
+        } else if (elementType === SINGLE) {
+          this.model.add(percentage, SINGLE);
+          this.model.add(value, INPUTSINGLE);
         }
+
+        this.updateView(elementType, false);
       };
 
       document.onmouseup = () => {
@@ -215,46 +207,24 @@ class Presenters {
     };
   }
 
-  onChange(
-    element: HTMLElement,
-    inputFrom: Record<string, number>,
-    inputTo: Record<string, number>
-  ): void {
+  onChange(element: any): void {
     element.onchange = () => {
-      inputFrom.value = this.validateEdgeValue(inputFrom.value);
-      inputTo.value = this.validateEdgeValue(inputTo.value);
-      if (inputFrom.value > inputTo.value) {
-        const temp = inputFrom.value;
-        inputFrom.value = inputTo.value;
-        inputTo.value = temp;
+      const elementType = this.view.checkElementType(element);
+
+      element.value = this.validateEdgeValue(element.value);
+
+      let percentage: number = this.checkInput(element.value);
+      percentage = this.validateTwotumbr(percentage, elementType);
+
+      if (elementType === FROM) {
+        this.model.add(percentage, FROM);
+      } else if (elementType === TO) {
+        this.model.add(percentage, TO);
+      } else if (elementType === SINGLE) {
+        this.model.add(percentage, SINGLE);
       }
-      const fromPercentage: number = this.checkInput(inputFrom.value);
-      const toPercentage: number = this.checkInput(inputTo.value);
 
-      this.model.add(fromPercentage, FROM);
-      this.model.add(toPercentage, TO);
-      this.model.add(inputFrom, INPUTFROM);
-      this.model.add(inputTo, INPUTTO);
-
-      this.view.changeBetween(this.model.get(FROM), this.model.get(TO));
-      this.view.moveElement(this.model.get(FROM), FROM);
-      this.view.moveElement(this.model.get(TO), TO);
-    };
-  }
-
-  onChangeSingle(
-    element: HTMLElement,
-    inputSingle: Record<string, number>
-  ): void {
-    element.onchange = () => {
-      inputSingle.value = this.validateEdgeValue(inputSingle.value);
-      const singlePercentage: number = this.checkInput(inputSingle.value);
-
-      this.model.add(singlePercentage, SINGLE);
-      this.model.add(inputSingle, INPUTSINGLE);
-
-      this.view.changeBetween(this.model.get(SINGLE));
-      this.view.moveElement(this.model.get(SINGLE), SINGLE);
+      this.updateView(elementType, true);
     };
   }
 
