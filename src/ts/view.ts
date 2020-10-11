@@ -1,5 +1,5 @@
 import { SINGLE, FROM, TO } from './utils';
-import { Config, Coords } from './interface';
+import { Config, Coords, Shift } from './interface';
 
 class View {
   public options: Config;
@@ -290,16 +290,22 @@ class View {
     };
   }
 
-  setCoords(): Array<Coords> {
+  getShift(event: MouseEvent, element: HTMLElement): Shift {
+    const elemCoords = this.getCoords(element);
+
+    return {
+      x: event.pageX - elemCoords.left,
+      y: event.pageY - elemCoords.top,
+    };
+  }
+
+  getNewShift(event: MouseEvent, shift: Shift): Shift {
     const sliderCoords = this.getCoords(this.slider);
-    if (this.config.type === SINGLE) {
-      const singleCoords = this.getCoords(this.single);
-      return [sliderCoords, singleCoords];
-    } else {
-      const fromCoords = this.getCoords(this.from);
-      const toCoords = this.getCoords(this.to);
-      return [sliderCoords, fromCoords, toCoords];
-    }
+
+    return {
+      x: event.pageX - shift.x - sliderCoords.left,
+      y: event.pageY - shift.y - sliderCoords.top,
+    };
   }
 }
 

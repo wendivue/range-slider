@@ -150,37 +150,20 @@ class Presenters {
 
   onMouseDown(element: HTMLElement): void {
     element.onmousedown = (event: MouseEvent) => {
-      let shiftX: number;
-      let sliderCoords: Coords;
-      let singleCoords: Coords;
-      let fromCoords: Coords;
-      let toCoords: Coords;
+      event.preventDefault();
       const elementType = this.view.checkElementType(element);
+      const shift = this.view.getShift(event, element);
 
-      if (this.view.config.type === SINGLE) {
-        [sliderCoords, singleCoords] = this.view.setCoords() ?? [];
-      } else {
-        [sliderCoords, fromCoords, toCoords] = this.view.setCoords() ?? [];
-      }
-
-      if (elementType === FROM) {
-        shiftX = event.pageX - fromCoords.left;
-      } else if (elementType === TO) {
-        shiftX = event.pageX - toCoords.left;
-      } else if (SINGLE) {
-        shiftX = event.pageX - singleCoords.left;
-      }
-
-      document.onmousemove = (event) => {
-        let left: number;
+      const onMouseMove = (event: MouseEvent) => {
+        let percentage: number;
+        const newShift = this.view.getNewShift(event, shift);
 
         if (this.view.config.vertical) {
-          left = event.pageY - shiftX - sliderCoords.top;
+          percentage = this.calcPercentage(newShift.y);
         } else {
-          left = event.pageX - shiftX - sliderCoords.left;
+          percentage = this.calcPercentage(newShift.x);
         }
 
-        let percentage = this.calcPercentage(left);
         percentage = this.validateEdgePercentage(percentage);
         percentage = this.validateTwotumbr(percentage, elementType);
 
@@ -201,9 +184,13 @@ class Presenters {
         this.updateView(elementType, false);
       };
 
-      document.onmouseup = () => {
-        document.onmousemove = document.onmouseup = null;
+      const onMouseUp = () => {
+        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', onMouseMove);
       };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     };
   }
 

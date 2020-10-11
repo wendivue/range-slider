@@ -14,4 +14,9 @@ interface Coords {
   left: number;
 }
 
-export { Config, Coords };
+interface Shift {
+  x: number;
+  y: number;
+}
+
+export { Config, Coords, Shift };
