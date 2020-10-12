@@ -274,14 +274,6 @@ class View {
     }
   }
 
-  changeRange(element: HTMLElement): void {
-    if (element === this.rangeMin) {
-      this.config.min = parseInt(this.rangeMin.value);
-    } else if (element === this.rangeMax) {
-      this.config.max = parseInt(this.rangeMax.value);
-    }
-  }
-
   getCoords(element: HTMLElement): Coords {
     const box = element.getBoundingClientRect();
     return {

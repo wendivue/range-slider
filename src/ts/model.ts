@@ -9,6 +9,8 @@ class Model {
       inputSingle: null,
       inputFrom: null,
       inputTo: null,
+      min: null,
+      max: null,
     };
   }
 

@@ -1,5 +1,13 @@
-import { Coords } from './interface';
-import { SINGLE, FROM, TO, INPUTSINGLE, INPUTFROM, INPUTTO } from './utils';
+import {
+  SINGLE,
+  FROM,
+  TO,
+  INPUTSINGLE,
+  INPUTFROM,
+  INPUTTO,
+  MIN,
+  MAX,
+} from './utils';
 
 class Presenters {
   private view: any;
@@ -10,11 +18,23 @@ class Presenters {
     this.model = model;
 
     if (this.view.config.type === SINGLE) {
-      this.initConfigValue(this.view.config.single, SINGLE);
+      this.initConfigValue(
+        this.view.config.single,
+        [this.view.config.min, this.view.config.max],
+        SINGLE
+      );
       this.onMouseDown(this.view.single);
     } else {
-      this.initConfigValue(this.view.config.from, FROM);
-      this.initConfigValue(this.view.config.to, TO);
+      this.initConfigValue(
+        this.view.config.from,
+        [this.view.config.min, this.view.config.max],
+        FROM
+      );
+      this.initConfigValue(
+        this.view.config.to,
+        [this.view.config.min, this.view.config.max],
+        TO
+      );
       this.onMouseDown(this.view.from);
       this.onMouseDown(this.view.to);
     }
@@ -53,7 +73,7 @@ class Presenters {
 
   calcValue(percentage: number): number {
     return Math.round(
-      (this.view.config.max / 100) * percentage + this.view.config.min
+      (this.model.get(MAX) / 100) * percentage + this.model.get(MIN)
     );
   }
 
@@ -65,16 +85,20 @@ class Presenters {
   }
 
   validateEdgeValue(value: number): number {
-    if (value < this.view.config.min) value = this.view.config.min;
-    if (value > this.view.config.max) value = this.view.config.max;
+    if (value < this.model.get(MIN)) value = this.model.get(MIN);
+    if (value > this.model.get(MAX)) value = this.model.get(MAX);
     return value;
   }
 
   checkInput(value: number): number {
-    return (value * 100) / this.view.config.max;
+    return (value * 100) / this.model.get(MAX);
   }
 
-  initConfigValue(value: number, elementType: string): void {
+  initConfigValue(
+    value: number,
+    [min, max]: Array<number>,
+    elementType: string
+  ): void {
     const percentage: number = this.checkInput(value);
 
     if (elementType === FROM) {
@@ -87,6 +111,9 @@ class Presenters {
       this.model.add(percentage, SINGLE);
       this.model.add(value, INPUTSINGLE);
     }
+
+    this.model.add(min, MIN);
+    this.model.add(max, MAX);
 
     this.updateView(elementType, false);
   }
@@ -217,7 +244,16 @@ class Presenters {
 
   onChangeRange(element: HTMLElement): void {
     element.onchange = () => {
-      this.view.changeRange(element);
+      let min: number;
+      let max: number;
+
+      if (element === this.view.rangeMin) {
+        min = parseInt(this.view.rangeMin.value);
+        this.model.add(min, MIN);
+      } else if (element === this.view.rangeMax) {
+        max = parseInt(this.view.rangeMax.value);
+        this.model.add(max, MAX);
+      }
     };
   }
 
