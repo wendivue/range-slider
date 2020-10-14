@@ -68,6 +68,7 @@ class Presenters {
     } else {
       slider = this.view.slider.offsetWidth;
     }
+
     return (100 * left) / slider;
   }
 
@@ -75,6 +76,43 @@ class Presenters {
     return Math.round(
       (this.model.get(MAX) / 100) * percentage + this.model.get(MIN)
     );
+  }
+
+  calcStep(): Array<number> {
+    const step = this.view.config.step;
+    const max = this.view.config.max;
+    const length = max / step - 1;
+    let array: Array<number> = [];
+    let nextValue = 0;
+
+    for (let astep = 0; astep < length; astep++) {
+      nextValue = nextValue + step;
+      array = [...array, ...[nextValue]];
+    }
+
+    array = [0, ...array, max];
+
+    array = array.map((item: number) => {
+      return (100 * item) / this.model.get(MAX);
+    });
+
+    return array;
+  }
+
+  calcPercentageFromStep(array: Array<number>, percentage: number): number {
+    let newPercentage;
+
+    array.map((item: number) => {
+      if (item == 0) {
+        newPercentage = item;
+      }
+
+      const halfItem = item / 2;
+      if (percentage > halfItem && percentage < item) {
+        newPercentage = item;
+      }
+    });
+    return newPercentage;
   }
 
   validateEdgePercentage(percentage: number): number {
@@ -178,11 +216,11 @@ class Presenters {
   onMouseDown(element: HTMLElement): void {
     element.onmousedown = (event: MouseEvent) => {
       event.preventDefault();
-      const elementType = this.view.checkElementType(element);
       const shift = this.view.getShift(event, element);
 
       const onMouseMove = (event: MouseEvent) => {
         let percentage: number;
+        const elementType = this.view.checkElementType(element);
         const newShift = this.view.getNewShift(event, shift);
 
         if (this.view.config.vertical) {
@@ -191,6 +229,7 @@ class Presenters {
           percentage = this.calcPercentage(newShift.x);
         }
 
+        percentage = this.calcPercentageFromStep(this.calcStep(), percentage);
         percentage = this.validateEdgePercentage(percentage);
         percentage = this.validateTwotumbr(percentage, elementType);
 

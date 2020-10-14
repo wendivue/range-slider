@@ -198,6 +198,7 @@ class View {
       max: 1000,
       from: 0,
       to: 0,
+      step: 1,
       type: 'double',
       input: true,
       range: true,

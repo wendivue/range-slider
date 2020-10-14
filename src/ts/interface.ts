@@ -3,6 +3,7 @@ interface Config {
   max: number;
   from: number;
   to: number;
+  step: number;
   type: string;
   input: boolean;
   range: boolean;

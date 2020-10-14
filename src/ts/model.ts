@@ -9,12 +9,12 @@ class Model {
       inputSingle: null,
       inputFrom: null,
       inputTo: null,
-      min: null,
-      max: null,
+      min: 0,
+      max: 1000,
     };
   }
 
-  add(value: any, prop: string): void {
+  add(value: Record<string, any>, prop: string): void {
     const obj = this.data;
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
