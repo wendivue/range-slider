@@ -20,4 +20,9 @@ interface Shift {
   y: number;
 }
 
-export { Config, Coords, Shift };
+interface forMouseMove {
+  shift: number;
+  element: HTMLElement;
+}
+
+export { Config, Coords, Shift, forMouseMove };

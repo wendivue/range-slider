@@ -9,6 +9,8 @@ import {
   MAX,
 } from './utils';
 
+import { forMouseMove } from './interface';
+
 class Presenters {
   private view: any;
   private model: any;
@@ -17,48 +19,11 @@ class Presenters {
     this.view = view;
     this.model = model;
 
-    if (this.view.config.type === SINGLE) {
-      this.initConfigValue(
-        this.view.config.single,
-        [this.view.config.min, this.view.config.max],
-        SINGLE
-      );
-      this.onMouseDown(this.view.single);
-    } else {
-      this.initConfigValue(
-        this.view.config.from,
-        [this.view.config.min, this.view.config.max],
-        FROM
-      );
-      this.initConfigValue(
-        this.view.config.to,
-        [this.view.config.min, this.view.config.max],
-        TO
-      );
-      this.onMouseDown(this.view.from);
-      this.onMouseDown(this.view.to);
-    }
-
-    if (this.view.config.input) {
-      if (this.view.config.type === SINGLE) {
-        this.onChange(this.view.inputSingle);
-      } else {
-        this.onChange(this.view.inputFrom);
-        this.onChange(this.view.inputTo);
-      }
-    }
-
-    if (this.view.config.range) {
-      this.onChangeRange(this.view.rangeMin);
-      this.onChangeRange(this.view.rangeMax);
-    }
-
-    if (this.view.config.type === SINGLE) {
-      this.onDragStart(this.view.single);
-    } else {
-      this.onDragStart(this.view.from);
-      this.onDragStart(this.view.to);
-    }
+    this.init(
+      this.view.config.type,
+      this.view.config.input,
+      this.view.config.range
+    );
   }
 
   calcPercentage(left: number): number {
@@ -217,91 +182,141 @@ class Presenters {
     }
   }
 
-  onMouseDown(element: HTMLElement): void {
-    element.onmousedown = (event: MouseEvent) => {
-      event.preventDefault();
-      const shift = this.view.getShift(event, element);
+  init(single: string, input: boolean, range: boolean): void {
+    if (single === SINGLE) {
+      this.initConfigValue(
+        this.view.config.single,
+        [this.view.config.min, this.view.config.max],
+        SINGLE
+      );
 
-      const onMouseMove = (event: MouseEvent) => {
-        let percentage: number;
-        const elementType = this.view.checkElementType(element);
-        const newShift = this.view.getNewShift(event, shift);
+      this.bindHandleEvents(this.view.single);
+    } else {
+      this.initConfigValue(
+        this.view.config.from,
+        [this.view.config.min, this.view.config.max],
+        FROM
+      );
+      this.initConfigValue(
+        this.view.config.to,
+        [this.view.config.min, this.view.config.max],
+        TO
+      );
+      this.bindHandleEvents(this.view.from);
+      this.bindHandleEvents(this.view.to);
+    }
 
-        if (this.view.config.vertical) {
-          percentage = this.calcPercentage(newShift.y);
-        } else {
-          percentage = this.calcPercentage(newShift.x);
-        }
-
-        percentage = this.calcPercentageFromStep(this.calcStep(), percentage);
-        percentage = this.validateEdgePercentage(percentage);
-        percentage = this.validateTwotumbr(percentage, elementType);
-
-        let value = this.calcValue(percentage);
-        value = this.validateEdgeValue(value);
-
-        if (elementType === FROM) {
-          this.model.add(percentage, FROM);
-          this.model.add(value, INPUTFROM);
-        } else if (elementType === TO) {
-          this.model.add(percentage, TO);
-          this.model.add(value, INPUTTO);
-        } else if (elementType === SINGLE) {
-          this.model.add(percentage, SINGLE);
-          this.model.add(value, INPUTSINGLE);
-        }
-
-        this.updateView(elementType, false);
-      };
-
-      const onMouseUp = () => {
-        document.removeEventListener('mouseup', onMouseUp);
-        document.removeEventListener('mousemove', onMouseMove);
-      };
-
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    };
-  }
-
-  onChange(element: any): void {
-    element.onchange = () => {
-      const elementType = this.view.checkElementType(element);
-
-      element.value = this.validateEdgeValue(element.value);
-
-      let percentage: number = this.checkInput(element.value);
-      percentage = this.validateTwotumbr(percentage, elementType);
-
-      if (elementType === FROM) {
-        this.model.add(percentage, FROM);
-      } else if (elementType === TO) {
-        this.model.add(percentage, TO);
-      } else if (elementType === SINGLE) {
-        this.model.add(percentage, SINGLE);
+    if (input) {
+      if (single === SINGLE) {
+        this.bindInputEvents(this.view.inputSingle);
+      } else {
+        this.bindInputEvents(this.view.inputFrom);
+        this.bindInputEvents(this.view.inputTo);
       }
+    }
 
-      this.updateView(elementType, true);
-    };
+    if (range) {
+      this.bindRangeEvents(this.view.rangeMin);
+      this.bindRangeEvents(this.view.rangeMax);
+    }
   }
 
-  onChangeRange(element: HTMLElement): void {
-    element.onchange = () => {
-      let min: number;
-      let max: number;
-
-      if (element === this.view.rangeMin) {
-        min = parseInt(this.view.rangeMin.value);
-        this.model.add(min, MIN);
-      } else if (element === this.view.rangeMax) {
-        max = parseInt(this.view.rangeMax.value);
-        this.model.add(max, MAX);
-      }
-    };
+  bindHandleEvents(element: HTMLElement): void {
+    element.addEventListener(
+      'mousedown',
+      this.handleMouseDown.bind(this, element)
+    );
   }
 
-  onDragStart(element: HTMLElement): void {
-    element.ondragstart = () => false;
+  bindInputEvents(element: HTMLElement): void {
+    element.addEventListener('change', this.inputOnChange.bind(this, element));
+  }
+
+  bindRangeEvents(element: HTMLElement): void {
+    element.addEventListener('change', this.rangeOnChange.bind(this, element));
+  }
+
+  handleMouseDown(element: HTMLElement, event: MouseEvent): void {
+    event.preventDefault();
+    const shift = this.view.getShift(event, element);
+
+    const forMouseMove: forMouseMove = {
+      shift,
+      element,
+    };
+
+    const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
+
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  handleMouseMove(forMouseMove: forMouseMove, event: MouseEvent): void {
+    let percentage: number;
+    const elementType = this.view.checkElementType(forMouseMove.element);
+    const newShift = this.view.getNewShift(event, forMouseMove.shift);
+
+    if (this.view.config.vertical) {
+      percentage = this.calcPercentage(newShift.y);
+    } else {
+      percentage = this.calcPercentage(newShift.x);
+    }
+
+    percentage = this.calcPercentageFromStep(this.calcStep(), percentage);
+    percentage = this.validateEdgePercentage(percentage);
+    percentage = this.validateTwotumbr(percentage, elementType);
+
+    let value = this.calcValue(percentage);
+    value = this.validateEdgeValue(value);
+
+    if (elementType === FROM) {
+      this.model.add(percentage, FROM);
+      this.model.add(value, INPUTFROM);
+    } else if (elementType === TO) {
+      this.model.add(percentage, TO);
+      this.model.add(value, INPUTTO);
+    } else if (elementType === SINGLE) {
+      this.model.add(percentage, SINGLE);
+      this.model.add(value, INPUTSINGLE);
+    }
+
+    this.updateView(elementType, false);
+  }
+
+  inputOnChange(element: any): void {
+    const elementType = this.view.checkElementType(element);
+    element.value = this.validateEdgeValue(element.value);
+
+    let percentage: number = this.checkInput(element.value);
+    percentage = this.validateTwotumbr(percentage, elementType);
+
+    if (elementType === FROM) {
+      this.model.add(percentage, FROM);
+    } else if (elementType === TO) {
+      this.model.add(percentage, TO);
+    } else if (elementType === SINGLE) {
+      this.model.add(percentage, SINGLE);
+    }
+
+    this.updateView(elementType, true);
+  }
+
+  rangeOnChange(element: HTMLElement): void {
+    let min: number;
+    let max: number;
+
+    if (element === this.view.rangeMin) {
+      min = parseInt(this.view.rangeMin.value);
+      this.model.add(min, MIN);
+    } else if (element === this.view.rangeMax) {
+      max = parseInt(this.view.rangeMax.value);
+      this.model.add(max, MAX);
+    }
   }
 }
 
