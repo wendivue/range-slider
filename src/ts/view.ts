@@ -33,6 +33,9 @@ class View {
   private class_tumbr_vertical: string;
   private class_between_vertical: string;
   private class_tumbr_to_vertical: string;
+  private class_between_single: string;
+  private class_tumbr_single_vertical: string;
+
   private id_slider: string;
   private id_between: string;
   private id_single: string;
@@ -97,12 +100,20 @@ class View {
       this.class_wrapper_vertical = 'slider__wrapper--vertical';
       this.class_tumbr_vertical = 'thumb--vertical';
       this.class_tumbr_to_vertical = 'thumb__to--vertical';
+      this.class_tumbr_single_vertical = 'thumb__single--vertical';
       this.class_between_vertical = 'slider__between--vertical';
     } else {
       this.class_wrapper_vertical = '';
       this.class_tumbr_vertical = '';
       this.class_tumbr_to_vertical = '';
+      this.class_tumbr_single_vertical = '';
       this.class_between_vertical = '';
+    }
+
+    if (this.config.type == SINGLE) {
+      this.class_between_single = 'slider__between--single';
+    } else {
+      this.class_between_single = '';
     }
 
     this.double_html =
@@ -118,7 +129,7 @@ class View {
       '</div>';
 
     this.single_html =
-      `<div id="${this.id_single}" class="thumb thumb__single ${this.class_tumbr_vertical}">` +
+      `<div id="${this.id_single}" class="thumb thumb__single ${this.class_tumbr_vertical} ${this.class_tumbr_single_vertical}">` +
       '<div class="thumb__label">' +
       `<div id="${this.id_labelSingle}" class="thumb__label-text"></div>` +
       '</div>' +
@@ -141,7 +152,7 @@ class View {
 
     this.base =
       `<div id="${this.id_slider}" class="slider__wrapper ${this.class_wrapper_vertical}" >` +
-      `<div id="${this.id_between}" class="slider__between slider__between--single ${this.class_between_vertical}"></div>` +
+      `<div id="${this.id_between}" class="slider__between ${this.class_between_single} ${this.class_between_vertical}"></div>` +
       this.base_thumb +
       '</div>';
 
@@ -241,15 +252,14 @@ class View {
   changeBetween(from: number, to: number): void {
     if (this.config.vertical) {
       if (this.config.type === SINGLE) {
-        this.between.style.height = from + 1 + '%';
+        this.between.style.height = from + '%';
       } else {
         this.between.style.height = to - from + '%';
         this.between.style.top = from + '%';
       }
     } else {
       if (this.config.type === SINGLE) {
-        this.between.style.width = from + 1 + '%';
-        this.between.style.left = -1.3 + '%';
+        this.between.style.width = from + '%';
       } else {
         this.between.style.width = to - from + '%';
         this.between.style.left = from + '%';

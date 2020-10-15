@@ -111,8 +111,8 @@ class Presenters {
         newPercentage = item;
       }
 
-      const halfItem = item / 2;
-      if (percentage > halfItem && percentage < item) {
+      const halfItem = (item / 2) * 2;
+      if (percentage >= halfItem && percentage <= item) {
         newPercentage = item;
       }
     });
