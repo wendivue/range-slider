@@ -1,5 +1,5 @@
-import { SINGLE, FROM, TO } from './utils';
-import { Config, Coords, Shift } from './interface';
+import { SINGLE, FROM, TO } from '../helpers/constants';
+import { Config, Coords, Shift } from '../helpers/interface';
 
 class View {
   public options: Config;

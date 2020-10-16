@@ -7,9 +7,9 @@ import {
   INPUTTO,
   MIN,
   MAX,
-} from './utils';
+} from '../helpers/constants';
 
-import { forMouseMove } from './interface';
+import { forMouseMove } from '../helpers/interface';
 
 class Presenters {
   private view: any;

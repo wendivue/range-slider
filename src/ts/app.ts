@@ -1,7 +1,7 @@
-import Model from './model';
-import View from './view';
-import Presenters from './presenters';
-import { Config } from './interface';
+import Model from './Model/Model';
+import View from './View/View';
+import Presenters from './Presenters/Presenters';
+import { Config } from './helpers/interface';
 
 (function ($: any) {
   $.fn.rangeSlider = function (options: Config, id: string) {
