@@ -2,11 +2,16 @@ import {
   SINGLE,
   FROM,
   TO,
+  STEP,
   INPUTSINGLE,
   INPUTFROM,
   INPUTTO,
   MIN,
   MAX,
+  TYPE,
+  INPUT,
+  RANGE,
+  VERTICAL,
 } from '../helpers/constants';
 
 import { forMouseMove } from '../helpers/interface';
@@ -20,15 +25,15 @@ class Presenters {
     this.model = model;
 
     this.init(
-      this.view.config.type,
-      this.view.config.input,
-      this.view.config.range
+      this.model.get(TYPE),
+      this.model.get(INPUT),
+      this.model.get(RANGE)
     );
   }
 
   calcPercentage(left: number): number {
     let slider;
-    if (this.view.config.vertical) {
+    if (this.model.get(VERTICAL)) {
       slider = this.view.slider.offsetHeight;
     } else {
       slider = this.view.slider.offsetWidth;
@@ -44,8 +49,8 @@ class Presenters {
   }
 
   calcStep(): Array<number> {
-    const step = this.view.config.step;
-    const max = this.view.config.max;
+    const step = this.model.get(STEP);
+    const max = this.model.get(MAX);
     const length = max / step - 1;
     let array: Array<number> = [];
     let nextValue = 0;
@@ -153,14 +158,14 @@ class Presenters {
       this.view.moveElement(this.model.get(elementType), elementType);
     }
 
-    if (this.view.config.type === SINGLE) {
+    if (this.model.get(TYPE) === SINGLE) {
       this.view.changeBetween(this.model.get(SINGLE));
     } else {
       this.view.changeBetween(this.model.get(FROM), this.model.get(TO));
     }
 
     if (!input) {
-      if (this.view.config.type === SINGLE) {
+      if (this.model.get(TYPE) === SINGLE) {
         this.view.changeLabelValue(this.model.get(INPUTSINGLE));
       } else {
         this.view.changeLabelValue(
@@ -169,8 +174,8 @@ class Presenters {
         );
       }
 
-      if (this.view.config.input) {
-        if (this.view.config.type === SINGLE) {
+      if (this.model.get(INPUT)) {
+        if (this.model.get(TYPE) === SINGLE) {
           this.view.changeValue(this.model.get(INPUTSINGLE));
         } else {
           this.view.changeValue(
@@ -182,10 +187,10 @@ class Presenters {
     }
   }
 
-  init(single: string, input: boolean, range: boolean): void {
-    if (single === SINGLE) {
+  init(type: string, input: boolean, range: boolean): void {
+    if (type === SINGLE) {
       this.initConfigValue(
-        this.view.config.single,
+        this.model.get(SINGLE),
         [this.view.config.min, this.view.config.max],
         SINGLE
       );
@@ -193,12 +198,12 @@ class Presenters {
       this.bindHandleEvents(this.view.single);
     } else {
       this.initConfigValue(
-        this.view.config.from,
+        this.model.get(FROM),
         [this.view.config.min, this.view.config.max],
         FROM
       );
       this.initConfigValue(
-        this.view.config.to,
+        this.model.get(TO),
         [this.view.config.min, this.view.config.max],
         TO
       );
@@ -207,7 +212,7 @@ class Presenters {
     }
 
     if (input) {
-      if (single === SINGLE) {
+      if (type === SINGLE) {
         this.bindInputEvents(this.view.inputSingle);
       } else {
         this.bindInputEvents(this.view.inputFrom);
@@ -261,7 +266,7 @@ class Presenters {
     const elementType = this.view.checkElementType(forMouseMove.element);
     const newShift = this.view.getNewShift(event, forMouseMove.shift);
 
-    if (this.view.config.vertical) {
+    if (this.model.get(VERTICAL)) {
       percentage = this.calcPercentage(newShift.y);
     } else {
       percentage = this.calcPercentage(newShift.x);

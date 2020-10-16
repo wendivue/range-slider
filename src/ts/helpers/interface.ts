@@ -1,9 +1,13 @@
 interface Config {
+  single: number;
   min: number;
   max: number;
   from: number;
   to: number;
   step: number;
+  inputSingle: number;
+  inputFrom: number;
+  inputTo: number;
   type: string;
   input: boolean;
   range: boolean;

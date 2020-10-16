@@ -51,10 +51,7 @@ class View {
   private id_labelTo: string;
 
   constructor(options: Config, id: string) {
-    this.getDefaultConfig();
-
-    this.options = options;
-    this.config = { ...this.config, ...this.options };
+    this.config = options;
 
     this.id_slider = this.getId(id);
     this.id_between = this.getId(id);
@@ -201,20 +198,6 @@ class View {
     this.labelSingle = <HTMLInputElement>document.getElementById(labelSingle);
     this.labelFrom = <HTMLInputElement>document.getElementById(labelFrom);
     this.labelTo = <HTMLInputElement>document.getElementById(labelTo);
-  }
-
-  getDefaultConfig(): Config {
-    return (this.config = {
-      min: 0,
-      max: 1000,
-      from: 0,
-      to: 0,
-      step: 1,
-      type: 'double',
-      input: true,
-      range: true,
-      vertical: false,
-    });
   }
 
   checkElementType(element: HTMLElement): string {

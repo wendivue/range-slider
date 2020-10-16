@@ -1,32 +1,26 @@
-class Model {
-  private data: Record<string, number>;
+import { Config } from '../helpers/interface';
 
-  constructor() {
-    this.data = {
-      single: null,
-      from: null,
-      to: null,
-      inputSingle: null,
-      inputFrom: null,
-      inputTo: null,
-      min: 0,
-      max: 1000,
-    };
+class Model {
+  public config: Config;
+  public options: Config;
+
+  constructor(options: Config) {
+    this.config = options;
   }
 
-  add(value: Record<string, any>, prop: string): void {
-    const obj = this.data;
+  public add(value: Record<string, any>, prop: string): void {
+    const obj = this.config;
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         if (key === prop) value = { [key]: value };
       }
     }
 
-    this.data = { ...this.data, ...value };
+    this.config = { ...this.config, ...value };
   }
 
-  get(prop: string): number {
-    const obj = this.data;
+  public get(prop: string): number {
+    const obj: any = this.config;
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         if (key === prop) return obj[key];
