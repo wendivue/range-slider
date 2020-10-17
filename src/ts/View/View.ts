@@ -53,20 +53,7 @@ class View {
   constructor(options: Config, id: string) {
     this.config = options;
 
-    this.id_slider = this.getId(id);
-    this.id_between = this.getId(id);
-    this.id_single = this.getId(id);
-    this.id_from = this.getId(id);
-    this.id_to = this.getId(id);
-    this.id_inputSingle = this.getId(id);
-    this.id_inputFrom = this.getId(id);
-    this.id_inputTo = this.getId(id);
-    this.id_rangeMin = this.getId(id);
-    this.id_rangeMax = this.getId(id);
-    this.id_labelSingle = this.getId(id);
-    this.id_labelFrom = this.getId(id);
-    this.id_labelTo = this.getId(id);
-
+    this.getListId(id);
     this.app = document.getElementById(id);
     this.getHtml();
 
@@ -88,11 +75,11 @@ class View {
     );
   }
 
-  init(html: string): void {
+  public init(html: string): void {
     this.app.innerHTML = html;
   }
 
-  getHtml(): void {
+  public getHtml(): void {
     if (this.config.vertical) {
       this.class_wrapper_vertical = 'slider__wrapper--vertical';
       this.class_tumbr_vertical = 'thumb--vertical';
@@ -166,11 +153,27 @@ class View {
     }
   }
 
-  getId(id: string): string {
+  public getId(id: string): string {
     return `${(~~(Math.random() * 1e8)).toString(16) + id}`;
   }
 
-  getElement(
+  public getListId(id: string): void {
+    this.id_slider = this.getId(id);
+    this.id_between = this.getId(id);
+    this.id_single = this.getId(id);
+    this.id_from = this.getId(id);
+    this.id_to = this.getId(id);
+    this.id_inputSingle = this.getId(id);
+    this.id_inputFrom = this.getId(id);
+    this.id_inputTo = this.getId(id);
+    this.id_rangeMin = this.getId(id);
+    this.id_rangeMax = this.getId(id);
+    this.id_labelSingle = this.getId(id);
+    this.id_labelFrom = this.getId(id);
+    this.id_labelTo = this.getId(id);
+  }
+
+  public getElement(
     slider: string,
     between: string,
     single: string,
@@ -200,7 +203,7 @@ class View {
     this.labelTo = <HTMLInputElement>document.getElementById(labelTo);
   }
 
-  checkElementType(element: HTMLElement): string {
+  public checkElementType(element: HTMLElement): string {
     let elementType: string;
     if (element == this.from || element == this.inputFrom) {
       elementType = FROM;
@@ -212,7 +215,7 @@ class View {
     return elementType;
   }
 
-  moveElement(percentage: number, elementType: string): void {
+  public moveElement(percentage: number, elementType: string): void {
     if (this.config.vertical) {
       if (elementType === FROM) {
         this.from.style.top = percentage + '%';
@@ -232,7 +235,7 @@ class View {
     }
   }
 
-  changeBetween(from: number, to: number): void {
+  public changeBetween(from: number, to: number): void {
     if (this.config.vertical) {
       if (this.config.type === SINGLE) {
         this.between.style.height = from + '%';
@@ -250,7 +253,7 @@ class View {
     }
   }
 
-  changeLabelValue(fromValue: string, toValue?: string): void {
+  public changeLabelValue(fromValue: string, toValue?: string): void {
     if (this.config.type === SINGLE) {
       this.labelSingle.innerHTML = fromValue;
     } else {
@@ -259,7 +262,7 @@ class View {
     }
   }
 
-  changeValue(fromValue: string, toValue?: string): void {
+  public changeValue(fromValue: string, toValue?: string): void {
     if (this.config.type === SINGLE) {
       this.inputSingle.value = fromValue;
     } else {
@@ -268,7 +271,7 @@ class View {
     }
   }
 
-  getCoords(element: HTMLElement): Coords {
+  public getCoords(element: HTMLElement): Coords {
     const box = element.getBoundingClientRect();
     return {
       top: box.top + pageYOffset,
@@ -276,7 +279,7 @@ class View {
     };
   }
 
-  getShift(event: MouseEvent, element: HTMLElement): Shift {
+  public getShift(event: MouseEvent, element: HTMLElement): Shift {
     const elemCoords = this.getCoords(element);
 
     return {
@@ -285,7 +288,7 @@ class View {
     };
   }
 
-  getNewShift(event: MouseEvent, shift: Shift): Shift {
+  public getNewShift(event: MouseEvent, shift: Shift): Shift {
     const sliderCoords = this.getCoords(this.slider);
 
     return {
