@@ -11,38 +11,40 @@ import {
 
 class Model {
   public config: Config;
+
   public options: Config;
 
   constructor(options: Config) {
     this.config = options;
   }
 
-  public add(value: Record<string, any>, prop: string): void {
+  public add(value: number, prop: string): void {
     const obj = this.config;
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        if (key === prop) value = { [key]: value };
-      }
-    }
+    let userObj: Record<string, number> = { value };
 
-    this.config = { ...this.config, ...value };
+    Object.keys(obj).forEach((key: string) => {
+      if (key === prop) userObj = { [key]: value };
+    });
+
+    this.config = { ...this.config, ...userObj };
   }
 
   public get(prop: string): number {
     const obj: any = this.config;
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        if (key === prop) return obj[key];
-      }
-    }
+    let value;
+    Object.keys(obj).forEach((key: string) => {
+      if (key === prop) value = obj[key];
+    });
+
+    return value;
   }
 
   public getPercentage(percentage: number, elementType: string): number {
-    percentage = this.calcPercentageFromStep(this.createStep(), percentage);
-    percentage = this.validateEdgePercentage(percentage);
-    percentage = this.validateTwotumbr(percentage, elementType);
+    let value = this.calcPercentageFromStep(this.createStep(), percentage);
+    value = this.validateEdgePercentage(value);
+    value = this.validateTwotumbr(value, elementType);
 
-    return percentage;
+    return value;
   }
 
   public getValue(percentage: number): number {
@@ -53,40 +55,38 @@ class Model {
   }
 
   public getPercentageInput(value: number): number {
-    value = this.calcPecentageInput(value);
+    const percentage = this.calcPecentageInput(value);
 
-    return value;
+    return percentage;
   }
 
-  public createStep(): Array<number> {
+  private createStep(): Array<number> {
     const step = this.get(STEP);
     const max = this.get(MAX);
     const length = max / step - 1;
     let array: Array<number> = [];
     let nextValue = 0;
 
-    for (let astep = 0; astep < length; astep++) {
-      nextValue = nextValue + step;
+    for (let astep = 0; astep < length; astep += 1) {
+      nextValue += step;
       array = [...array, ...[nextValue]];
     }
 
     array = [0, ...array, max];
 
-    array = array.map((item: number) => {
-      return (100 * item) / this.get(MAX);
-    });
+    array = array.map((item: number) => (100 * item) / this.get(MAX));
 
     return array;
   }
 
-  public calcPercentageFromStep(
+  private calcPercentageFromStep(
     array: Array<number>,
     percentage: number
   ): number {
-    let newPercentage;
+    let newPercentage: number;
 
     array.map((item: number) => {
-      if (item == 0) {
+      if (item === 0) {
         newPercentage = item;
       }
 
@@ -94,52 +94,57 @@ class Model {
         newPercentage = item;
       }
 
-      const halfItem = (item / 2) * 1.9;
+      const halfItem = (item / 2) * 2;
       if (percentage >= halfItem && percentage <= item) {
         newPercentage = item;
       }
+
+      return newPercentage;
     });
     return newPercentage;
   }
 
-  public calcValue(percentage: number): number {
+  private calcValue(percentage: number): number {
     return Math.round((this.get(MAX) / 100) * percentage + this.get(MIN));
   }
 
-  public calcPecentageInput(value: number): number {
+  private calcPecentageInput(value: number): number {
     return (value * 100) / this.get(MAX);
   }
 
-  public validateEdgePercentage(percentage: number): number {
-    if (percentage < 0) percentage = 0;
+  private validateEdgePercentage(percentage: number): number {
+    let value: number = percentage;
+    if (percentage < 0) value = 0;
     const rightEdge = 100;
-    if (percentage > rightEdge) percentage = rightEdge;
-    return percentage;
-  }
-
-  public validateEdgeValue(value: number): number {
-    if (value < this.get(MIN)) value = this.get(MIN);
-    if (value > this.get(MAX)) value = this.get(MAX);
+    if (percentage > rightEdge) value = rightEdge;
     return value;
   }
 
-  public validateTwotumbr(percentage: number, element: string): number {
+  public validateEdgeValue(value: number): number {
+    let newValue = value;
+    if (value < this.get(MIN)) newValue = this.get(MIN);
+    if (value > this.get(MAX)) newValue = this.get(MAX);
+    return newValue;
+  }
+
+  private validateTwotumbr(percentage: number, element: string): number {
     const from: number = this.get(PERSENT_FROM);
     const to: number = this.get(PERSENT_TO);
+    let value = percentage;
 
     if (element === FROM) {
       if (percentage > to) {
-        percentage = to;
+        value = to;
       }
     }
 
     if (element === TO) {
       if (percentage < from) {
-        percentage = from;
+        value = from;
       }
     }
 
-    return percentage;
+    return value;
   }
 }
 

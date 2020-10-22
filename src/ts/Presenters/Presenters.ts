@@ -13,10 +13,11 @@ import {
   PERSENT_SINGLE,
 } from '../helpers/constants';
 
-import { forMouseMove } from '../helpers/interface';
+import { forMouse } from '../helpers/interface';
 
 class Presenters {
   private view: any;
+
   private model: any;
 
   constructor(view: any, model: any) {
@@ -155,10 +156,9 @@ class Presenters {
   }
 
   private handleMouseDown(element: HTMLElement, event: MouseEvent): void {
-    event.preventDefault();
     const shift = this.view.getShift(event, element);
 
-    const forMouseMove: forMouseMove = {
+    const forMouseMove: forMouse = {
       shift,
       element,
     };
@@ -174,7 +174,7 @@ class Presenters {
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  private handleMouseMove(forMouseMove: forMouseMove, event: MouseEvent): void {
+  private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {
     let percentage: number;
     const elementType = this.view.checkElementType(forMouseMove.element);
     const newShift = this.view.getNewShift(event, forMouseMove.shift);
@@ -204,9 +204,9 @@ class Presenters {
 
   private inputOnChange(element: any): void {
     const elementType = this.view.checkElementType(element);
-    element.value = this.model.validateEdgeValue(element.value);
+    const value = this.model.validateEdgeValue(element.value);
 
-    let percentage: number = this.model.getPercentageInput(element.value);
+    let percentage: number = this.model.getPercentageInput(value);
     percentage = this.model.getPercentage(percentage, elementType);
 
     if (elementType === FROM) {
@@ -225,10 +225,10 @@ class Presenters {
     let max: number;
 
     if (element === this.view.rangeMin) {
-      min = parseInt(this.view.rangeMin.value);
+      min = parseFloat(this.view.rangeMin.value);
       this.model.add(min, MIN);
     } else if (element === this.view.rangeMax) {
-      max = parseInt(this.view.rangeMax.value);
+      max = parseFloat(this.view.rangeMax.value);
       this.model.add(max, MAX);
     }
   }

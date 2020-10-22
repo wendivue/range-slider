@@ -16,4 +16,4 @@ const defaultConfig: Config = {
   vertical: false,
 };
 
-export { defaultConfig };
+export default defaultConfig;

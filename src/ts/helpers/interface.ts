@@ -1,7 +1,7 @@
 interface Config {
-  single: number;
   min: number;
   max: number;
+  single: number;
   from: number;
   to: number;
   step: number;
@@ -24,9 +24,9 @@ interface Shift {
   y: number;
 }
 
-interface forMouseMove {
+interface forMouse {
   shift: number;
   element: HTMLElement;
 }
 
-export { Config, Coords, Shift, forMouseMove };
+export { Config, Coords, Shift, forMouse };
