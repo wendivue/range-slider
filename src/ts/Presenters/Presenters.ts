@@ -141,21 +141,19 @@ class Presenters {
   }
 
   private bindHandleEvents(element: HTMLElement): void {
-    element.addEventListener(
-      'mousedown',
-      this.handleMouseDown.bind(this, element)
-    );
+    element.addEventListener('mousedown', this.handleMouseDown.bind(this));
   }
 
   private bindInputEvents(element: HTMLElement): void {
-    element.addEventListener('change', this.inputOnChange.bind(this, element));
+    element.addEventListener('change', this.inputOnChange.bind(this));
   }
 
   private bindRangeEvents(element: HTMLElement): void {
-    element.addEventListener('change', this.rangeOnChange.bind(this, element));
+    element.addEventListener('change', this.rangeOnChange.bind(this));
   }
 
-  private handleMouseDown(element: HTMLElement, event: MouseEvent): void {
+  private handleMouseDown(event: MouseEvent): void {
+    const element = event.target as HTMLElement;
     const shift = this.view.getShift(event, element);
 
     const forMouseMove: forMouse = {
@@ -202,7 +200,8 @@ class Presenters {
     this.updateView(elementType, false);
   }
 
-  private inputOnChange(element: any): void {
+  private inputOnChange(event: MouseEvent): void {
+    const element = event.target as HTMLInputElement;
     const elementType = this.view.checkElementType(element);
     const value = this.model.validateEdgeValue(element.value);
 
@@ -220,7 +219,8 @@ class Presenters {
     this.updateView(elementType, true);
   }
 
-  private rangeOnChange(element: HTMLElement): void {
+  private rangeOnChange(event: MouseEvent): void {
+    const element = event.target as HTMLInputElement;
     let min: number;
     let max: number;
 
