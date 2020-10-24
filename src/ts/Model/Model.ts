@@ -42,7 +42,7 @@ class Model {
   public getPercentage(percentage: number, elementType: string): number {
     let value = this.calcPercentageFromStep(this.createStep(), percentage);
     value = this.validateEdgePercentage(value);
-    value = this.validateTwotumbr(value, elementType);
+    value = this.validateTwoHandle(value, elementType);
 
     return value;
   }
@@ -94,7 +94,7 @@ class Model {
         newPercentage = item;
       }
 
-      const halfItem = (item / 2) * 2;
+      const halfItem = (item / 2) * 1.9;
       if (percentage >= halfItem && percentage <= item) {
         newPercentage = item;
       }
@@ -127,7 +127,7 @@ class Model {
     return newValue;
   }
 
-  private validateTwotumbr(percentage: number, element: string): number {
+  private validateTwoHandle(percentage: number, element: string): number {
     const from: number = this.get(PERSENT_FROM);
     const to: number = this.get(PERSENT_TO);
     let value = percentage;

@@ -40,7 +40,7 @@ class View {
 
   private baseInputSingle: string;
 
-  private baseThumb: string;
+  private baseHandle: string;
 
   private baseRangeMin: string;
 
@@ -52,15 +52,15 @@ class View {
 
   private classWrapperVertical: string;
 
-  private classTumbrVertical: string;
+  private classHandleVertical: string;
 
   private classBetweenVertical: string;
 
-  private classTumbrToVertical: string;
+  private classHandleToVertical: string;
 
   private classBetweenSingle: string;
 
-  private classTumbrSingleVertical: string;
+  private classHandleSingleVertical: string;
 
   private idSlider: string;
 
@@ -120,15 +120,15 @@ class View {
   public getHtml(): void {
     if (this.config.vertical) {
       this.classWrapperVertical = 'slider__wrapper--vertical';
-      this.classTumbrVertical = 'thumb--vertical';
-      this.classTumbrToVertical = 'thumb__to--vertical';
-      this.classTumbrSingleVertical = 'thumb__single--vertical';
+      this.classHandleVertical = 'handle--vertical';
+      this.classHandleToVertical = 'handle__to--vertical';
+      this.classHandleSingleVertical = 'handle__single--vertical';
       this.classBetweenVertical = 'slider__between--vertical';
     } else {
       this.classWrapperVertical = '';
-      this.classTumbrVertical = '';
-      this.classTumbrToVertical = '';
-      this.classTumbrSingleVertical = '';
+      this.classHandleVertical = '';
+      this.classHandleToVertical = '';
+      this.classHandleSingleVertical = '';
       this.classBetweenVertical = '';
     }
 
@@ -139,21 +139,21 @@ class View {
     }
 
     this.doubleHtml =
-      `<div id="${this.idFrom}" class="thumb thumb__from ${this.classTumbrVertical}">` +
-      '<div class="thumb__label">' +
-      `<div id="${this.idLabelFrom}" class="thumb__label-text"></div>` +
+      `<div id="${this.idFrom}" class="handle handle__from ${this.classHandleVertical}">` +
+      '<div class="handle__label">' +
+      `<div id="${this.idLabelFrom}" class="handle__label-text"></div>` +
       '</div>' +
       '</div>' +
-      `<div id="${this.idTo}" class="thumb thumb__to ${this.classTumbrVertical} ${this.classTumbrToVertical}">` +
-      '<div class="thumb__label">' +
-      `<div id="${this.idLabelTo}" class="thumb__label-text"></div>` +
+      `<div id="${this.idTo}" class="handle handle__to ${this.classHandleVertical} ${this.classHandleToVertical}">` +
+      '<div class="handle__label">' +
+      `<div id="${this.idLabelTo}" class="handle__label-text"></div>` +
       '</div>' +
       '</div>';
 
     this.singleHtml =
-      `<div id="${this.idSingle}" class="thumb thumb__single ${this.classTumbrVertical} ${this.classTumbrSingleVertical}">` +
-      '<div class="thumb__label">' +
-      `<div id="${this.idLabelSingle}" class="thumb__label-text"></div>` +
+      `<div id="${this.idSingle}" class="handle handle__single ${this.classHandleVertical} ${this.classHandleSingleVertical}">` +
+      '<div class="handle__label">' +
+      `<div id="${this.idLabelSingle}" class="handle__label-text"></div>` +
       '</div>' +
       '</div>';
 
@@ -167,15 +167,15 @@ class View {
     this.baseRangeMax = `<input type="text" id="${this.idRangeMax}" class="slider__range" value="${this.config.max}" >`;
 
     if (this.config.type === 'single') {
-      this.baseThumb = this.singleHtml;
+      this.baseHandle = this.singleHtml;
     } else if (this.config.type === 'double') {
-      this.baseThumb = this.doubleHtml;
+      this.baseHandle = this.doubleHtml;
     }
 
     this.base = `${
       `<div id="${this.idSlider}" class="slider__wrapper ${this.classWrapperVertical}" >` +
       `<div id="${this.idBetween}" class="slider__between ${this.classBetweenSingle} ${this.classBetweenVertical}"></div>`
-    }${this.baseThumb}</div>`;
+    }${this.baseHandle}</div>`;
 
     if (this.config.range) {
       this.base = this.baseRangeMin + this.base + this.baseRangeMax;
