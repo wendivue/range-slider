@@ -1,7 +1,11 @@
 import { SINGLE, FROM, TO } from '../helpers/constants';
 import { Config, Coords, Shift } from '../helpers/interface';
+import SingleFactory from './Factories/SingleFactory';
+import IntervalFactory from './Factories/IntervalFactory';
 
 class View {
+  public factory: any;
+
   public options: Config;
 
   public config: Config;
@@ -10,13 +14,15 @@ class View {
 
   public slider: HTMLElement;
 
-  public between: HTMLElement;
+  public bar: HTMLElement;
 
   public single: HTMLElement;
 
   public from: HTMLElement;
 
   public to: HTMLElement;
+
+  public handle: HTMLElement;
 
   public rangeMin: HTMLInputElement;
 
@@ -34,210 +40,49 @@ class View {
 
   public labelTo: HTMLInputElement;
 
-  private base: string;
-
-  private baseInput: string;
-
-  private baseInputSingle: string;
-
-  private baseHandle: string;
-
-  private baseRangeMin: string;
-
-  private baseRangeMax: string;
-
-  private doubleHtml: string;
-
-  private singleHtml: string;
-
-  private classWrapperVertical: string;
-
-  private classHandleVertical: string;
-
-  private classBetweenVertical: string;
-
-  private classHandleToVertical: string;
-
-  private classBetweenSingle: string;
-
-  private classHandleSingleVertical: string;
-
-  private idSlider: string;
-
-  private idBetween: string;
-
-  private idSingle: string;
-
-  private idFrom: string;
-
-  private idTo: string;
-
-  private idInputSingle: string;
-
-  private idInputFrom: string;
-
-  private idInputTo: string;
-
-  private idRangeMin: string;
-
-  private idRangeMax: string;
-
-  private idLabelSingle: string;
-
-  private idLabelFrom: string;
-
-  private idLabelTo: string;
-
   constructor(options: Config, id: string) {
     this.config = options;
 
-    this.getListId(id);
+    if (this.config.type === SINGLE) {
+      this.factory = new SingleFactory();
+    } else {
+      this.factory = new IntervalFactory();
+    }
+
     this.app = document.getElementById(id);
     this.getHtml();
 
-    this.init(this.base);
-    this.getElement(
-      this.idSlider,
-      this.idBetween,
-      this.idSingle,
-      this.idFrom,
-      this.idTo,
-      this.idInputSingle,
-      this.idInputFrom,
-      this.idInputTo,
-      this.idRangeMin,
-      this.idRangeMax,
-      this.idLabelSingle,
-      this.idLabelFrom,
-      this.idLabelTo
-    );
+    this.getElement();
   }
 
   public init(html: string): void {
-    this.app.innerHTML = html;
+    this.app.insertAdjacentHTML('afterbegin', html);
   }
 
   public getHtml(): void {
-    if (this.config.vertical) {
-      this.classWrapperVertical = 'slider__wrapper--vertical';
-      this.classHandleVertical = 'handle--vertical';
-      this.classHandleToVertical = 'handle__to--vertical';
-      this.classHandleSingleVertical = 'handle__single--vertical';
-      this.classBetweenVertical = 'slider__between--vertical';
-    } else {
-      this.classWrapperVertical = '';
-      this.classHandleVertical = '';
-      this.classHandleToVertical = '';
-      this.classHandleSingleVertical = '';
-      this.classBetweenVertical = '';
-    }
-
-    if (this.config.type === SINGLE) {
-      this.classBetweenSingle = 'slider__between--single';
-    } else {
-      this.classBetweenSingle = '';
-    }
-
-    this.doubleHtml =
-      `<div id="${this.idFrom}" class="handle handle__from ${this.classHandleVertical}">` +
-      '<div class="handle__label">' +
-      `<div id="${this.idLabelFrom}" class="handle__label-text"></div>` +
-      '</div>' +
-      '</div>' +
-      `<div id="${this.idTo}" class="handle handle__to ${this.classHandleVertical} ${this.classHandleToVertical}">` +
-      '<div class="handle__label">' +
-      `<div id="${this.idLabelTo}" class="handle__label-text"></div>` +
-      '</div>' +
-      '</div>';
-
-    this.singleHtml =
-      `<div id="${this.idSingle}" class="handle handle__single ${this.classHandleVertical} ${this.classHandleSingleVertical}">` +
-      '<div class="handle__label">' +
-      `<div id="${this.idLabelSingle}" class="handle__label-text"></div>` +
-      '</div>' +
-      '</div>';
-
-    this.baseInput =
-      `<input id="${this.idInputFrom}" type="text" class="input">` +
-      `<input id="${this.idInputTo}" type="text" class="input">`;
-
-    this.baseInputSingle = `<input id="${this.idInputSingle}" type="text" class="input">`;
-
-    this.baseRangeMin = `<input type="text" id="${this.idRangeMin}" class="slider__range" value="${this.config.min}" >`;
-    this.baseRangeMax = `<input type="text" id="${this.idRangeMax}" class="slider__range" value="${this.config.max}" >`;
-
-    if (this.config.type === 'single') {
-      this.baseHandle = this.singleHtml;
-    } else if (this.config.type === 'double') {
-      this.baseHandle = this.doubleHtml;
-    }
-
-    this.base = `${
-      `<div id="${this.idSlider}" class="slider__wrapper ${this.classWrapperVertical}" >` +
-      `<div id="${this.idBetween}" class="slider__between ${this.classBetweenSingle} ${this.classBetweenVertical}"></div>`
-    }${this.baseHandle}</div>`;
-
-    if (this.config.range) {
-      this.base = this.baseRangeMin + this.base + this.baseRangeMax;
-    }
-
-    if (this.config.input) {
-      if (this.config.type === SINGLE) {
-        this.base += this.baseInputSingle;
-      } else {
-        this.base += this.baseInput;
-      }
-    }
+    this.factory.createTemplate(this.app, this.config.vertical);
+    this.factory.createBar(this.app, this.config.vertical, this.config.type);
+    this.factory.createHandle(this.app, this.config.vertical);
+    this.factory.createLabel(this.app);
+    this.factory.createRange(this.app, this.config.min, this.config.max);
+    this.factory.createInput(this.app);
   }
 
-  public getId(id: string): string {
-    return `${Math.floor(Math.random() * 1e8).toString(16) + id}`;
-  }
-
-  public getListId(id: string): void {
-    this.idSlider = this.getId(id);
-    this.idBetween = this.getId(id);
-    this.idSingle = this.getId(id);
-    this.idFrom = this.getId(id);
-    this.idTo = this.getId(id);
-    this.idInputSingle = this.getId(id);
-    this.idInputFrom = this.getId(id);
-    this.idInputTo = this.getId(id);
-    this.idRangeMin = this.getId(id);
-    this.idRangeMax = this.getId(id);
-    this.idLabelSingle = this.getId(id);
-    this.idLabelFrom = this.getId(id);
-    this.idLabelTo = this.getId(id);
-  }
-
-  public getElement(
-    slider: string,
-    between: string,
-    single: string,
-    from: string,
-    to: string,
-    inputSingle: string,
-    inputFrom: string,
-    inputTo: string,
-    rangeMin: string,
-    rangeMax: string,
-    labelSingle: string,
-    labelTo: string,
-    labelFrom: string
-  ): void {
-    this.slider = document.getElementById(slider);
-    this.between = document.getElementById(between);
-    this.single = document.getElementById(single);
-    this.from = document.getElementById(from);
-    this.to = document.getElementById(to);
-    this.inputSingle = <HTMLInputElement>document.getElementById(inputSingle);
-    this.inputFrom = <HTMLInputElement>document.getElementById(inputFrom);
-    this.inputTo = <HTMLInputElement>document.getElementById(inputTo);
-    this.rangeMin = <HTMLInputElement>document.getElementById(rangeMin);
-    this.rangeMax = <HTMLInputElement>document.getElementById(rangeMax);
-    this.labelSingle = <HTMLInputElement>document.getElementById(labelSingle);
-    this.labelFrom = <HTMLInputElement>document.getElementById(labelFrom);
-    this.labelTo = <HTMLInputElement>document.getElementById(labelTo);
+  public getElement(): void {
+    this.slider = this.app.querySelector('.slider__wrapper');
+    this.bar = this.app.querySelector('.slider__bar');
+    this.single = this.app.querySelector('.slider__handle--single');
+    this.from = this.app.querySelector('.slider__handle--from');
+    this.to = this.app.querySelector('.slider__handle--to');
+    this.handle = this.app.querySelector('.slider__handle');
+    this.labelSingle = this.app.querySelector('.slider__label-text--single');
+    this.labelFrom = this.app.querySelector('.slider__label-text--from');
+    this.labelTo = this.app.querySelector('.slider__label-text--to');
+    this.inputSingle = this.app.querySelector('.input__single');
+    this.inputFrom = this.app.querySelector('.input__from');
+    this.inputTo = this.app.querySelector('.input__to');
+    this.rangeMin = this.app.querySelector('.slider__range-min');
+    this.rangeMax = this.app.querySelector('.slider__range-max');
   }
 
   public checkElementType(element: HTMLElement): string {
@@ -270,19 +115,19 @@ class View {
     }
   }
 
-  public changeBetween(from: number, to: number): void {
+  public changeBar(from: number, to: number): void {
     if (this.config.vertical) {
       if (this.config.type === SINGLE) {
-        this.between.style.height = `${from}%`;
+        this.bar.style.height = `${from}%`;
       } else {
-        this.between.style.height = `${to - from}%`;
-        this.between.style.top = `${from}%`;
+        this.bar.style.height = `${to - from}%`;
+        this.bar.style.top = `${from}%`;
       }
     } else if (this.config.type === SINGLE) {
-      this.between.style.width = `${from}%`;
+      this.bar.style.width = `${from}%`;
     } else {
-      this.between.style.width = `${to - from}%`;
-      this.between.style.left = `${from}%`;
+      this.bar.style.width = `${to - from}%`;
+      this.bar.style.left = `${from}%`;
     }
   }
 
