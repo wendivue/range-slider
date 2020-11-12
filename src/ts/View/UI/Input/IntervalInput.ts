@@ -11,6 +11,16 @@ class IntervalInput {
     const slider = anchor.querySelector('.slider__wrapper');
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
+
+  public changeValue(fromValue: string, toValue?: string): void {
+    const inputFrom: HTMLInputElement = this.anchor.querySelector(
+      '.input__from'
+    );
+    const inputTo: HTMLInputElement = this.anchor.querySelector('.input__to');
+
+    inputFrom.value = fromValue;
+    inputTo.value = toValue;
+  }
 }
 
 export default IntervalInput;

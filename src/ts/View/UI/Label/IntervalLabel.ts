@@ -1,5 +1,5 @@
 class IntervalLabel {
-  constructor(anchor: HTMLElement) {
+  constructor(public anchor: HTMLElement) {
     this.init(anchor);
   }
 
@@ -19,6 +19,14 @@ class IntervalLabel {
 
     handleFrom.insertAdjacentHTML('afterbegin', labelFrom);
     handleTo.insertAdjacentHTML('afterbegin', labelTo);
+  }
+
+  public changeLabelValue(fromValue: string, toValue?: string): void {
+    const labelFrom = this.anchor.querySelector('.slider__label-text--from');
+    const labelTo = this.anchor.querySelector('.slider__label-text--to');
+
+    labelFrom.innerHTML = fromValue;
+    labelTo.innerHTML = toValue;
   }
 }
 export default IntervalLabel;

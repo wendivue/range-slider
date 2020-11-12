@@ -3,7 +3,7 @@ class SingleHandle {
 
   private classHandleVertical: string;
 
-  constructor(public anchor: HTMLElement, vertical: boolean) {
+  constructor(public anchor: HTMLElement, public vertical: boolean) {
     this.anchor = anchor;
     this.createClass(vertical);
     this.init(anchor);
@@ -22,6 +22,18 @@ class SingleHandle {
       ? 'slider__handle--single--vertical'
       : '';
     this.classHandleVertical = vertical ? 'slider__handle--vertical' : '';
+  }
+
+  public moveElement(percentage: number): void {
+    const single: HTMLElement = this.anchor.querySelector(
+      '.slider__handle--single'
+    );
+
+    if (this.vertical) {
+      single.style.top = `${percentage}%`;
+    } else {
+      single.style.left = `${percentage}%`;
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 class SingleLabel {
-  constructor(anchor: HTMLElement) {
+  constructor(public anchor: HTMLElement) {
     this.init(anchor);
   }
 
@@ -12,6 +12,14 @@ class SingleLabel {
     const handle = anchor.querySelector('.slider__handle--single');
 
     handle.insertAdjacentHTML('afterbegin', label);
+  }
+
+  public changeLabelValue(fromValue: string): void {
+    const labelSingle = this.anchor.querySelector(
+      '.slider__label-text--single'
+    );
+
+    labelSingle.innerHTML = fromValue;
   }
 }
 

@@ -4,7 +4,7 @@ import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
 class View {
-  public factory: any;
+  public factory: SingleFactory | IntervalFactory;
 
   public options: Config;
 
@@ -40,6 +40,14 @@ class View {
 
   public labelTo: HTMLInputElement;
 
+  private factoryBar: Record<string, any>;
+
+  private factoryHandle: Record<string, any>;
+
+  private factoryLabel: Record<string, any>;
+
+  private factoryInput: Record<string, any>;
+
   constructor(options: Config, id: string) {
     this.config = options;
 
@@ -51,7 +59,6 @@ class View {
 
     this.app = document.getElementById(id);
     this.getHtml();
-
     this.getElement();
   }
 
@@ -61,11 +68,18 @@ class View {
 
   public getHtml(): void {
     this.factory.createTemplate(this.app, this.config.vertical);
-    this.factory.createBar(this.app, this.config.vertical, this.config.type);
-    this.factory.createHandle(this.app, this.config.vertical);
-    this.factory.createLabel(this.app);
+    this.factoryBar = this.factory.createBar(
+      this.app,
+      this.config.vertical,
+      this.config.type
+    );
+    this.factoryHandle = this.factory.createHandle(
+      this.app,
+      this.config.vertical
+    );
+    this.factoryLabel = this.factory.createLabel(this.app);
     this.factory.createRange(this.app, this.config.min, this.config.max);
-    this.factory.createInput(this.app);
+    this.factoryInput = this.factory.createInput(this.app);
   }
 
   public getElement(): void {
@@ -97,56 +111,20 @@ class View {
     return elementType;
   }
 
-  public moveElement(percentage: number, elementType: string): void {
-    if (this.config.vertical) {
-      if (elementType === FROM) {
-        this.from.style.top = `${percentage}%`;
-      } else if (elementType === TO) {
-        this.to.style.top = `${percentage}%`;
-      } else if (elementType === SINGLE) {
-        this.single.style.top = `${percentage}%`;
-      }
-    } else if (elementType === FROM) {
-      this.from.style.left = `${percentage}%`;
-    } else if (elementType === TO) {
-      this.to.style.left = `${percentage}%`;
-    } else if (elementType === SINGLE) {
-      this.single.style.left = `${percentage}%`;
-    }
+  public moveElement(percentage: number, elementType?: string): void {
+    this.factoryHandle.moveElement(percentage, elementType);
   }
 
   public changeBar(from: number, to: number): void {
-    if (this.config.vertical) {
-      if (this.config.type === SINGLE) {
-        this.bar.style.height = `${from}%`;
-      } else {
-        this.bar.style.height = `${to - from}%`;
-        this.bar.style.top = `${from}%`;
-      }
-    } else if (this.config.type === SINGLE) {
-      this.bar.style.width = `${from}%`;
-    } else {
-      this.bar.style.width = `${to - from}%`;
-      this.bar.style.left = `${from}%`;
-    }
+    this.factoryBar.changeBar(from, to);
   }
 
   public changeLabelValue(fromValue: string, toValue?: string): void {
-    if (this.config.type === SINGLE) {
-      this.labelSingle.innerHTML = fromValue;
-    } else {
-      this.labelFrom.innerHTML = fromValue;
-      this.labelTo.innerHTML = toValue;
-    }
+    this.factoryLabel.changeLabelValue(fromValue, toValue);
   }
 
   public changeValue(fromValue: string, toValue?: string): void {
-    if (this.config.type === SINGLE) {
-      this.inputSingle.value = fromValue;
-    } else {
-      this.inputFrom.value = fromValue;
-      this.inputTo.value = toValue;
-    }
+    this.factoryInput.changeValue(fromValue, toValue);
   }
 
   public getCoords(element: HTMLElement): Coords {
