@@ -6,8 +6,6 @@ import IntervalFactory from './Factories/IntervalFactory';
 class View {
   public factory: SingleFactory | IntervalFactory;
 
-  public options: Config;
-
   public config: Config;
 
   public app: HTMLElement;
@@ -125,6 +123,17 @@ class View {
 
   public changeValue(fromValue: string, toValue?: string): void {
     this.factoryInput.changeValue(fromValue, toValue);
+  }
+
+  public calcPercentage(left: number): number {
+    let slider;
+    if (this.config.vertical) {
+      slider = this.slider.offsetHeight;
+    } else {
+      slider = this.slider.offsetWidth;
+    }
+
+    return (100 * left) / slider;
   }
 
   public getCoords(element: HTMLElement): Coords {

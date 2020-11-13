@@ -16,11 +16,7 @@ import {
 import { forMouse } from '../helpers/interface';
 
 class Presenters {
-  private view: any;
-
-  private model: any;
-
-  constructor(view: any, model: any) {
+  constructor(private view: any, private model: any) {
     this.view = view;
     this.model = model;
 
@@ -94,17 +90,6 @@ class Presenters {
     this.updateView(elementType, false);
   }
 
-  private calcPercentage(left: number): number {
-    let slider;
-    if (this.model.get(VERTICAL)) {
-      slider = this.view.slider.offsetHeight;
-    } else {
-      slider = this.view.slider.offsetWidth;
-    }
-
-    return (100 * left) / slider;
-  }
-
   private updateView(elementType: string, input: boolean): void {
     if (elementType === FROM) {
       this.view.moveElement(this.model.get(PERSENT_FROM), elementType);
@@ -115,21 +100,21 @@ class Presenters {
     }
 
     if (this.model.get(TYPE) === SINGLE) {
-      this.view.changeBetween(this.model.get(PERSENT_SINGLE));
+      this.view.changeBar(this.model.get(PERSENT_SINGLE));
     } else {
-      this.view.changeBetween(
+      this.view.changeBar(
         this.model.get(PERSENT_FROM),
         this.model.get(PERSENT_TO)
       );
     }
 
-    if (!input) {
-      if (this.model.get(TYPE) === SINGLE) {
-        this.view.changeLabelValue(this.model.get(SINGLE));
-      } else {
-        this.view.changeLabelValue(this.model.get(TO), this.model.get(FROM));
-      }
+    if (this.model.get(TYPE) === SINGLE) {
+      this.view.changeLabelValue(this.model.get(SINGLE));
+    } else {
+      this.view.changeLabelValue(this.model.get(FROM), this.model.get(TO));
+    }
 
+    if (!input) {
       if (this.model.get(INPUT)) {
         if (this.model.get(TYPE) === SINGLE) {
           this.view.changeValue(this.model.get(SINGLE));
@@ -178,9 +163,9 @@ class Presenters {
     const newShift = this.view.getNewShift(event, forMouseMove.shift);
 
     if (this.model.get(VERTICAL)) {
-      percentage = this.calcPercentage(newShift.y);
+      percentage = this.view.calcPercentage(newShift.y);
     } else {
-      percentage = this.calcPercentage(newShift.x);
+      percentage = this.view.calcPercentage(newShift.x);
     }
 
     percentage = this.model.getPercentage(percentage, elementType);
@@ -210,10 +195,13 @@ class Presenters {
 
     if (elementType === FROM) {
       this.model.add(percentage, PERSENT_FROM);
+      this.model.add(value, FROM);
     } else if (elementType === TO) {
       this.model.add(percentage, PERSENT_TO);
+      this.model.add(value, TO);
     } else if (elementType === SINGLE) {
       this.model.add(percentage, PERSENT_SINGLE);
+      this.model.add(value, SINGLE);
     }
 
     this.updateView(elementType, true);
