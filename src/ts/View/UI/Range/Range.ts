@@ -4,9 +4,17 @@ class Range {
   }
 
   private init(anchor: HTMLElement, min: number, max: number): void {
-    const rangeTemplate =
-      `<input type="text" class="slider__range slider__range-min" value=${min} >` +
-      `<input type="text" class="slider__range slider__range-max" value=${max} >`;
+    const rangeTemplate = `
+    <div class="slider__wrapper-input">
+      <label class="slider__title-input" for="single">Min</label>
+      <input type="text" class="input slider__range slider__range-min" value=${min} >
+    </div>
+
+    <div class="slider__wrapper-input">
+      <label class="slider__title-input" for="single">Max</label>
+      <input type="text" class="input slider__range slider__range-max" value=${max} >
+    </div>
+    `;
 
     const slider = anchor.querySelector('.slider__wrapper');
     slider.insertAdjacentHTML('afterend', rangeTemplate);

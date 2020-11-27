@@ -4,7 +4,12 @@ class SingleInput {
   }
 
   private init(anchor: HTMLElement): void {
-    const inputTemplate = `<input type="text" class="input input__single">`;
+    const inputTemplate = `
+    <div class="slider__wrapper-input">
+      <label class="slider__title-input" for="single">From</label>
+      <input id="single" type="text" class="input input__single">
+    </div>
+    `;
 
     const slider = anchor.querySelector('.slider__wrapper');
     slider.insertAdjacentHTML('afterend', inputTemplate);

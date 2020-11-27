@@ -4,9 +4,17 @@ class IntervalInput {
   }
 
   private init(anchor: HTMLElement): void {
-    const inputTemplate =
-      `<input type="text" class="input input__from">` +
-      `<input type="text" class="input input__to">`;
+    const inputTemplate = `
+      <div class="slider__wrapper-input">
+        <label class="slider__title-input" for="from">From</label>
+        <input id="from" type="text" class="input input__from">
+      </div>
+
+      <div class="slider__wrapper-input">
+        <label class="slider__title-input" for="to">To</label>
+        <input id="to" type="text" class="input input__to">
+      </div>
+      `;
 
     const slider = anchor.querySelector('.slider__wrapper');
     slider.insertAdjacentHTML('afterend', inputTemplate);
