@@ -14,6 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^26.0.12",
+    "@types/webpack-env": "^1.15.3",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.3.0",
     "autoprefixer": "^9.8.6",
@@ -26,6 +27,7 @@
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.4.1",
     "jest": "^26.4.2",
     "mini-css-extract-plugin": "^0.11.0",

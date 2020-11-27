@@ -6,7 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
 const config = {
-  entry: ['./src/ts/app.ts', './src/scss/style.scss'],
+  entry: './src/ts/app.ts',
   output: {
     filename: './js/bundle.js',
   },
@@ -32,7 +32,6 @@ const config = {
       },
       {
         test: /\.(sass|scss)$/,
-        include: path.resolve(__dirname, 'src/scss'),
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -71,6 +70,17 @@ const config = {
             },
           },
         ],
+      },
+
+      {
+        test: /\.(png|svg|jpe?g|gif)$/i,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'img/',
+            name: '[name].[ext]',
+          },
+        },
       },
     ],
   },
