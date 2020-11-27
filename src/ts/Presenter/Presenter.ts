@@ -7,6 +7,7 @@ import {
   TYPE,
   INPUT,
   RANGE,
+  LABEL,
   VERTICAL,
   PERSENT_FROM,
   PERSENT_TO,
@@ -14,11 +15,14 @@ import {
 } from '../helpers/constants';
 
 import { forMouse } from '../helpers/interface';
+import View from '../View/View';
+import Model from '../Model/Model';
 
-class Presenters {
-  constructor(private view: any, private model: any) {
-    this.view = view;
-    this.model = model;
+class Presenter {
+  constructor(public model: any, public view: any) {
+    /*     this.model = new Model(config);
+    this.view = new View(this.model.getConfig(), id);
+ */
 
     this.init(
       this.model.get(TYPE),
@@ -108,11 +112,12 @@ class Presenters {
       );
     }
 
-    if (this.model.get(TYPE) === SINGLE) {
-      this.view.changeLabelValue(this.model.get(SINGLE));
-    } else {
-      this.view.changeLabelValue(this.model.get(FROM), this.model.get(TO));
-    }
+    if (this.model.get(LABEL))
+      if (this.model.get(TYPE) === SINGLE) {
+        this.view.changeLabelValue(this.model.get(SINGLE));
+      } else {
+        this.view.changeLabelValue(this.model.get(FROM), this.model.get(TO));
+      }
 
     if (!input) {
       if (this.model.get(INPUT)) {
@@ -222,4 +227,4 @@ class Presenters {
   }
 }
 
-export default Presenters;
+export default Presenter;
