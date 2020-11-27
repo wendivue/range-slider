@@ -60,10 +60,6 @@ class View {
     this.getElement();
   }
 
-  public init(html: string): void {
-    this.app.insertAdjacentHTML('afterbegin', html);
-  }
-
   public getHtml(): void {
     this.factory.createTemplate(this.app, this.config.vertical);
     this.factoryBar = this.factory.createBar(
@@ -75,9 +71,18 @@ class View {
       this.app,
       this.config.vertical
     );
-    this.factoryLabel = this.factory.createLabel(this.app);
-    this.factory.createRange(this.app, this.config.min, this.config.max);
-    this.factoryInput = this.factory.createInput(this.app);
+
+    if (this.config.label) {
+      this.factoryLabel = this.factory.createLabel(this.app);
+    }
+
+    if (this.config.range) {
+      this.factory.createRange(this.app, this.config.min, this.config.max);
+    }
+
+    if (this.config.input) {
+      this.factoryInput = this.factory.createInput(this.app);
+    }
   }
 
   public getElement(): void {

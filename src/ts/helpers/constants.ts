@@ -10,6 +10,7 @@ const MAX = 'max';
 const TYPE = 'type';
 const INPUT = 'input';
 const RANGE = 'range';
+const LABEL = 'label';
 const VERTICAL = 'vertical';
 const DOUBLE = 'double';
 
@@ -23,6 +24,7 @@ export {
   TYPE,
   INPUT,
   RANGE,
+  LABEL,
   VERTICAL,
   DOUBLE,
   PERSENT_FROM,

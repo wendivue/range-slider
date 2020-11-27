@@ -18,7 +18,11 @@ class Model {
     this.config = options;
   }
 
-  public add(value: number, prop: string): void {
+  public getConfig(): Config {
+    return this.config;
+  }
+
+  public add(value: any, prop: string): void {
     const obj = this.config;
     let userObj: Record<string, number> = { value };
 

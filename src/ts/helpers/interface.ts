@@ -11,6 +11,7 @@ interface Config {
   type: string;
   input: boolean;
   range: boolean;
+  label: boolean;
   vertical: boolean;
 }
 
