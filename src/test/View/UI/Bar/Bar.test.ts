@@ -9,19 +9,16 @@ const sliderTemplate = `<div class="slider__wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const doubleBar = new Bar(anchor, false, 'double');
-const singleBar = new Bar(anchor, false, 'single');
-const singleBarVertical = new Bar(anchor, true, 'single');
-const doubleBarVertical = new Bar(anchor, true, 'double');
+const slider = document.querySelector('.slider__wrapper');
 
 describe('doubleBar', () => {
   beforeEach(() => {
+    const doubleBar = new Bar(anchor, false, 'double');
     doubleBar.changeBar(10, 30);
   });
 
-  test('.slider__bar rendered', () => {
-    const element = document.querySelector('.slider__bar');
-    expect(element).not.toBeNull();
+  afterEach(() => {
+    slider.innerHTML = '';
   });
 
   test('change width & left', () => {
@@ -34,12 +31,12 @@ describe('doubleBar', () => {
 
 describe('SingleBar', () => {
   beforeEach(() => {
+    const singleBar = new Bar(anchor, false, 'single');
     singleBar.changeBar(15);
   });
 
-  test('.slider__bar rendered', () => {
-    const element = document.querySelector('.slider__bar');
-    expect(element).not.toBeNull();
+  afterEach(() => {
+    slider.innerHTML = '';
   });
 
   test('change width', () => {
@@ -50,13 +47,12 @@ describe('SingleBar', () => {
 
 describe('singleBarVertical', () => {
   beforeEach(() => {
+    const singleBarVertical = new Bar(anchor, true, 'single');
     singleBarVertical.changeBar(15);
   });
 
-  test('.slider__bar rendered', () => {
-    const element = document.querySelector('.slider__bar');
-
-    expect(element).not.toBeNull();
+  afterEach(() => {
+    slider.innerHTML = '';
   });
 
   test('change height', () => {
@@ -68,13 +64,12 @@ describe('singleBarVertical', () => {
 
 describe('doubleBarVertical', () => {
   beforeEach(() => {
+    const doubleBarVertical = new Bar(anchor, true, 'double');
     doubleBarVertical.changeBar(10, 30);
   });
 
-  test('.slider__bar rendered', () => {
-    const element = document.querySelector('.slider__bar');
-
-    expect(element).not.toBeNull();
+  afterEach(() => {
+    slider.innerHTML = '';
   });
 
   test('change height & top', () => {
