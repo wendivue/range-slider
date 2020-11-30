@@ -15,6 +15,7 @@ const config: Config = {
   type: 'double',
   input: true,
   range: true,
+  label: true,
   vertical: false,
 };
 
