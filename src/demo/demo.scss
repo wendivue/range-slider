@@ -1,0 +1,21 @@
+@import '../scss/vars.scss';
+
+.demo {
+  margin: 200px;
+
+  @media (max-width: $breakpoint-md) {
+    margin: 50px;
+  }
+
+  @media (max-width: $breakpoint-xs) {
+    margin: 20px;
+  }
+
+  @media (max-width: $breakpoint-xxs) {
+    margin: 15px;
+  }
+
+  &__slider {
+    margin: 100px 0;
+  }
+}
