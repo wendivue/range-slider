@@ -31,7 +31,7 @@ class Bar {
       type === SINGLE && vertical ? 'slider__bar--single--vertical' : '';
   }
 
-  public changeBar(from: number, to: number): void {
+  public changeBar(from: number, to?: number): void {
     const bar: HTMLElement = this.anchor.querySelector('.slider__bar');
 
     if (this.vertical) {

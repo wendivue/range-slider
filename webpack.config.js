@@ -6,7 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
 const config = {
-  entry: './src/ts/app.ts',
+  entry: './src/demo/demo.ts',
   output: {
     filename: './js/bundle.js',
   },
@@ -96,7 +96,7 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/template/index.html',
+      template: './src/demo/demo.html',
     }),
   ],
 };

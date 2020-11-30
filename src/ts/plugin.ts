@@ -8,14 +8,14 @@ import Setting from '../components/Setting/Setting';
 (($: any) => {
   $.fn.rangeSlider = function (options: Config, id: string) {
     const config = { ...defaultConfig, ...options };
+    const anchor: any = document.getElementById(id);
 
     function app(e: any) {
       const model = new Model(config);
-      return (
-        new Presenter(model, new View(model.getConfig(), id)) &&
-        new Setting(model.getConfig(), id)
-      );
+
+      return new Presenter(model, new View(model.getConfig(), anchor));
     }
+
     this.each(() => {
       app($(this).append(`<div id="${id}" class="slider"></div>`));
     });

@@ -1,14 +1,14 @@
-import { SINGLE, FROM, TO } from '../helpers/constants';
+import { SINGLE, FROM, TO, DOUBLE } from '../helpers/constants';
 import { Config, Coords, Shift } from '../helpers/interface';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
 class View {
-  public factory: SingleFactory | IntervalFactory;
+  public factory: any;
 
   public config: Config;
 
-  public app: HTMLElement;
+  // public app: HTMLElement;
 
   public slider: HTMLElement;
 
@@ -46,7 +46,7 @@ class View {
 
   private factoryInput: Record<string, any>;
 
-  constructor(options: Config, id: string) {
+  constructor(options: Config, public app: HTMLElement) {
     this.config = options;
 
     if (this.config.type === SINGLE) {
@@ -55,12 +55,11 @@ class View {
       this.factory = new IntervalFactory();
     }
 
-    this.app = document.getElementById(id);
     this.getHtml();
     this.getElement();
   }
 
-  public getHtml(): void {
+  private getHtml(): void {
     this.factory.createTemplate(this.app, this.config.vertical);
     this.factoryBar = this.factory.createBar(
       this.app,
@@ -85,7 +84,7 @@ class View {
     }
   }
 
-  public getElement(): void {
+  private getElement(): void {
     this.slider = this.app.querySelector('.slider__wrapper');
     this.bar = this.app.querySelector('.slider__bar');
     this.single = this.app.querySelector('.slider__handle--single');
@@ -141,7 +140,7 @@ class View {
     return (100 * left) / slider;
   }
 
-  public getCoords(element: HTMLElement): Coords {
+  private getCoords(element: HTMLElement): Coords {
     const box = element.getBoundingClientRect();
     return {
       top: box.top,
