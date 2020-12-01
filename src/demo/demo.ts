@@ -76,7 +76,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
     from: 200,
     to: 700,
     type: 'double',
-    step: 1100,
+    step: 10,
   },
   'azxs'
 );
