@@ -28,13 +28,17 @@
 | `vertical`  | boolean | false        | Вертикальное положение слайдера                                                |
 
 ### Инициализация слайдера<br/>
-`<div id="slider" class="slider"></div>;`
-- `$(sliderId).rangeSlider({}, sliderId)` - инициализация слайдера с настройками по умолчанию;
-- `$(sliderId).rangeSlider({
+```html
+<div id="slider" class="slider"></div>;
+```
+```js
+$(sliderId).rangeSlider({}, sliderId) - инициализация слайдера с настройками по умолчанию;
+$(sliderId).rangeSlider({
   from: 100,
   to: 400,
   vetrical: true
-}, sliderId)`
+}, sliderId)
+```
 
 ### Архитектура
 
