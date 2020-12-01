@@ -121,6 +121,7 @@ class Setting {
     const halfMax = max / 2;
     if (step > halfMax) step = halfMax;
 
+    step = this.model.validateStep(step);
     this.model.add(step, STEP);
 
     this.createPresenter();

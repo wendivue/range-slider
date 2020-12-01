@@ -14,16 +14,12 @@ import {
   PERSENT_SINGLE,
 } from '../helpers/constants';
 
-import { forMouse } from '../helpers/interface';
+import { forMouse, Shift } from '../helpers/interface';
 import View from '../View/View';
 import Model from '../Model/Model';
 
 class Presenter {
-  constructor(public model: any, public view: any) {
-    /*     this.model = new Model(config);
-    this.view = new View(this.model.getConfig(), id);
- */
-
+  constructor(public model: Model, public view: View) {
     this.init(
       this.model.get(TYPE),
       this.model.get(INPUT),
@@ -31,7 +27,7 @@ class Presenter {
     );
   }
 
-  public init(type: string, input: boolean, range: boolean): void {
+  private init(type: string, input: boolean, range: boolean): void {
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -144,7 +140,7 @@ class Presenter {
 
   private handleMouseDown(event: MouseEvent): void {
     const element = event.target as HTMLElement;
-    const shift = this.view.getShift(event, element);
+    const shift: Shift = this.view.getShift(event, element);
 
     const forMouseMove: forMouse = {
       shift,
@@ -191,9 +187,9 @@ class Presenter {
   }
 
   private inputOnChange(event: MouseEvent): void {
-    const element = event.target as HTMLInputElement;
+    const element: any = event.target;
     const elementType = this.view.checkElementType(element);
-    const value = this.model.validateEdgeValue(element.value);
+    const value: number = this.model.validateEdgeValue(element.value);
 
     let percentage: number = this.model.getPercentageInput(value);
     percentage = this.model.getPercentage(percentage, elementType);

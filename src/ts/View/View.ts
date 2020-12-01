@@ -1,14 +1,10 @@
-import { SINGLE, FROM, TO, DOUBLE } from '../helpers/constants';
+import { SINGLE, FROM, TO } from '../helpers/constants';
 import { Config, Coords, Shift } from '../helpers/interface';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
 class View {
-  public factory: any;
-
-  public config: Config;
-
-  // public app: HTMLElement;
+  public factory: SingleFactory | IntervalFactory;
 
   public slider: HTMLElement;
 
@@ -46,15 +42,8 @@ class View {
 
   private factoryInput: Record<string, any>;
 
-  constructor(options: Config, public app: HTMLElement) {
-    this.config = options;
-
-    if (this.config.type === SINGLE) {
-      this.factory = new SingleFactory();
-    } else {
-      this.factory = new IntervalFactory();
-    }
-
+  constructor(public config: Config, public app: HTMLElement) {
+    this.createfactory();
     this.getHtml();
     this.getElement();
   }
@@ -101,6 +90,14 @@ class View {
     this.rangeMax = this.app.querySelector('.slider__range-max');
   }
 
+  private createfactory() {
+    if (this.config.type === SINGLE) {
+      this.factory = new SingleFactory();
+    } else {
+      this.factory = new IntervalFactory();
+    }
+  }
+
   public checkElementType(element: HTMLElement): string {
     let elementType: string;
     if (element === this.from || element === this.inputFrom) {
@@ -117,7 +114,7 @@ class View {
     this.factoryHandle.moveElement(percentage, elementType);
   }
 
-  public changeBar(from: number, to: number): void {
+  public changeBar(from: number, to?: number): void {
     this.factoryBar.changeBar(from, to);
   }
 

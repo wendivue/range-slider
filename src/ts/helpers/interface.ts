@@ -26,7 +26,7 @@ interface Shift {
 }
 
 interface forMouse {
-  shift: number;
+  shift: Shift;
   element: HTMLElement;
 }
 

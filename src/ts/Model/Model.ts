@@ -33,7 +33,7 @@ class Model {
     this.config = { ...this.config, ...userObj };
   }
 
-  public get(prop: string): number {
+  public get(prop: string): any {
     const obj: any = this.config;
     let value;
     Object.keys(obj).forEach((key: string) => {
@@ -67,8 +67,9 @@ class Model {
   private createStep(): Array<number> {
     let step = this.get(STEP);
     const max = this.get(MAX);
-    const halfMax = max / 2;
-    if (step > halfMax) step = halfMax;
+
+    step = this.validateStep(step);
+
     const length = max / step - 1;
     let array: Array<number> = [];
     let nextValue = 0;
@@ -154,6 +155,16 @@ class Model {
     }
 
     return value;
+  }
+
+  public validateStep(value: number): number {
+    const max = this.get(MAX);
+    const halfMax = max / 2;
+    let step = value;
+
+    if (step > halfMax) step = halfMax;
+    if (step < 0.5) step = 0.5;
+    return step;
   }
 }
 
