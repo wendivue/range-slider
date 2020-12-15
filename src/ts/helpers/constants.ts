@@ -8,10 +8,10 @@ const PERSENT_SINGLE = 'persentSingle';
 const MIN = 'min';
 const MAX = 'max';
 const TYPE = 'type';
-const INPUT = 'input';
-const RANGE = 'range';
-const LABEL = 'label';
-const VERTICAL = 'vertical';
+const INPUT = 'isInput';
+const RANGE = 'isRange';
+const LABEL = 'isLabel';
+const VERTICAL = 'isVertical';
 const DOUBLE = 'double';
 
 export {

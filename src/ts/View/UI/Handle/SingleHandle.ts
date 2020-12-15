@@ -3,9 +3,9 @@ class SingleHandle {
 
   private classHandleVertical: string;
 
-  constructor(public anchor: HTMLElement, public vertical: boolean) {
+  constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;
-    this.createClass(vertical);
+    this.createClass(isVertical);
     this.init(anchor);
   }
 
@@ -17,11 +17,11 @@ class SingleHandle {
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
 
-  private createClass(vertical: boolean): void {
-    this.classHandleSingleVertical = vertical
+  private createClass(isVertical: boolean): void {
+    this.classHandleSingleVertical = isVertical
       ? 'slider__handle--single--vertical'
       : '';
-    this.classHandleVertical = vertical ? 'slider__handle--vertical' : '';
+    this.classHandleVertical = isVertical ? 'slider__handle--vertical' : '';
   }
 
   public moveElement(percentage: number): void {
@@ -29,7 +29,7 @@ class SingleHandle {
       '.slider__handle--single'
     );
 
-    if (this.vertical) {
+    if (this.isVertical) {
       single.style.top = `${percentage}%`;
     } else {
       single.style.left = `${percentage}%`;

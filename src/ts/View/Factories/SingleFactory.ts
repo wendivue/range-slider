@@ -6,16 +6,20 @@ import SingleInput from '../UI/Input/SingleInput';
 import Bar from '../UI/Bar/Bar';
 
 class SingleFactory {
-  public createTemplate(anchor: HTMLElement, vertical: boolean): Template {
-    return new Template(anchor, vertical);
+  public createTemplate(anchor: HTMLElement, isVertical: boolean): Template {
+    return new Template(anchor, isVertical);
   }
 
-  public createBar(anchor: HTMLElement, vertical: boolean, type: string): Bar {
-    return new Bar(anchor, vertical, type);
+  public createBar(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: string
+  ): Bar {
+    return new Bar(anchor, isVertical, type);
   }
 
-  public createHandle(anchor: HTMLElement, vertical: boolean): SingleHandle {
-    return new SingleHandle(anchor, vertical);
+  public createHandle(anchor: HTMLElement, isVertical: boolean): SingleHandle {
+    return new SingleHandle(anchor, isVertical);
   }
 
   public createLabel(anchor: HTMLElement): SingleLabel {

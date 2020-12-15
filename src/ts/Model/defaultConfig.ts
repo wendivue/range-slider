@@ -11,10 +11,10 @@ const defaultConfig: Config = {
   min: 0,
   max: 1000,
   type: 'double',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 export default defaultConfig;

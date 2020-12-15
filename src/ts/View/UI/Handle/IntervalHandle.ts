@@ -5,9 +5,9 @@ class IntervalHandle {
 
   private classHandleToVertical: string;
 
-  constructor(public anchor: HTMLElement, public vertical: boolean) {
+  constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;
-    this.createClass(vertical);
+    this.createClass(isVertical);
     this.init(anchor);
   }
 
@@ -20,9 +20,11 @@ class IntervalHandle {
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
 
-  private createClass(vertical: boolean): void {
-    this.classHandleVertical = vertical ? 'slider__handle--vertical' : '';
-    this.classHandleToVertical = vertical ? 'slider__handle--to--vertical' : '';
+  private createClass(isVertical: boolean): void {
+    this.classHandleVertical = isVertical ? 'slider__handle--vertical' : '';
+    this.classHandleToVertical = isVertical
+      ? 'slider__handle--to--vertical'
+      : '';
   }
 
   public moveElement(percentage: number, elementType: string): void {
@@ -31,7 +33,7 @@ class IntervalHandle {
     );
     const to: HTMLElement = this.anchor.querySelector('.slider__handle--to');
 
-    if (this.vertical) {
+    if (this.isVertical) {
       if (elementType === FROM) {
         from.style.top = `${percentage}%`;
       } else if (elementType === TO) {

@@ -49,26 +49,26 @@ class View {
   }
 
   private getHtml(): void {
-    this.factory.createTemplate(this.app, this.config.vertical);
+    this.factory.createTemplate(this.app, this.config.isVertical);
     this.factoryBar = this.factory.createBar(
       this.app,
-      this.config.vertical,
+      this.config.isVertical,
       this.config.type
     );
     this.factoryHandle = this.factory.createHandle(
       this.app,
-      this.config.vertical
+      this.config.isVertical
     );
 
-    if (this.config.label) {
+    if (this.config.isLabel) {
       this.factoryLabel = this.factory.createLabel(this.app);
     }
 
-    if (this.config.range) {
+    if (this.config.isRange) {
       this.factory.createRange(this.app, this.config.min, this.config.max);
     }
 
-    if (this.config.input) {
+    if (this.config.isInput) {
       this.factoryInput = this.factory.createInput(this.app);
     }
   }
@@ -128,7 +128,7 @@ class View {
 
   public calcPercentage(left: number): number {
     let slider;
-    if (this.config.vertical) {
+    if (this.config.isVertical) {
       slider = this.slider.offsetHeight;
     } else {
       slider = this.slider.offsetWidth;

@@ -9,10 +9,10 @@ interface Config {
   persentTo: number;
   persentSingle: number;
   type: string;
-  input: boolean;
-  range: boolean;
-  label: boolean;
-  vertical: boolean;
+  isInput: boolean;
+  isRange: boolean;
+  isLabel: boolean;
+  isVertical: boolean;
 }
 
 interface Coords {

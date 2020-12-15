@@ -13,18 +13,18 @@ const config: Config = {
   min: 30,
   max: 1000,
   type: 'double',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 const model = new Model(config);
 
 describe('Get value', () => {
   test('should convert percent to value', () => {
-    expect(model.getValue(30)).toBe(330);
-    expect(model.getValue(65)).toBe(680);
+    expect(model.getValue(30)).toBe(321);
+    expect(model.getValue(65)).toBe(661);
   });
 
   test('negative number', () => {

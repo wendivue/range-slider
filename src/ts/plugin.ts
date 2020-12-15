@@ -3,7 +3,6 @@ import View from './View/View';
 import Presenter from './Presenter/Presenter';
 import { Config } from './helpers/interface';
 import defaultConfig from './Model/defaultConfig';
-import Setting from '../components/Setting/Setting';
 
 (($: any) => {
   $.fn.rangeSlider = function (options: Config, id: string) {

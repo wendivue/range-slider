@@ -9,10 +9,10 @@ class Bar {
 
   constructor(
     public anchor: HTMLElement,
-    public vertical: boolean,
+    public isVertical: boolean,
     public type: string
   ) {
-    this.createClass(vertical, type);
+    this.createClass(isVertical, type);
     this.init(anchor);
   }
 
@@ -24,17 +24,17 @@ class Bar {
     slider.insertAdjacentHTML('afterbegin', barTemplate);
   }
 
-  private createClass(vertical: boolean, type: string): void {
-    this.classBarVertical = vertical ? 'slider__bar--vertical' : '';
+  private createClass(isVertical: boolean, type: string): void {
+    this.classBarVertical = isVertical ? 'slider__bar--vertical' : '';
     this.classBarSingle = type === SINGLE ? 'slider__bar--single' : '';
     this.classBarSingleVertical =
-      type === SINGLE && vertical ? 'slider__bar--single--vertical' : '';
+      type === SINGLE && isVertical ? 'slider__bar--single--vertical' : '';
   }
 
   public changeBar(from: number, to?: number): void {
     const bar: HTMLElement = this.anchor.querySelector('.slider__bar');
 
-    if (this.vertical) {
+    if (this.isVertical) {
       if (this.type === SINGLE) {
         bar.style.height = `${from}%`;
       } else {

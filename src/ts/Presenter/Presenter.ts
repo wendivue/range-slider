@@ -27,7 +27,7 @@ class Presenter {
     );
   }
 
-  private init(type: string, input: boolean, range: boolean): void {
+  private init(type: string, isInput: boolean, isRange: boolean): void {
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -51,7 +51,7 @@ class Presenter {
       this.bindHandleEvents(this.view.to);
     }
 
-    if (input) {
+    if (isInput) {
       if (type === SINGLE) {
         this.bindInputEvents(this.view.inputSingle);
       } else {
@@ -60,7 +60,7 @@ class Presenter {
       }
     }
 
-    if (range) {
+    if (isRange) {
       this.bindRangeEvents(this.view.rangeMin);
       this.bindRangeEvents(this.view.rangeMax);
     }
@@ -90,7 +90,7 @@ class Presenter {
     this.updateView(elementType, false);
   }
 
-  private updateView(elementType: string, input: boolean): void {
+  private updateView(elementType: string, isInput: boolean): void {
     if (elementType === FROM) {
       this.view.moveElement(this.model.get(PERSENT_FROM), elementType);
     } else if (elementType === TO) {
@@ -115,7 +115,7 @@ class Presenter {
         this.view.changeLabelValue(this.model.get(FROM), this.model.get(TO));
       }
 
-    if (!input) {
+    if (!isInput) {
       if (this.model.get(INPUT)) {
         if (this.model.get(TYPE) === SINGLE) {
           this.view.changeValue(this.model.get(SINGLE));

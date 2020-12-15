@@ -15,10 +15,10 @@ const config1: Config = {
   min: 0,
   max: 1000,
   type: 'single',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 const config2: Config = {
@@ -32,10 +32,10 @@ const config2: Config = {
   min: 0,
   max: 1000,
   type: 'double',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 const config3: Config = {
@@ -49,10 +49,10 @@ const config3: Config = {
   min: 0,
   max: 1000,
   type: 'double',
-  input: true,
-  range: true,
-  label: false,
-  vertical: true,
+  isInput: true,
+  isRange: true,
+  isLabel: false,
+  isVertical: true,
 };
 
 const anchor1: HTMLElement = document.getElementById('fesd');
@@ -86,8 +86,8 @@ function createSetting(config: Config, anchor: HTMLElement) {
     from: 60,
     to: 600,
     type: 'double',
-    label: false,
-    vertical: true,
+    isLabel: false,
+    isVertical: true,
   },
   'ajkg'
 );

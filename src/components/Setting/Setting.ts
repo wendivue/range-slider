@@ -34,13 +34,13 @@ class Setting {
       <h2 class="setting__title">Setting</h2>
       <div class="setting__wrapper">
         <div class="setting__list">
-        <input name="vertical" id="vertical" class="setting__checkbox" type="checkbox" ${checkedVertical}>
+        <input name="isVertical" id="vertical" class="setting__checkbox" type="checkbox" ${checkedVertical}>
         <label for="vertical" class="setting__label">Vertical</label>
         
         <input name="type" id="type" class="setting__checkbox" type="checkbox" ${checkedDouble}>
         <label for="type" class="setting__label">Double handles</label>
 
-        <input name="label" id="label" class="setting__checkbox" type="checkbox" ${checkedLabel}>
+        <input name="isLabel" id="label" class="setting__checkbox" type="checkbox" ${checkedLabel}>
         <label for="label" class="setting__label">Labels</label>
         </div>
 
@@ -57,9 +57,9 @@ class Setting {
   }
 
   private addChecked(): Array<string> {
-    const checkedVertical = this.config.vertical ? 'checked' : '';
+    const checkedVertical = this.config.isVertical ? 'checked' : '';
     const checkedDouble = this.config.type === DOUBLE ? 'checked' : '';
-    const checkedLabel = this.config.label ? 'checked' : '';
+    const checkedLabel = this.config.isLabel ? 'checked' : '';
 
     return [checkedVertical, checkedDouble, checkedLabel];
   }

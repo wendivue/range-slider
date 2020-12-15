@@ -21,10 +21,10 @@ const singleConfig: Config = {
   min: 30,
   max: 1000,
   type: 'single',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 const intervalConfig: Config = {
@@ -38,10 +38,10 @@ const intervalConfig: Config = {
   min: 30,
   max: 1000,
   type: 'double',
-  input: true,
-  range: true,
-  label: true,
-  vertical: false,
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
 };
 
 describe('Check type single', () => {

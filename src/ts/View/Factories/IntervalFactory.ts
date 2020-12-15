@@ -6,16 +6,23 @@ import IntervalInput from '../UI/Input/IntervalInput';
 import Bar from '../UI/Bar/Bar';
 
 class IntervalFactory {
-  public createTemplate(anchor: HTMLElement, vertical: boolean): Template {
-    return new Template(anchor, vertical);
+  public createTemplate(anchor: HTMLElement, isVertical: boolean): Template {
+    return new Template(anchor, isVertical);
   }
 
-  public createBar(anchor: HTMLElement, vertical: boolean, type: string): Bar {
-    return new Bar(anchor, vertical, type);
+  public createBar(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: string
+  ): Bar {
+    return new Bar(anchor, isVertical, type);
   }
 
-  public createHandle(anchor: HTMLElement, vertical: boolean): IntervalHandle {
-    return new IntervalHandle(anchor, vertical);
+  public createHandle(
+    anchor: HTMLElement,
+    isVertical: boolean
+  ): IntervalHandle {
+    return new IntervalHandle(anchor, isVertical);
   }
 
   public createLabel(anchor: HTMLElement): IntervalLabel {
