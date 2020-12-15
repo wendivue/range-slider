@@ -20,9 +20,7 @@ class Setting {
 
   constructor(public config: Config, public anchor: HTMLElement) {
     this.init();
-
-    this.bindEventInput();
-    this.bindEvents();
+    this.initActions();
   }
 
   private init() {
@@ -54,6 +52,11 @@ class Setting {
 
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
     this.setting = document.getElementById(id);
+  }
+
+  private initActions() {
+    this.bindEventInput();
+    this.bindEvents();
   }
 
   private addChecked(): Array<string> {
