@@ -1,18 +1,18 @@
 @import '../scss/vars.scss';
 
 .demo {
-  margin: 200px;
+  position: relative;
+  max-width: 1920px;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
 
-  @media (max-width: $breakpoint-md) {
-    margin: 50px;
-  }
-
-  @media (max-width: $breakpoint-xs) {
-    margin: 20px;
-  }
-
-  @media (max-width: $breakpoint-xxs) {
-    margin: 15px;
+  &__centerBlock {
+    max-width: 1160px;
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 100%;
   }
 
   &__slider {
