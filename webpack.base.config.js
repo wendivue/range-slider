@@ -1,5 +1,3 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,7 +7,7 @@ const webpack = require('webpack');
 const config = {
   entry: './src/demo/demo.ts',
   output: {
-    filename: './js/bundle.js',
+    filename: './js/[name].js',
   },
   devtool: 'source-map',
   mode: 'production',
@@ -42,7 +40,6 @@ const config = {
             loader: 'css-loader',
             options: {
               sourceMap: true,
-              url: false,
             },
           },
           {
@@ -97,19 +94,12 @@ const config = {
         { from: "./src/favicon", to: "./favicon" },
       ],
     }),
-    new MiniCssExtractPlugin({
-      filename: './css/style.bundle.css',
-    }),
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'demo.html',
       template: './src/demo/demo.html',
     }),
   ],
 };
 
-module.exports = (env, argv) => {
-  if (argv.mode === 'production') {
-    config.plugins.push(new CleanWebpackPlugin());
-  }
-  return config;
-};
+module.exports = config;
