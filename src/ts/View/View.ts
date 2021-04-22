@@ -76,13 +76,13 @@ class View {
   private getElement(): void {
     this.slider = this.app.querySelector('.slider__wrapper');
     this.bar = this.app.querySelector('.slider__bar');
-    this.single = this.app.querySelector('.slider__handle--single');
-    this.from = this.app.querySelector('.slider__handle--from');
-    this.to = this.app.querySelector('.slider__handle--to');
+    this.single = this.app.querySelector('.slider__handle_single');
+    this.from = this.app.querySelector('.slider__handle_from');
+    this.to = this.app.querySelector('.slider__handle_to');
     this.handle = this.app.querySelector('.slider__handle');
-    this.labelSingle = this.app.querySelector('.slider__label-text--single');
-    this.labelFrom = this.app.querySelector('.slider__label-text--from');
-    this.labelTo = this.app.querySelector('.slider__label-text--to');
+    this.labelSingle = this.app.querySelector('.slider__label-text_single');
+    this.labelFrom = this.app.querySelector('.slider__label-text_from');
+    this.labelTo = this.app.querySelector('.slider__label-text_to');
     this.inputSingle = this.app.querySelector('.input__single');
     this.inputFrom = this.app.querySelector('.input__from');
     this.inputTo = this.app.querySelector('.input__to');

@@ -23,7 +23,7 @@ describe('SingleHandle', () => {
 
   test('change left', () => {
     const element: HTMLElement = document.querySelector(
-      '.slider__handle--single'
+      '.slider__handle_single'
     );
     expect(element.style.left).toMatch(/10%/);
   });
@@ -41,7 +41,7 @@ describe('SingleHandleVertical', () => {
 
   test('change top', () => {
     const element: HTMLElement = document.querySelector(
-      '.slider__handle--single'
+      '.slider__handle_single'
     );
     expect(element.style.top).toMatch(/10%/);
   });

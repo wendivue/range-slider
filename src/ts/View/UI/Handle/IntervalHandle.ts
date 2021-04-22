@@ -13,25 +13,21 @@ class IntervalHandle {
 
   private init(anchor: HTMLElement): void {
     const handleTemplate =
-      `<div class="slider__handle ${this.classHandleVertical} slider__handle--from"></div>` +
-      `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle--to"></div>`;
+      `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
+      `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
 
   private createClass(isVertical: boolean): void {
-    this.classHandleVertical = isVertical ? 'slider__handle--vertical' : '';
-    this.classHandleToVertical = isVertical
-      ? 'slider__handle--to--vertical'
-      : '';
+    this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
+    this.classHandleToVertical = isVertical ? 'slider__handle_to_vertical' : '';
   }
 
   public moveElement(percentage: number, elementType: string): void {
-    const from: HTMLElement = this.anchor.querySelector(
-      '.slider__handle--from'
-    );
-    const to: HTMLElement = this.anchor.querySelector('.slider__handle--to');
+    const from: HTMLElement = this.anchor.querySelector('.slider__handle_from');
+    const to: HTMLElement = this.anchor.querySelector('.slider__handle_to');
 
     if (this.isVertical) {
       if (elementType === FROM) {

@@ -13,7 +13,7 @@ class Template {
   }
 
   private createClass(isVertical: boolean): void {
-    this.classWrapperVertical = isVertical ? 'slider__wrapper--vertical' : '';
+    this.classWrapperVertical = isVertical ? 'slider__wrapper_vertical' : '';
   }
 }
 

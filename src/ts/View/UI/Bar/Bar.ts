@@ -25,10 +25,10 @@ class Bar {
   }
 
   private createClass(isVertical: boolean, type: string): void {
-    this.classBarVertical = isVertical ? 'slider__bar--vertical' : '';
-    this.classBarSingle = type === SINGLE ? 'slider__bar--single' : '';
+    this.classBarVertical = isVertical ? 'slider__bar_vertical' : '';
+    this.classBarSingle = type === SINGLE ? 'slider__bar_single' : '';
     this.classBarSingleVertical =
-      type === SINGLE && isVertical ? 'slider__bar--single--vertical' : '';
+      type === SINGLE && isVertical ? 'slider__bar_single_vertical' : '';
   }
 
   public changeBar(from: number, to?: number): void {

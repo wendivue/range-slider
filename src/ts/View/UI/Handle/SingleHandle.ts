@@ -10,7 +10,7 @@ class SingleHandle {
   }
 
   private init(anchor: HTMLElement): void {
-    const handleTemplate = `<div class="slider__handle slider__handle--single ${this.classHandleVertical} 
+    const handleTemplate = `<div class="slider__handle slider__handle_single ${this.classHandleVertical} 
     ${this.classHandleSingleVertical}"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');
 
@@ -19,14 +19,14 @@ class SingleHandle {
 
   private createClass(isVertical: boolean): void {
     this.classHandleSingleVertical = isVertical
-      ? 'slider__handle--single--vertical'
+      ? 'slider__handle_single_vertical'
       : '';
-    this.classHandleVertical = isVertical ? 'slider__handle--vertical' : '';
+    this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
   }
 
   public moveElement(percentage: number): void {
     const single: HTMLElement = this.anchor.querySelector(
-      '.slider__handle--single'
+      '.slider__handle_single'
     );
 
     if (this.isVertical) {

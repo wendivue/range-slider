@@ -23,9 +23,7 @@ describe('handleFrom', () => {
   });
 
   test('change left', () => {
-    const element: HTMLElement = document.querySelector(
-      '.slider__handle--from'
-    );
+    const element: HTMLElement = document.querySelector('.slider__handle_from');
     expect(element.style.left).toMatch(/10%/);
   });
 });
@@ -41,7 +39,7 @@ describe('handleTo', () => {
   });
 
   test('change left', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle--to');
+    const element: HTMLElement = document.querySelector('.slider__handle_to');
     expect(element.style.left).toMatch(/10%/);
   });
 });
@@ -57,9 +55,7 @@ describe('handleFromVertical', () => {
   });
 
   test('change top', () => {
-    const element: HTMLElement = document.querySelector(
-      '.slider__handle--from'
-    );
+    const element: HTMLElement = document.querySelector('.slider__handle_from');
     expect(element.style.top).toMatch(/10%/);
   });
 });
@@ -75,7 +71,7 @@ describe('handleToVertical', () => {
   });
 
   test('change top', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle--to');
+    const element: HTMLElement = document.querySelector('.slider__handle_to');
     expect(element.style.top).toMatch(/10%/);
   });
 });

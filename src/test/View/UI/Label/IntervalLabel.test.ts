@@ -6,14 +6,14 @@ const { document } = dom.window;
 
 const anchor = document.querySelector('.anchor') as HTMLElement;
 const handleTemplate = `
-  <div class="slider__handle slider__handle--from"></div>
-  <div class="slider__handle slider__handle--to"></div>
+  <div class="slider__handle slider__handle_from"></div>
+  <div class="slider__handle slider__handle_to"></div>
 `;
 
 anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
-const handleFrom = anchor.querySelector('.slider__handle--from');
-const handleTo = anchor.querySelector('.slider__handle--to');
+const handleFrom = anchor.querySelector('.slider__handle_from');
+const handleTo = anchor.querySelector('.slider__handle_to');
 
 describe('IntervalLabel', () => {
   beforeEach(() => {
@@ -28,11 +28,11 @@ describe('IntervalLabel', () => {
 
   test('change text', () => {
     const labelFrom: HTMLInputElement = document.querySelector(
-      '.slider__label-text--from'
+      '.slider__label-text_from'
     );
 
     const labelTo: HTMLInputElement = document.querySelector(
-      '.slider__label-text--to'
+      '.slider__label-text_to'
     );
 
     expect(labelFrom.textContent).toMatch(/10/);

@@ -5,11 +5,11 @@ const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;
 
 const anchor = document.querySelector('.anchor') as HTMLElement;
-const handleTemplate = `<div class="slider__handle slider__handle--single"></div>`;
+const handleTemplate = `<div class="slider__handle slider__handle_single"></div>`;
 
 anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
-const handleSingle = anchor.querySelector('.slider__handle--single');
+const handleSingle = anchor.querySelector('.slider__handle_single');
 
 describe('SingleLabel', () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('SingleLabel', () => {
 
   test('change text', () => {
     const labelSingle: HTMLInputElement = document.querySelector(
-      '.slider__label-text--single'
+      '.slider__label-text_single'
     );
 
     expect(labelSingle.textContent).toMatch(/10/);

@@ -53,7 +53,7 @@ describe('Check type single', () => {
     const view = new View(singleConfig, anchor);
 
     const handle: HTMLElement = document.querySelector(
-      '.slider__handle--single'
+      '.slider__handle_single'
     );
 
     expect(view.checkElementType(handle)).toBe(SINGLE);
@@ -68,10 +68,10 @@ describe('Check type single', () => {
       const view = new View(intervalConfig, anchor);
 
       const handleFrom: HTMLElement = document.querySelector(
-        '.slider__handle--from'
+        '.slider__handle_from'
       );
       const handleTo: HTMLElement = document.querySelector(
-        '.slider__handle--to'
+        '.slider__handle_to'
       );
 
       expect(view.checkElementType(handleFrom)).toBe(FROM);
