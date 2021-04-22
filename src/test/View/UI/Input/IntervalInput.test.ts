@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import IntervalInput from '../../../../ts/View/UI/Input/IntervalInput';
+import IntervalInput from 'Ts/View/UI/Input/IntervalInput';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

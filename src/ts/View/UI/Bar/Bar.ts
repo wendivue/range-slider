@@ -1,4 +1,4 @@
-import { SINGLE } from '../../../helpers/constants';
+import { SINGLE } from 'Helpers/constants';
 
 class Bar {
   private classBarVertical: string;

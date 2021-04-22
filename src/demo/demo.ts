@@ -1,6 +1,6 @@
-import '../ts/plugin';
-import Setting from '../components/Setting/Setting';
-import { Config } from '../ts/helpers/interface';
+import 'Ts/plugin';
+import Setting from 'Components/Setting/Setting';
+import { Config } from 'Helpers/interface';
 
 declare let $: any;
 

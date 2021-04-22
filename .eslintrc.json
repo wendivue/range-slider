@@ -27,6 +27,12 @@
       }
     ],
     "class-methods-use-this": "off",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
-  }
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-unresolved": "off"
+  },
+  "ignorePatterns": [
+    "webpack.base.config.js",
+    "webpack.production.config.js",
+    "webpack.development.config.js"
+  ]
 }

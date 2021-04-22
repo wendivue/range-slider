@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import Bar from '../../../../ts/View/UI/Bar/Bar';
+import Bar from 'Ts/View/UI/Bar/Bar';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

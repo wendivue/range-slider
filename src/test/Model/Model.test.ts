@@ -1,6 +1,6 @@
-import Model from '../../ts/Model/Model';
-import { Config } from '../../ts/helpers/interface';
-import { FROM, TO, MIN, TYPE, VERTICAL } from '../../ts/helpers/constants';
+import { Config } from 'Helpers/interface';
+import { FROM, TO, MIN, TYPE, VERTICAL } from 'Helpers/constants';
+import Model from 'Ts/Model/Model';
 
 const config: Config = {
   single: 20,

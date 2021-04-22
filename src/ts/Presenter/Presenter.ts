@@ -12,9 +12,9 @@ import {
   PERSENT_FROM,
   PERSENT_TO,
   PERSENT_SINGLE,
-} from '../helpers/constants';
+} from 'Helpers/constants';
 
-import { forMouse, Shift } from '../helpers/interface';
+import { forMouse, Shift } from 'Helpers/interface';
 import View from '../View/View';
 import Model from '../Model/Model';
 

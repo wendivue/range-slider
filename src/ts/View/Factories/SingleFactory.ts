@@ -1,9 +1,9 @@
-import Template from '../UI/Template/Template';
-import SingleHandle from '../UI/Handle/SingleHandle';
-import SingleLabel from '../UI/Label/SingleLabel';
-import Range from '../UI/Range/Range';
-import SingleInput from '../UI/Input/SingleInput';
-import Bar from '../UI/Bar/Bar';
+import Template from 'UI/Template/Template';
+import SingleHandle from 'UI/Handle/SingleHandle';
+import SingleLabel from 'UI/Label/SingleLabel';
+import Range from 'UI/Range/Range';
+import SingleInput from 'UI/Input/SingleInput';
+import Bar from 'UI/Bar/Bar';
 
 class SingleFactory {
   public createTemplate(anchor: HTMLElement, isVertical: boolean): Template {

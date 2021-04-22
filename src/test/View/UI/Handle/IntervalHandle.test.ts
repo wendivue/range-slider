@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom';
-import IntervalHandle from '../../../../ts/View/UI/Handle/IntervalHandle';
-import { FROM, TO } from '../../../../ts/helpers/constants';
+import { FROM, TO } from 'Helpers/constants';
+import IntervalHandle from 'Ts/View/UI/Handle/IntervalHandle';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

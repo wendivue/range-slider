@@ -1,4 +1,4 @@
-import { FROM, TO } from '../../../helpers/constants';
+import { FROM, TO } from 'Helpers/constants';
 
 class IntervalHandle {
   private classHandleVertical: string;

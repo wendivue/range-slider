@@ -1,4 +1,4 @@
-import { Config } from '../helpers/interface';
+import { Config } from 'Helpers/interface';
 import {
   FROM,
   TO,
@@ -7,7 +7,7 @@ import {
   STEP,
   PERSENT_FROM,
   PERSENT_TO,
-} from '../helpers/constants';
+} from 'Helpers/constants';
 
 class Model {
   public config: Config;

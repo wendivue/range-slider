@@ -1,15 +1,8 @@
-import Presenter from '../../ts/Presenter/Presenter';
-import Model from '../../ts/Model/Model';
-import View from '../../ts/View/View';
-import { Config } from '../../ts/helpers/interface';
-import {
-  SINGLE,
-  STEP,
-  TYPE,
-  VERTICAL,
-  DOUBLE,
-  LABEL,
-} from '../../ts/helpers/constants';
+import { Config } from 'Helpers/interface';
+import { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL } from 'Helpers/constants';
+import Presenter from 'Ts/Presenter/Presenter';
+import Model from 'Ts/Model/Model';
+import View from 'Ts/View/View';
 
 import './Setting.scss';
 

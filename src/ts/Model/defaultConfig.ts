@@ -1,4 +1,4 @@
-import { Config } from '../helpers/interface';
+import { Config } from 'Helpers/interface';
 
 const defaultConfig: Config = {
   single: 20,

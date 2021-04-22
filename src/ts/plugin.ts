@@ -1,7 +1,7 @@
+import { Config } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
-import { Config } from './helpers/interface';
 import defaultConfig from './Model/defaultConfig';
 
 (($: any) => {

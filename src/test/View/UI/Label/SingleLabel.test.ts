@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import SingleLabel from '../../../../ts/View/UI/Label/SingleLabel';
+import SingleLabel from 'Ts/View/UI/Label/SingleLabel';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

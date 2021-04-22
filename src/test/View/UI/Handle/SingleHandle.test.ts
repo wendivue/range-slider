@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import SingleHandle from '../../../../ts/View/UI/Handle/SingleHandle';
+import SingleHandle from 'Ts/View/UI/Handle/SingleHandle';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

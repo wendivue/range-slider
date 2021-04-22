@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import SingleInput from '../../../../ts/View/UI/Input/SingleInput';
+import SingleInput from 'Ts/View/UI/Input/SingleInput';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

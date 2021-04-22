@@ -1,11 +1,17 @@
-const CopyPlugin = require("copy-webpack-plugin");
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
+const PATHS = {
+  src: path.join(__dirname, './src'),
+  dist: path.join(__dirname, './dist'),
+};
+
 const config = {
-  entry: './src/demo/demo.ts',
+  entry: `${PATHS.src}/demo/demo.ts`,
   output: {
     filename: './js/[name].js',
   },
@@ -21,6 +27,13 @@ const config = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      Vars: path.resolve(__dirname, `${PATHS.src}/scss/vars`),
+      Components: path.resolve(__dirname, `${PATHS.src}/components`),
+      Helpers: path.resolve(__dirname, `${PATHS.src}/ts/helpers`),
+      Ts: path.resolve(__dirname, `${PATHS.src}/ts`),
+      UI: path.resolve(__dirname, `${PATHS.src}/ts/View/UI`),
+    },
   },
   module: {
     rules: [
@@ -89,15 +102,13 @@ const config = {
       'window.jQuery': 'jquery',
       'window.$': 'jquery',
     }),
-     new CopyPlugin({
-      patterns: [
-        { from: "./src/favicon", to: "./favicon" },
-      ],
+    new CopyPlugin({
+      patterns: [{ from: `${PATHS.src}/favicon`, to: './favicon' }],
     }),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       filename: 'demo.html',
-      template: './src/demo/demo.html',
+      template: `${PATHS.src}/demo/demo.html`,
     }),
   ],
 };

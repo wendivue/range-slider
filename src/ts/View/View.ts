@@ -1,5 +1,5 @@
-import { SINGLE, FROM, TO } from '../helpers/constants';
-import { Config, Coords, Shift } from '../helpers/interface';
+import { Config, Coords, Shift } from 'Helpers/interface';
+import { SINGLE, FROM, TO } from 'Helpers/constants';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 

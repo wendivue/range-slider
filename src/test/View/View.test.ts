@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
-import View from '../../ts/View/View';
-import { Config } from '../../ts/helpers/interface';
-import { FROM, SINGLE, TO } from '../../ts/helpers/constants';
+import { Config } from 'Helpers/interface';
+import { FROM, SINGLE, TO } from 'Helpers/constants';
+import View from 'Ts/View/View';
 
 const dom = new JSDOM(
   '<html><body><div id="azx2" class="anchor" style="width: 100px; height: 20px;"></div></body></html>'
