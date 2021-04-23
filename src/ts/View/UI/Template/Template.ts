@@ -1,12 +1,16 @@
 class Template {
   private classWrapperVertical: string;
 
-  constructor(anchor: HTMLElement, isVertical: boolean) {
-    this.createClass(isVertical);
-    this.init(anchor);
+  constructor(public anchor: HTMLElement, public isVertical: boolean) {
+    this.init();
   }
 
-  private init(anchor: HTMLElement): void {
+  private init() {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
     const sliderTemplate = `<div class="slider__wrapper ${this.classWrapperVertical}" >`;
 
     anchor.insertAdjacentHTML('afterbegin', sliderTemplate);

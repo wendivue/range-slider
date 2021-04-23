@@ -12,11 +12,15 @@ class Bar {
     public isVertical: boolean,
     public type: string
   ) {
-    this.createClass(isVertical, type);
-    this.init(anchor);
+    this.init();
   }
 
-  private init(anchor: HTMLElement): void {
+  private init(): void {
+    this.createClass(this.isVertical, this.type);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
     const barTemplate = `<div class="slider__bar ${this.classBarVertical} 
     ${this.classBarSingle} ${this.classBarSingleVertical}"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');

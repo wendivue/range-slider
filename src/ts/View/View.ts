@@ -43,6 +43,10 @@ class View {
   private factoryInput: Record<string, any>;
 
   constructor(public config: Config, public app: HTMLElement) {
+    this.init();
+  }
+
+  private init(): void {
     this.createfactory();
     this.getHtml();
     this.getElement();

@@ -7,11 +7,15 @@ class IntervalHandle {
 
   constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;
-    this.createClass(isVertical);
-    this.init(anchor);
+    this.init();
   }
 
-  private init(anchor: HTMLElement): void {
+  private init(): void {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
     const handleTemplate =
       `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
       `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;

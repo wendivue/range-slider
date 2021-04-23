@@ -14,10 +14,15 @@ class Setting {
 
   constructor(public config: Config, public anchor: HTMLElement) {
     this.init();
-    this.initActions();
   }
 
-  private init() {
+  private init(): void {
+    this.createHtml();
+    this.bindEventInput();
+    this.bindEvents();
+  }
+
+  private createHtml() {
     const settingId = `setting-${getUniqueID()}`;
     const verticalId = `vertical-${getUniqueID()}`;
     const typeId = `type-${getUniqueID()}`;
@@ -50,11 +55,6 @@ class Setting {
 
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
     this.setting = document.getElementById(settingId);
-  }
-
-  private initActions() {
-    this.bindEventInput();
-    this.bindEvents();
   }
 
   private addChecked(): Array<string> {

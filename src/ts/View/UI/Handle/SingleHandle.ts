@@ -5,11 +5,15 @@ class SingleHandle {
 
   constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;
-    this.createClass(isVertical);
-    this.init(anchor);
+    this.init();
   }
 
-  private init(anchor: HTMLElement): void {
+  private init(): void {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
     const handleTemplate = `<div class="slider__handle slider__handle_single ${this.classHandleVertical} 
     ${this.classHandleSingleVertical}"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');
