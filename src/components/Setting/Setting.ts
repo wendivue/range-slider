@@ -1,5 +1,6 @@
 import { Config } from 'Helpers/interface';
 import { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL } from 'Helpers/constants';
+import getUniqueID from 'Helpers/helpersFunctions';
 import Presenter from 'Ts/Presenter/Presenter';
 import Model from 'Ts/Model/Model';
 import View from 'Ts/View/View';
@@ -17,34 +18,38 @@ class Setting {
   }
 
   private init() {
-    const id = `qawe${this.anchor.id}`;
+    const settingId = `setting-${getUniqueID()}`;
+    const verticalId = `vertical-${getUniqueID()}`;
+    const typeId = `type-${getUniqueID()}`;
+    const labelId = `label-${getUniqueID()}`;
+    const stepId = `step-${getUniqueID()}`;
     const [checkedVertical, checkedDouble, checkedLabel] = this.addChecked();
 
     const settingTemplate = `
-    <div id=${id} class="setting">
+    <div id=${settingId} class="setting">
       <h2 class="setting__title">Setting</h2>
       <div class="setting__wrapper">
         <div class="setting__list">
-        <input name="isVertical" id="vertical" class="setting__checkbox" type="checkbox" ${checkedVertical}>
-        <label for="vertical" class="setting__label">Vertical</label>
+        <input name="isVertical" id="${verticalId}" class="setting__checkbox" type="checkbox" ${checkedVertical}>
+        <label for="${verticalId}" class="setting__label">Vertical</label>
         
-        <input name="type" id="type" class="setting__checkbox" type="checkbox" ${checkedDouble}>
-        <label for="type" class="setting__label">Double handles</label>
+        <input name="type" id="${typeId}" class="setting__checkbox" type="checkbox" ${checkedDouble}>
+        <label for="${typeId}" class="setting__label">Double handles</label>
 
-        <input name="isLabel" id="label" class="setting__checkbox" type="checkbox" ${checkedLabel}>
-        <label for="label" class="setting__label">Labels</label>
+        <input name="isLabel" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
+        <label for="${labelId}" class="setting__label">Labels</label>
         </div>
 
         <div class="setting__wrapper-input">
-        <label class="setting__title-input" for="step">Step</label>
-          <input id="step" type="text" class="input setting__input" value=${this.config.step}>
+        <label class="setting__title-input" for="${stepId}">Step</label>
+          <input id="${stepId}" type="text" class="input setting__input" value=${this.config.step}>
         </div>
       </div>
     </div>
     `;
 
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
-    this.setting = document.getElementById(id);
+    this.setting = document.getElementById(settingId);
   }
 
   private initActions() {
