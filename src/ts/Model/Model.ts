@@ -5,8 +5,8 @@ import {
   MAX,
   MIN,
   STEP,
-  PERSENT_FROM,
-  PERSENT_TO,
+  PERCENT_FROM,
+  PERCENT_TO,
 } from 'Helpers/constants';
 
 class Model {
@@ -59,7 +59,7 @@ class Model {
   }
 
   public getPercentageInput(value: number): number {
-    const percentage = this.calcPecentageInput(value);
+    const percentage = this.calcPercentageInput(value);
 
     return percentage;
   }
@@ -74,7 +74,7 @@ class Model {
     let array: Array<number> = [];
     let nextValue = 0;
 
-    for (let astep = 0; astep < length; astep += 1) {
+    for (let aStep = 0; aStep < length; aStep += 1) {
       nextValue += step;
       array = [...array, ...[nextValue]];
     }
@@ -118,7 +118,7 @@ class Model {
     );
   }
 
-  private calcPecentageInput(value: number): number {
+  private calcPercentageInput(value: number): number {
     return (value * 100) / this.get(MAX);
   }
 
@@ -138,8 +138,8 @@ class Model {
   }
 
   private validateTwoHandle(percentage: number, element: string): number {
-    const from: number = this.get(PERSENT_FROM);
-    const to: number = this.get(PERSENT_TO);
+    const from: number = this.get(PERCENT_FROM);
+    const to: number = this.get(PERCENT_TO);
     let value = percentage;
 
     if (element === FROM) {

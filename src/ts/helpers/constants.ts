@@ -2,9 +2,9 @@ const SINGLE = 'single';
 const FROM = 'from';
 const TO = 'to';
 const STEP = 'step';
-const PERSENT_FROM = 'persentFrom';
-const PERSENT_TO = 'persentTo';
-const PERSENT_SINGLE = 'persentSingle';
+const PERCENT_FROM = 'percentFrom';
+const PERCENT_TO = 'percentTo';
+const PERCENT_SINGLE = 'percentSingle';
 const MIN = 'min';
 const MAX = 'max';
 const TYPE = 'type';
@@ -27,7 +27,7 @@ export {
   LABEL,
   VERTICAL,
   DOUBLE,
-  PERSENT_FROM,
-  PERSENT_TO,
-  PERSENT_SINGLE,
+  PERCENT_FROM,
+  PERCENT_TO,
+  PERCENT_SINGLE,
 };

@@ -47,7 +47,7 @@ class View {
   }
 
   private init(): void {
-    this.createfactory();
+    this.createFactory();
     this.getHtml();
     this.getElement();
   }
@@ -94,7 +94,7 @@ class View {
     this.rangeMax = this.app.querySelector('.slider__range-max');
   }
 
-  private createfactory() {
+  private createFactory() {
     if (this.config.type === SINGLE) {
       this.factory = new SingleFactory();
     } else {

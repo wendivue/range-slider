@@ -5,9 +5,9 @@ interface Config {
   from: number;
   to: number;
   step: number;
-  persentFrom: number;
-  persentTo: number;
-  persentSingle: number;
+  percentFrom: number;
+  percentTo: number;
+  percentSingle: number;
   type: string;
   isInput: boolean;
   isRange: boolean;

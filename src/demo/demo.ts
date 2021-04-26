@@ -9,9 +9,9 @@ const config1: Config = {
   from: 20,
   to: 50,
   step: 1,
-  persentFrom: 0,
-  persentTo: 0,
-  persentSingle: 0,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
   min: 0,
   max: 1000,
   type: 'single',
@@ -26,9 +26,9 @@ const config2: Config = {
   from: 20,
   to: 50,
   step: 10,
-  persentFrom: 0,
-  persentTo: 0,
-  persentSingle: 0,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
   min: 0,
   max: 1000,
   type: 'double',
@@ -43,9 +43,9 @@ const config3: Config = {
   from: 20,
   to: 50,
   step: 1,
-  persentFrom: 0,
-  persentTo: 0,
-  persentSingle: 0,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
   min: 0,
   max: 1000,
   type: 'double',
@@ -55,33 +55,33 @@ const config3: Config = {
   isVertical: true,
 };
 
-const anchor1: HTMLElement = document.getElementById('fesd');
-const anchor2: HTMLElement = document.getElementById('azxs');
-const anchor3: HTMLElement = document.getElementById('ajkg');
+const anchor1: HTMLElement = document.getElementById('slider1');
+const anchor2: HTMLElement = document.getElementById('slider2');
+const anchor3: HTMLElement = document.getElementById('slider3');
 
 function createSetting(config: Config, anchor: HTMLElement) {
   return new Setting(config, anchor);
 }
 
-<any>$('#fesd').rangeSlider(
+<any>$('#slider1').rangeSlider(
   {
     single: 400,
     type: 'single',
   },
-  'fesd'
+  'slider1'
 );
 
-<any>$('#azxs').rangeSlider(
+<any>$('#slider2').rangeSlider(
   {
     from: 200,
     to: 700,
     type: 'double',
     step: 10,
   },
-  'azxs'
+  'slider2'
 );
 
-<any>$('#ajkg').rangeSlider(
+<any>$('#slider3').rangeSlider(
   {
     from: 60,
     to: 600,
@@ -89,7 +89,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
     isLabel: false,
     isVertical: true,
   },
-  'ajkg'
+  'slider3'
 );
 
 createSetting(config1, anchor1);

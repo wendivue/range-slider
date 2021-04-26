@@ -10,7 +10,7 @@ import './Setting.scss';
 class Setting {
   private model = new Model(this.config);
 
-  public setting: any;
+  public setting: HTMLElement;
 
   constructor(public config: Config, public anchor: HTMLElement) {
     this.init();

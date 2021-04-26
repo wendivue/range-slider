@@ -4,10 +4,12 @@ import View from './View/View';
 import Presenter from './Presenter/Presenter';
 import defaultConfig from './Model/defaultConfig';
 
-(($: any) => {
+((jQuery) => {
+  const $: any = jQuery;
+
   $.fn.rangeSlider = function (options: Config, id: string) {
     const config = { ...defaultConfig, ...options };
-    const anchor: any = document.getElementById(id);
+    const anchor: HTMLElement = document.getElementById(id);
 
     function app(e: any) {
       const model = new Model(config);

@@ -9,9 +9,9 @@ import {
   RANGE,
   LABEL,
   VERTICAL,
-  PERSENT_FROM,
-  PERSENT_TO,
-  PERSENT_SINGLE,
+  PERCENT_FROM,
+  PERCENT_TO,
+  PERCENT_SINGLE,
 } from 'Helpers/constants';
 
 import { forMouse, Shift } from 'Helpers/interface';
@@ -74,13 +74,13 @@ class Presenter {
     const percentage: number = this.model.getPercentageInput(value);
 
     if (elementType === FROM) {
-      this.model.add(percentage, PERSENT_FROM);
+      this.model.add(percentage, PERCENT_FROM);
       this.model.add(value, FROM);
     } else if (elementType === TO) {
-      this.model.add(percentage, PERSENT_TO);
+      this.model.add(percentage, PERCENT_TO);
       this.model.add(value, TO);
     } else if (elementType === SINGLE) {
-      this.model.add(percentage, PERSENT_SINGLE);
+      this.model.add(percentage, PERCENT_SINGLE);
       this.model.add(value, SINGLE);
     }
 
@@ -92,19 +92,19 @@ class Presenter {
 
   private updateView(elementType: string, isInput: boolean): void {
     if (elementType === FROM) {
-      this.view.moveElement(this.model.get(PERSENT_FROM), elementType);
+      this.view.moveElement(this.model.get(PERCENT_FROM), elementType);
     } else if (elementType === TO) {
-      this.view.moveElement(this.model.get(PERSENT_TO), elementType);
+      this.view.moveElement(this.model.get(PERCENT_TO), elementType);
     } else if (elementType === SINGLE) {
-      this.view.moveElement(this.model.get(PERSENT_SINGLE), elementType);
+      this.view.moveElement(this.model.get(PERCENT_SINGLE), elementType);
     }
 
     if (this.model.get(TYPE) === SINGLE) {
-      this.view.changeBar(this.model.get(PERSENT_SINGLE));
+      this.view.changeBar(this.model.get(PERCENT_SINGLE));
     } else {
       this.view.changeBar(
-        this.model.get(PERSENT_FROM),
-        this.model.get(PERSENT_TO)
+        this.model.get(PERCENT_FROM),
+        this.model.get(PERCENT_TO)
       );
     }
 
@@ -173,13 +173,13 @@ class Presenter {
     const value = this.model.getValue(percentage);
 
     if (elementType === FROM) {
-      this.model.add(percentage, PERSENT_FROM);
+      this.model.add(percentage, PERCENT_FROM);
       this.model.add(value, FROM);
     } else if (elementType === TO) {
-      this.model.add(percentage, PERSENT_TO);
+      this.model.add(percentage, PERCENT_TO);
       this.model.add(value, TO);
     } else if (elementType === SINGLE) {
-      this.model.add(percentage, PERSENT_SINGLE);
+      this.model.add(percentage, PERCENT_SINGLE);
       this.model.add(value, SINGLE);
     }
 
@@ -195,13 +195,13 @@ class Presenter {
     percentage = this.model.getPercentage(percentage, elementType);
 
     if (elementType === FROM) {
-      this.model.add(percentage, PERSENT_FROM);
+      this.model.add(percentage, PERCENT_FROM);
       this.model.add(value, FROM);
     } else if (elementType === TO) {
-      this.model.add(percentage, PERSENT_TO);
+      this.model.add(percentage, PERCENT_TO);
       this.model.add(value, TO);
     } else if (elementType === SINGLE) {
-      this.model.add(percentage, PERSENT_SINGLE);
+      this.model.add(percentage, PERCENT_SINGLE);
       this.model.add(value, SINGLE);
     }
 

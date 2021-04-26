@@ -7,9 +7,9 @@ const config: Config = {
   from: 20,
   to: 50,
   step: 100,
-  persentFrom: 0,
-  persentTo: 0,
-  persentSingle: 0,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
   min: 30,
   max: 1000,
   type: 'double',
@@ -38,7 +38,7 @@ describe('Get value', () => {
 
 describe('Get percentage', () => {
   test('should adjust the value', () => {
-    config.persentTo = 70;
+    config.percentTo = 70;
 
     expect(model.getPercentage(33, FROM)).toBe(30);
     expect(model.getPercentage(38, FROM)).toBe(40);
@@ -53,13 +53,13 @@ describe('Get percentage', () => {
   });
 
   test('percentage(from) > to', () => {
-    config.persentTo = 70;
+    config.percentTo = 70;
 
     expect(model.getPercentage(80, FROM)).toBe(70);
   });
 
   test('percentage(to) < from', () => {
-    config.persentFrom = 30;
+    config.percentFrom = 30;
 
     expect(model.getPercentage(20, TO)).toBe(30);
   });
