@@ -23,6 +23,10 @@
       height: 710px;
       width: 10px;
       min-width: 0;
+
+      @media (max-width: $breakpoint-md) {
+        max-height: 300px;
+      }
     }
   }
 
