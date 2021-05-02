@@ -1,16 +1,25 @@
 {
-  "name": "range-slider",
+  "name": "range-slider-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/ts/plugin.ts",
   "scripts": {
     "dev": "webpack-dev-server --mode-development --env development --open --config webpack.development.config.js",
     "build": "webpack --mode-production --env production --config webpack.production.config.js",
     "lint": "eslint src",
     "test": "jest --coverage"
   },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wendivue/range-slider.git"
+  },
   "author": "Vladimir Sakai",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wendivue/range-slider/issues"
+  },
+  "homepage": "https://github.com/wendivue/range-slider#readme",
   "devDependencies": {
     "@types/jest": "^26.0.12",
     "@types/jquery": "^3.5.4",
