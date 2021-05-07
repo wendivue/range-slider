@@ -1,9 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
 
 const PATHS = {
   src: path.join(__dirname, './src'),
@@ -11,7 +9,9 @@ const PATHS = {
 };
 
 const config = {
-  entry: `${PATHS.src}/demo/demo.ts`,
+  entry: {
+    plugin: `${PATHS.src}/ts/plugin.ts`,
+  },
   output: {
     filename: './js/[name].js',
   },
@@ -96,20 +96,10 @@ const config = {
     ],
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-      'window.$': 'jquery',
-    }),
     new CopyPlugin({
       patterns: [{ from: `${PATHS.src}/favicon`, to: './favicon' }],
     }),
     new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'demo.html',
-      template: `${PATHS.src}/demo/demo.html`,
-    }),
   ],
 };
 
