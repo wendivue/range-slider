@@ -1,7 +1,9 @@
-import { Config, Coords, Shift } from 'Helpers/interface';
-import { SINGLE, FROM, TO } from 'Helpers/constants';
+import { Config, Coords, Shift, methodsViewFactory } from 'Helpers/interface';
+import Constants from 'Helpers/enums';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
+
+const { SINGLE, FROM, TO } = Constants;
 
 class View {
   public factory: SingleFactory | IntervalFactory;
@@ -34,13 +36,13 @@ class View {
 
   public labelTo: HTMLInputElement;
 
-  private factoryBar: Record<string, any>;
+  private factoryBar: methodsViewFactory;
 
-  private factoryHandle: Record<string, any>;
+  private factoryHandle: methodsViewFactory;
 
-  private factoryLabel: Record<string, any>;
+  private factoryLabel: methodsViewFactory;
 
-  private factoryInput: Record<string, any>;
+  private factoryInput: methodsViewFactory;
 
   constructor(public config: Config, public app: HTMLElement) {
     this.init();
@@ -102,8 +104,8 @@ class View {
     }
   }
 
-  public checkElementType(element: HTMLElement): string {
-    let elementType: string;
+  public checkElementType(element: HTMLElement): Constants {
+    let elementType: Constants;
     if (element === this.from || element === this.inputFrom) {
       elementType = FROM;
     } else if (element === this.to || element === this.inputTo) {

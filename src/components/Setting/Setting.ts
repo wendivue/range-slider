@@ -1,11 +1,13 @@
 import { Config } from 'Helpers/interface';
-import { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
 import getUniqueID from 'Helpers/helpersFunctions';
 import Presenter from 'Ts/Presenter/Presenter';
 import Model from 'Ts/Model/Model';
 import View from 'Ts/View/View';
 
 import './Setting.scss';
+
+const { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL } = Constants;
 
 class Setting {
   private model = new Model(this.config);

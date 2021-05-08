@@ -1,4 +1,9 @@
-import {
+import Constants from 'Helpers/enums';
+import { forMouse, Shift } from 'Helpers/interface';
+import View from '../View/View';
+import Model from '../Model/Model';
+
+const {
   SINGLE,
   FROM,
   TO,
@@ -12,11 +17,7 @@ import {
   PERCENT_FROM,
   PERCENT_TO,
   PERCENT_SINGLE,
-} from 'Helpers/constants';
-
-import { forMouse, Shift } from 'Helpers/interface';
-import View from '../View/View';
-import Model from '../Model/Model';
+} = Constants;
 
 class Presenter {
   constructor(public model: Model, public view: View) {
@@ -27,7 +28,7 @@ class Presenter {
     );
   }
 
-  private init(type: string, isInput: boolean, isRange: boolean): void {
+  private init(type: Constants, isInput: boolean, isRange: boolean): void {
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -69,7 +70,7 @@ class Presenter {
   private initConfigValue(
     value: number,
     [min, max]: Array<number>,
-    elementType: string
+    elementType: Constants
   ): void {
     const percentage: number = this.model.getPercentageInput(value);
 
@@ -90,7 +91,7 @@ class Presenter {
     this.updateView(elementType, false);
   }
 
-  private updateView(elementType: string, isInput: boolean): void {
+  private updateView(elementType: Constants, isInput: boolean): void {
     if (elementType === FROM) {
       this.view.moveElement(this.model.get(PERCENT_FROM), elementType);
     } else if (elementType === TO) {
@@ -187,9 +188,9 @@ class Presenter {
   }
 
   private inputOnChange(event: MouseEvent): void {
-    const element: any = event.target;
+    const element = event.target as HTMLInputElement;
     const elementType = this.view.checkElementType(element);
-    const value: number = this.model.validateEdgeValue(element.value);
+    const value = this.model.validateEdgeValue(parseFloat(element.value));
 
     let percentage: number = this.model.getPercentageInput(value);
     percentage = this.model.getPercentage(percentage, elementType);

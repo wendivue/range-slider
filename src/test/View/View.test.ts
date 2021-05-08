@@ -1,7 +1,9 @@
 import { JSDOM } from 'jsdom';
 import { Config } from 'Helpers/interface';
-import { FROM, SINGLE, TO } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';
+
+const { FROM, SINGLE, TO } = Constants;
 
 const dom = new JSDOM(
   '<html><body><div id="azx2" class="anchor" style="width: 100px; height: 20px;"></div></body></html>'

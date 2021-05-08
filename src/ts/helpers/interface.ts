@@ -1,18 +1,18 @@
 interface Config {
-  min: number;
-  max: number;
-  single: number;
-  from: number;
-  to: number;
-  step: number;
-  percentFrom: number;
-  percentTo: number;
-  percentSingle: number;
-  type: string;
-  isInput: boolean;
-  isRange: boolean;
-  isLabel: boolean;
-  isVertical: boolean;
+  min?: number;
+  max?: number;
+  single?: number;
+  from?: number;
+  to?: number;
+  step?: number;
+  percentFrom?: number;
+  percentTo?: number;
+  percentSingle?: number;
+  type?: string;
+  isInput?: boolean;
+  isRange?: boolean;
+  isLabel?: boolean;
+  isVertical?: boolean;
 }
 
 interface Coords {
@@ -30,4 +30,11 @@ interface forMouse {
   element: HTMLElement;
 }
 
-export { Config, Coords, Shift, forMouse };
+interface methodsViewFactory {
+  changeBar?(from: number, to?: number): void;
+  moveElement?(percentage: number, elementType?: string): void;
+  changeLabelValue?(fromValue: string, toValue?: string): void;
+  changeValue?(fromValue: string, toValue?: string): void;
+}
+
+export { Config, Coords, Shift, forMouse, methodsViewFactory };

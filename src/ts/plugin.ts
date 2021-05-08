@@ -5,26 +5,25 @@ import Presenter from './Presenter/Presenter';
 import defaultConfig from './Model/defaultConfig';
 
 ((jQuery) => {
-  const $: any = jQuery;
+  const $: JQueryStatic = jQuery;
 
-  $.fn.rangeSlider = function (options: Config, id: string) {
+  $.fn.rangeSlider = function rangeSlider(options: Config, id: string) {
     const config = { ...defaultConfig, ...options };
     const anchor: HTMLElement = document.getElementById(id);
 
-    function app(e: any) {
+    function app() {
       const model = new Model(config);
 
       return new Presenter(model, new View(model.getConfig(), anchor));
     }
 
-    this.each(() => {
-      app($(this).append(`<div id="${id}" class="slider"></div>`));
-    });
+    this.each(() => app());
+
     return this;
   };
 })(jQuery);
 
-function importAll(r: any) {
+function importAll(r: __WebpackModuleApi.RequireContext) {
   r.keys().forEach(r);
 }
 

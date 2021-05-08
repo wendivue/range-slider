@@ -1,4 +1,6 @@
-import { FROM, TO } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
+
+const { FROM, TO } = Constants;
 
 class IntervalHandle {
   private classHandleVertical: string;

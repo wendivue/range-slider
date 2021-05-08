@@ -1,4 +1,6 @@
-import { SINGLE } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
+
+const { SINGLE } = Constants;
 
 class Bar {
   private classBarVertical: string;

@@ -1,5 +1,8 @@
 import { JSDOM } from 'jsdom';
+import Constants from 'Helpers/enums';
 import Bar from 'Ts/View/UI/Bar/Bar';
+
+const { SINGLE, DOUBLE } = Constants;
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;
@@ -13,7 +16,7 @@ const slider = document.querySelector('.slider__wrapper');
 
 describe('doubleBar', () => {
   beforeEach(() => {
-    const doubleBar = new Bar(anchor, false, 'double');
+    const doubleBar = new Bar(anchor, false, DOUBLE);
     doubleBar.changeBar(10, 30);
   });
 
@@ -31,7 +34,7 @@ describe('doubleBar', () => {
 
 describe('SingleBar', () => {
   beforeEach(() => {
-    const singleBar = new Bar(anchor, false, 'single');
+    const singleBar = new Bar(anchor, false, SINGLE);
     singleBar.changeBar(15);
   });
 
@@ -47,7 +50,7 @@ describe('SingleBar', () => {
 
 describe('singleBarVertical', () => {
   beforeEach(() => {
-    const singleBarVertical = new Bar(anchor, true, 'single');
+    const singleBarVertical = new Bar(anchor, true, SINGLE);
     singleBarVertical.changeBar(15);
   });
 
@@ -64,7 +67,7 @@ describe('singleBarVertical', () => {
 
 describe('doubleBarVertical', () => {
   beforeEach(() => {
-    const doubleBarVertical = new Bar(anchor, true, 'double');
+    const doubleBarVertical = new Bar(anchor, true, DOUBLE);
     doubleBarVertical.changeBar(10, 30);
   });
 

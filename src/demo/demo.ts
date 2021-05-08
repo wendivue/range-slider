@@ -2,7 +2,11 @@ import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
 import { Config } from 'Helpers/interface';
 
-declare let $: any;
+declare global {
+  interface JQuery {
+    rangeSlider(options: Config, id: string): void;
+  }
+}
 
 const config1: Config = {
   single: 10,
@@ -63,7 +67,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
   return new Setting(config, anchor);
 }
 
-<any>$('#slider1').rangeSlider(
+$('#slider1').rangeSlider(
   {
     single: 400,
     type: 'single',
@@ -71,7 +75,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
   'slider1'
 );
 
-<any>$('#slider2').rangeSlider(
+$('#slider2').rangeSlider(
   {
     from: 200,
     to: 700,
@@ -81,7 +85,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
   'slider2'
 );
 
-<any>$('#slider3').rangeSlider(
+$('#slider3').rangeSlider(
   {
     from: 60,
     to: 600,

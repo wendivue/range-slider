@@ -1,6 +1,8 @@
 import { Config } from 'Helpers/interface';
-import { FROM, TO, MIN, TYPE, VERTICAL } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
 import Model from 'Ts/Model/Model';
+
+const { FROM, TO, MIN, TYPE, VERTICAL, DOUBLE } = Constants;
 
 const config: Config = {
   single: 20,
@@ -75,7 +77,7 @@ describe('Get percentage(input)', () => {
 describe('Get value from config', () => {
   test('should get value from config', () => {
     expect(model.get(MIN)).toBe(30);
-    expect(model.get(TYPE)).toBe('double');
+    expect(model.get(TYPE)).toBe(DOUBLE);
     expect(model.get(VERTICAL)).toBe(false);
   });
 });

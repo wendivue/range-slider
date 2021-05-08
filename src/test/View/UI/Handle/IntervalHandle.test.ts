@@ -1,6 +1,8 @@
 import { JSDOM } from 'jsdom';
-import { FROM, TO } from 'Helpers/constants';
+import Constants from 'Helpers/enums';
 import IntervalHandle from 'Ts/View/UI/Handle/IntervalHandle';
+
+const { FROM, TO } = Constants;
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;

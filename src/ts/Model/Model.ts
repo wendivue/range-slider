@@ -1,13 +1,7 @@
 import { Config } from 'Helpers/interface';
-import {
-  FROM,
-  TO,
-  MAX,
-  MIN,
-  STEP,
-  PERCENT_FROM,
-  PERCENT_TO,
-} from 'Helpers/constants';
+import Constants from 'Helpers/enums';
+
+const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
 
 class Model {
   public config: Config;
@@ -22,28 +16,28 @@ class Model {
     return this.config;
   }
 
-  public add(value: any, prop: string): void {
+  public add<T>(value: T, prop: Constants): void {
     const obj = this.config;
-    let userObj: Record<string, number> = { value };
+    let userObj: Record<string, T> = { value };
 
-    Object.keys(obj).forEach((key: string) => {
+    Object.keys(obj).forEach((key: Constants) => {
       if (key === prop) userObj = { [key]: value };
     });
 
     this.config = { ...this.config, ...userObj };
   }
 
-  public get(prop: string): any {
-    const obj: any = this.config;
+  public get<T>(prop: Constants): T {
+    const obj = this.config;
     let value;
-    Object.keys(obj).forEach((key: string) => {
-      if (key === prop) value = obj[key];
+    Object.keys(obj).forEach((key: Constants) => {
+      if (key === prop) value = obj[<keyof Config>key];
     });
 
     return value;
   }
 
-  public getPercentage(percentage: number, elementType: string): number {
+  public getPercentage(percentage: number, elementType: Constants): number {
     let value = this.calcPercentageFromStep(this.createStep(), percentage);
     value = this.validateEdgePercentage(value);
     value = this.validateTwoHandle(value, elementType);
@@ -65,8 +59,8 @@ class Model {
   }
 
   private createStep(): Array<number> {
-    let step = this.get(STEP);
-    const max = this.get(MAX);
+    let step: number = this.get(STEP);
+    const max: number = this.get(MAX);
 
     step = this.validateStep(step);
 
@@ -81,7 +75,7 @@ class Model {
 
     array = [0, ...array, max];
 
-    array = array.map((item: number) => (100 * item) / this.get(MAX));
+    array = array.map((item: number) => (100 * item) / <number>this.get(MAX));
 
     return array;
   }
@@ -113,13 +107,14 @@ class Model {
 
   private calcValue(percentage: number): number {
     return (
-      Math.round(((this.get(MAX) - this.get(MIN)) / 100) * percentage) +
-      this.get(MIN)
+      Math.round(
+        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage
+      ) + <number>this.get(MIN)
     );
   }
 
   private calcPercentageInput(value: number): number {
-    return (value * 100) / this.get(MAX);
+    return (value * 100) / <number>this.get(MAX);
   }
 
   private validateEdgePercentage(percentage: number): number {
@@ -137,7 +132,7 @@ class Model {
     return newValue;
   }
 
-  private validateTwoHandle(percentage: number, element: string): number {
+  private validateTwoHandle(percentage: number, element: Constants): number {
     const from: number = this.get(PERCENT_FROM);
     const to: number = this.get(PERCENT_TO);
     let value = percentage;
@@ -158,7 +153,7 @@ class Model {
   }
 
   public validateStep(value: number): number {
-    const max = this.get(MAX);
+    const max: number = this.get(MAX);
     const halfMax = max / 2;
     let step = value;
 
