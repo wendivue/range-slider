@@ -9,6 +9,7 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
+    "strict": true,
     "esModuleInterop": true,
     "module": "es6",
     "target": "es5",
