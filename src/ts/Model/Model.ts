@@ -6,9 +6,7 @@ const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
 class Model {
   public config: Config;
 
-  public options: Config;
-
-  constructor(options: Config) {
+  constructor(public options: Config) {
     this.config = options;
   }
 

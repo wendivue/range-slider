@@ -3,9 +3,9 @@ import Constants from 'Helpers/enums';
 const { FROM, TO } = Constants;
 
 class IntervalHandle {
-  private classHandleVertical: string;
+  private classHandleVertical?: string;
 
-  private classHandleToVertical: string;
+  private classHandleToVertical?: string;
 
   constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;

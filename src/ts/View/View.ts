@@ -6,43 +6,43 @@ import IntervalFactory from './Factories/IntervalFactory';
 const { SINGLE, FROM, TO, DOUBLE } = Constants;
 
 class View {
-  public factory: SingleFactory | IntervalFactory;
+  public factory?: SingleFactory | IntervalFactory;
 
-  public slider: HTMLElement;
+  public slider?: HTMLElement;
 
-  public bar: HTMLElement;
+  public bar?: HTMLElement;
 
-  public single: HTMLElement;
+  public single?: HTMLElement;
 
-  public from: HTMLElement;
+  public from?: HTMLElement;
 
-  public to: HTMLElement;
+  public to?: HTMLElement;
 
-  public handle: HTMLElement;
+  public handle?: HTMLElement;
 
-  public rangeMin: HTMLInputElement;
+  public rangeMin?: HTMLInputElement;
 
-  public rangeMax: HTMLInputElement;
+  public rangeMax?: HTMLInputElement;
 
-  public inputSingle: HTMLInputElement;
+  public inputSingle?: HTMLInputElement;
 
-  public inputFrom: HTMLInputElement;
+  public inputFrom?: HTMLInputElement;
 
-  public inputTo: HTMLInputElement;
+  public inputTo?: HTMLInputElement;
 
-  public labelSingle: HTMLInputElement;
+  public labelSingle?: HTMLInputElement;
 
-  public labelFrom: HTMLInputElement;
+  public labelFrom?: HTMLInputElement;
 
-  public labelTo: HTMLInputElement;
+  public labelTo?: HTMLInputElement;
 
-  private factoryBar: methodsViewFactory;
+  private factoryBar?: methodsViewFactory;
 
-  private factoryHandle: methodsViewFactory;
+  private factoryHandle?: methodsViewFactory;
 
-  private factoryLabel: methodsViewFactory;
+  private factoryLabel?: methodsViewFactory;
 
-  private factoryInput: methodsViewFactory;
+  private factoryInput?: methodsViewFactory;
 
   constructor(public config: Config, public app: HTMLElement) {
     this.init();
@@ -69,6 +69,10 @@ class View {
 
     if (this.config.max === undefined) {
       throw new Error('max не передан');
+    }
+
+    if (this.factory === undefined) {
+      throw new Error('factory не передан');
     }
 
     this.factory.createTemplate(this.app, this.config.isVertical);
@@ -113,8 +117,6 @@ class View {
         const labelSingle = this.app.querySelector(
           '.slider__label-text_single'
         ) as HTMLInputElement;
-
-        if (!labelSingle) throw new Error('.slider__wrapper - не найдено');
 
         this.labelSingle = labelSingle;
       }
@@ -191,7 +193,10 @@ class View {
   }
 
   public moveElement(percentage: number, elementType?: string): void {
-    if (this.factoryHandle.moveElement === undefined) {
+    if (
+      this.factoryHandle === undefined ||
+      this.factoryHandle.moveElement === undefined
+    ) {
       throw new Error('moveElement не передан');
     }
 
@@ -199,7 +204,10 @@ class View {
   }
 
   public changeBar(from: number, to?: number): void {
-    if (this.factoryBar.changeBar === undefined) {
+    if (
+      this.factoryBar === undefined ||
+      this.factoryBar.changeBar === undefined
+    ) {
       throw new Error('changeBar не передан');
     }
 
@@ -207,7 +215,10 @@ class View {
   }
 
   public changeLabelValue(fromValue: string, toValue?: string): void {
-    if (this.factoryLabel.changeLabelValue === undefined) {
+    if (
+      this.factoryLabel === undefined ||
+      this.factoryLabel.changeLabelValue === undefined
+    ) {
       throw new Error('changeLabelValue не передан');
     }
 
@@ -215,7 +226,10 @@ class View {
   }
 
   public changeValue(fromValue: string, toValue?: string): void {
-    if (this.factoryInput.changeValue === undefined) {
+    if (
+      this.factoryInput === undefined ||
+      this.factoryInput.changeValue === undefined
+    ) {
       throw new Error('changeValue не передан');
     }
 
@@ -224,6 +238,9 @@ class View {
 
   public calcPercentage(left: number): number {
     let slider;
+
+    if (this.slider === undefined) throw new Error('slider не передан');
+
     if (this.config.isVertical) {
       slider = this.slider.offsetHeight;
     } else {
@@ -251,6 +268,8 @@ class View {
   }
 
   public getNewShift(event: MouseEvent, shift: Shift): Shift {
+    if (this.slider === undefined) throw new Error('slider не передан');
+
     const sliderCoords = this.getCoords(this.slider);
 
     return {

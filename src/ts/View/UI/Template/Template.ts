@@ -1,5 +1,5 @@
 class Template {
-  private classWrapperVertical: string;
+  private classWrapperVertical?: string;
 
   constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.init();

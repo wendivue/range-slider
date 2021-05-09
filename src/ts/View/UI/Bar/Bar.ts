@@ -3,11 +3,11 @@ import Constants from 'Helpers/enums';
 const { SINGLE } = Constants;
 
 class Bar {
-  private classBarVertical: string;
+  private classBarVertical?: string;
 
-  private classBarSingle: string;
+  private classBarSingle?: string;
 
-  private classBarSingleVertical: string;
+  private classBarSingleVertical?: string;
 
   constructor(
     public anchor: HTMLElement,

@@ -1,7 +1,7 @@
 class SingleHandle {
-  private classHandleSingleVertical: string;
+  private classHandleSingleVertical?: string;
 
-  private classHandleVertical: string;
+  private classHandleVertical?: string;
 
   constructor(public anchor: HTMLElement, public isVertical: boolean) {
     this.anchor = anchor;
