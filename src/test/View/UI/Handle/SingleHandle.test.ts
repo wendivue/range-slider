@@ -11,6 +11,8 @@ anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
 const slider = document.querySelector('.slider__wrapper');
 
+if (!slider) throw new Error('.slider__wrapper - не найдено');
+
 describe('SingleHandle', () => {
   beforeEach(() => {
     const handle = new SingleHandle(anchor, false);
@@ -22,9 +24,12 @@ describe('SingleHandle', () => {
   });
 
   test('change left', () => {
-    const element: HTMLElement = document.querySelector(
+    const element = document.querySelector(
       '.slider__handle_single'
-    );
+    ) as HTMLElement;
+
+    if (!element) throw new Error('.slider__handle_single - не найдено');
+
     expect(element.style.left).toMatch(/10%/);
   });
 });
@@ -40,9 +45,12 @@ describe('SingleHandleVertical', () => {
   });
 
   test('change top', () => {
-    const element: HTMLElement = document.querySelector(
+    const element = document.querySelector(
       '.slider__handle_single'
-    );
+    ) as HTMLElement;
+
+    if (!element) throw new Error('..slider__handle_single - не найдено');
+
     expect(element.style.top).toMatch(/10%/);
   });
 });

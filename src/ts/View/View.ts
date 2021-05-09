@@ -3,7 +3,7 @@ import Constants from 'Helpers/enums';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
-const { SINGLE, FROM, TO } = Constants;
+const { SINGLE, FROM, TO, DOUBLE } = Constants;
 
 class View {
   public factory: SingleFactory | IntervalFactory;
@@ -55,6 +55,22 @@ class View {
   }
 
   private getHtml(): void {
+    if (this.config.isVertical === undefined) {
+      throw new Error('isVertical не передан');
+    }
+
+    if (this.config.type === undefined) {
+      throw new Error('type не передан');
+    }
+
+    if (this.config.min === undefined) {
+      throw new Error('min не передан');
+    }
+
+    if (this.config.max === undefined) {
+      throw new Error('max не передан');
+    }
+
     this.factory.createTemplate(this.app, this.config.isVertical);
     this.factoryBar = this.factory.createBar(
       this.app,
@@ -80,20 +96,75 @@ class View {
   }
 
   private getElement(): void {
-    this.slider = this.app.querySelector('.slider__wrapper');
-    this.bar = this.app.querySelector('.slider__bar');
-    this.single = this.app.querySelector('.slider__handle_single');
-    this.from = this.app.querySelector('.slider__handle_from');
-    this.to = this.app.querySelector('.slider__handle_to');
-    this.handle = this.app.querySelector('.slider__handle');
-    this.labelSingle = this.app.querySelector('.slider__label-text_single');
-    this.labelFrom = this.app.querySelector('.slider__label-text_from');
-    this.labelTo = this.app.querySelector('.slider__label-text_to');
-    this.inputSingle = this.app.querySelector('.input__single');
-    this.inputFrom = this.app.querySelector('.input__from');
-    this.inputTo = this.app.querySelector('.input__to');
-    this.rangeMin = this.app.querySelector('.slider__range-min');
-    this.rangeMax = this.app.querySelector('.slider__range-max');
+    const slider = this.app.querySelector('.slider__wrapper') as HTMLElement;
+    const bar = this.app.querySelector('.slider__bar') as HTMLElement;
+    const handle = this.app.querySelector('.slider__handle') as HTMLElement;
+
+    this.slider = slider;
+    this.bar = bar;
+    this.handle = handle;
+
+    if (this.config.type === SINGLE) {
+      const single = this.app.querySelector(
+        '.slider__handle_single'
+      ) as HTMLElement;
+
+      if (this.config.isLabel) {
+        const labelSingle = this.app.querySelector(
+          '.slider__label-text_single'
+        ) as HTMLInputElement;
+
+        if (!labelSingle) throw new Error('.slider__wrapper - не найдено');
+
+        this.labelSingle = labelSingle;
+      }
+
+      const inputSingle = this.app.querySelector(
+        '.input__single'
+      ) as HTMLInputElement;
+
+      this.inputSingle = inputSingle;
+      this.single = single;
+    } else if (this.config.type === DOUBLE) {
+      const from = this.app.querySelector(
+        '.slider__handle_from'
+      ) as HTMLElement;
+      const to = this.app.querySelector('.slider__handle_to') as HTMLElement;
+
+      const inputFrom = this.app.querySelector(
+        '.input__from'
+      ) as HTMLInputElement;
+      const inputTo = this.app.querySelector('.input__to') as HTMLInputElement;
+
+      if (this.config.isLabel) {
+        const labelFrom = this.app.querySelector(
+          '.slider__label-text_from'
+        ) as HTMLInputElement;
+        const labelTo = this.app.querySelector(
+          '.slider__label-text_to'
+        ) as HTMLInputElement;
+
+        this.labelFrom = labelFrom;
+        this.labelTo = labelTo;
+      }
+
+      this.inputFrom = inputFrom;
+      this.inputTo = inputTo;
+      this.from = from;
+      this.to = to;
+    }
+
+    if (this.config.isRange) {
+      const rangeMin = this.app.querySelector(
+        '.slider__range-min'
+      ) as HTMLInputElement;
+      const rangeMax = this.app.querySelector(
+        '.slider__range-max'
+      ) as HTMLInputElement;
+
+      this.rangeMin = rangeMin;
+      this.rangeMax = rangeMax;
+    }
   }
 
   private createFactory() {
@@ -105,7 +176,7 @@ class View {
   }
 
   public checkElementType(element: HTMLElement): Constants {
-    let elementType: Constants;
+    let elementType: Constants | undefined;
     if (element === this.from || element === this.inputFrom) {
       elementType = FROM;
     } else if (element === this.to || element === this.inputTo) {
@@ -113,22 +184,41 @@ class View {
     } else if (element === this.single || element === this.inputSingle) {
       elementType = SINGLE;
     }
+
+    if (!elementType) throw new Error('elementType - не найдено');
+
     return elementType;
   }
 
   public moveElement(percentage: number, elementType?: string): void {
+    if (this.factoryHandle.moveElement === undefined) {
+      throw new Error('moveElement не передан');
+    }
+
     this.factoryHandle.moveElement(percentage, elementType);
   }
 
   public changeBar(from: number, to?: number): void {
+    if (this.factoryBar.changeBar === undefined) {
+      throw new Error('changeBar не передан');
+    }
+
     this.factoryBar.changeBar(from, to);
   }
 
   public changeLabelValue(fromValue: string, toValue?: string): void {
+    if (this.factoryLabel.changeLabelValue === undefined) {
+      throw new Error('changeLabelValue не передан');
+    }
+
     this.factoryLabel.changeLabelValue(fromValue, toValue);
   }
 
   public changeValue(fromValue: string, toValue?: string): void {
+    if (this.factoryInput.changeValue === undefined) {
+      throw new Error('changeValue не передан');
+    }
+
     this.factoryInput.changeValue(fromValue, toValue);
   }
 

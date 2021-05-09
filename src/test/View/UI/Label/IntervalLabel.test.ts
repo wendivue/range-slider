@@ -15,6 +15,9 @@ anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 const handleFrom = anchor.querySelector('.slider__handle_from');
 const handleTo = anchor.querySelector('.slider__handle_to');
 
+if (!handleFrom) throw new Error('.slider__handle_from - не найдено');
+if (!handleTo) throw new Error('.slider__handle_to - не найдено');
+
 describe('IntervalLabel', () => {
   beforeEach(() => {
     const label = new IntervalLabel(anchor);
@@ -27,13 +30,15 @@ describe('IntervalLabel', () => {
   });
 
   test('change text', () => {
-    const labelFrom: HTMLInputElement = document.querySelector(
+    const labelFrom = document.querySelector(
       '.slider__label-text_from'
-    );
-
-    const labelTo: HTMLInputElement = document.querySelector(
+    ) as HTMLInputElement;
+    const labelTo = document.querySelector(
       '.slider__label-text_to'
-    );
+    ) as HTMLInputElement;
+
+    if (!labelFrom) throw new Error('.slider__label-text_from - не найдено');
+    if (!labelTo) throw new Error('.slider__label-text_to - не найдено');
 
     expect(labelFrom.textContent).toMatch(/10/);
     expect(labelTo.textContent).toMatch(/30/);

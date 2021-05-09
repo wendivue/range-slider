@@ -11,6 +11,8 @@ anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
 const slider = document.querySelector('.slider__wrapper');
 
+if (!slider) throw new Error('.slider__wrapper - не найдено');
+
 describe('SingleInput', () => {
   beforeEach(() => {
     const input = new SingleInput(anchor);
@@ -22,9 +24,11 @@ describe('SingleInput', () => {
   });
 
   test('change value', () => {
-    const inputSingle: HTMLInputElement = document.querySelector(
+    const inputSingle = document.querySelector(
       '.input__single'
-    );
+    ) as HTMLInputElement;
+
+    if (!inputSingle) throw new Error('.input__single - не найдено');
 
     expect(inputSingle.value).toMatch(/10/);
   });

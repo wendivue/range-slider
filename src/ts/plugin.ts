@@ -9,7 +9,9 @@ import defaultConfig from './Model/defaultConfig';
 
   $.fn.rangeSlider = function rangeSlider(options: Config, id: string) {
     const config = { ...defaultConfig, ...options };
-    const anchor: HTMLElement = document.getElementById(id);
+    const anchor = document.getElementById(id) as HTMLElement;
+
+    if (!anchor) throw new Error('anchorId - не передан');
 
     function app() {
       const model = new Model(config);

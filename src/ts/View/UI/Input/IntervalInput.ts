@@ -22,14 +22,23 @@ class IntervalInput {
       `;
 
     const slider = anchor.querySelector('.slider__wrapper');
+
+    if (!slider) throw new Error('.slider__wrapper - не найдено');
+
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
 
   public changeValue(fromValue: string, toValue?: string): void {
-    const inputFrom: HTMLInputElement = this.anchor.querySelector(
+    const inputFrom = this.anchor.querySelector(
       '.input__from'
-    );
-    const inputTo: HTMLInputElement = this.anchor.querySelector('.input__to');
+    ) as HTMLInputElement;
+    const inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
+
+    if (!inputFrom) throw new Error('.input__from - не найдено');
+    if (!inputTo) throw new Error('.input__to - не найдено');
+    if (fromValue === undefined || toValue === undefined) {
+      throw new Error('fromValue || toValue не передан');
+    }
 
     inputFrom.value = fromValue;
     inputTo.value = toValue;

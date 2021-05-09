@@ -29,6 +29,22 @@ class Presenter {
   }
 
   private init(type: Constants, isInput: boolean, isRange: boolean): void {
+    if (this.view.config.isVertical === undefined) {
+      throw new Error('isVertical не передан');
+    }
+
+    if (this.view.config.type === undefined) {
+      throw new Error('type не передан');
+    }
+
+    if (this.view.config.min === undefined) {
+      throw new Error('min не передан');
+    }
+
+    if (this.view.config.max === undefined) {
+      throw new Error('max не передан');
+    }
+
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),

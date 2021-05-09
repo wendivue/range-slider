@@ -56,7 +56,10 @@ class Setting {
     `;
 
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
-    this.setting = document.getElementById(settingId);
+    const setting = document.getElementById(settingId) as HTMLElement;
+    this.setting = setting;
+
+    if (!this.setting) throw new Error('setting id - не найдено');
   }
 
   private addChecked(): Array<string> {
@@ -86,9 +89,9 @@ class Setting {
   }
 
   public bindEventInput(): void {
-    const input: HTMLInputElement = this.setting.querySelector(
+    const input = this.setting.querySelector(
       '.setting__input'
-    );
+    ) as HTMLInputElement;
 
     input.addEventListener('change', this.changeStep.bind(this));
   }
@@ -121,6 +124,9 @@ class Setting {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);
     const { max } = this.config;
+
+    if (max === undefined) throw new Error('max не передан');
+
     const halfMax = max / 2;
     if (step > halfMax) step = halfMax;
 

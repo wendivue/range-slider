@@ -16,13 +16,18 @@ class SingleInput {
     `;
 
     const slider = anchor.querySelector('.slider__wrapper');
+
+    if (!slider) throw new Error('.slider__wrapper - не найдено');
+
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
 
   public changeValue(fromValue: string): void {
-    const inputSingle: HTMLInputElement = this.anchor.querySelector(
+    const inputSingle = this.anchor.querySelector(
       '.input__single'
-    );
+    ) as HTMLInputElement;
+
+    if (!inputSingle) throw new Error('.input__single - не найдено');
 
     inputSingle.value = fromValue;
   }

@@ -23,6 +23,8 @@ class IntervalHandle {
       `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');
 
+    if (!slider) throw new Error('.slider__wrapper - не найдено');
+
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
 
@@ -32,8 +34,13 @@ class IntervalHandle {
   }
 
   public moveElement(percentage: number, elementType: string): void {
-    const from: HTMLElement = this.anchor.querySelector('.slider__handle_from');
-    const to: HTMLElement = this.anchor.querySelector('.slider__handle_to');
+    const from = this.anchor.querySelector(
+      '.slider__handle_from'
+    ) as HTMLElement;
+    const to = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
+
+    if (!from) throw new Error('.slider__handle_from - не найдено');
+    if (!to) throw new Error('.slider__handle_to - не найдено');
 
     if (this.isVertical) {
       if (elementType === FROM) {

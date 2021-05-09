@@ -30,9 +30,12 @@ class Model {
   public get<T>(prop: Constants): T {
     const obj = this.config;
     let value;
+
     Object.keys(obj).forEach((key: Constants) => {
       if (key === prop) value = obj[<keyof Config>key];
     });
+
+    if (value === undefined) throw new Error('value не передан');
 
     return value;
   }
@@ -84,7 +87,7 @@ class Model {
     array: Array<number>,
     percentage: number
   ): number {
-    let newPercentage: number;
+    let newPercentage: number | undefined;
 
     array.map((item: number) => {
       if (item === 0) {
@@ -102,6 +105,9 @@ class Model {
 
       return newPercentage;
     });
+
+    if (newPercentage === undefined) throw new Error('value не передан');
+
     return newPercentage;
   }
 
@@ -127,8 +133,8 @@ class Model {
 
   public validateEdgeValue(value: number): number {
     let newValue = value;
-    if (value < this.get(MIN)) newValue = this.get(MIN);
-    if (value > this.get(MAX)) newValue = this.get(MAX);
+    if (value < <number>this.get(MIN)) newValue = this.get(MIN);
+    if (value > <number>this.get(MAX)) newValue = this.get(MAX);
     return newValue;
   }
 

@@ -14,6 +14,8 @@ anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
 const slider = document.querySelector('.slider__wrapper');
 
+if (!slider) throw new Error('.slider__wrapper - не найдено');
+
 describe('doubleBar', () => {
   beforeEach(() => {
     const doubleBar = new Bar(anchor, false, DOUBLE);
@@ -25,7 +27,7 @@ describe('doubleBar', () => {
   });
 
   test('change width & left', () => {
-    const element: HTMLElement = document.querySelector('.slider__bar');
+    const element = document.querySelector('.slider__bar') as HTMLElement;
 
     expect(element.style.width).toMatch(/20%/);
     expect(element.style.left).toMatch(/10%/);
@@ -43,7 +45,7 @@ describe('SingleBar', () => {
   });
 
   test('change width', () => {
-    const element: HTMLElement = document.querySelector('.slider__bar');
+    const element = document.querySelector('.slider__bar') as HTMLElement;
     expect(element.style.width).toMatch(/15%/);
   });
 });
@@ -59,7 +61,9 @@ describe('singleBarVertical', () => {
   });
 
   test('change height', () => {
-    const element: HTMLElement = document.querySelector('.slider__bar');
+    const element = document.querySelector('.slider__bar') as HTMLElement;
+
+    if (!element) throw new Error('.slider__bar - не найдено');
 
     expect(element.style.height).toMatch(/15%/);
   });
@@ -76,7 +80,9 @@ describe('doubleBarVertical', () => {
   });
 
   test('change height & top', () => {
-    const element: HTMLElement = document.querySelector('.slider__bar');
+    const element = document.querySelector('.slider__bar') as HTMLElement;
+
+    if (!element) throw new Error('.slider__bar - не найдено');
 
     expect(element.style.height).toMatch(/20%/);
     expect(element.style.top).toMatch(/10%/);

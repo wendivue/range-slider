@@ -59,9 +59,13 @@ const config3: Config = {
   isVertical: true,
 };
 
-const anchor1: HTMLElement = document.getElementById('slider1');
-const anchor2: HTMLElement = document.getElementById('slider2');
-const anchor3: HTMLElement = document.getElementById('slider3');
+const anchor1 = document.getElementById('slider1') as HTMLElement;
+const anchor2 = document.getElementById('slider2') as HTMLElement;
+const anchor3 = document.getElementById('slider3') as HTMLElement;
+
+if (!anchor1) throw new Error('#slider1 - не найдено');
+if (!anchor2) throw new Error('#slider2 - не найдено');
+if (!anchor3) throw new Error('#slider3 - не найдено');
 
 function createSetting(config: Config, anchor: HTMLElement) {
   return new Setting(config, anchor);

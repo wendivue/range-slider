@@ -11,6 +11,8 @@ anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
 const slider = document.querySelector('.slider__wrapper');
 
+if (!slider) throw new Error('.slider__wrapper - не найдено');
+
 describe('IntervalInput', () => {
   beforeEach(() => {
     const input = new IntervalInput(anchor);
@@ -22,8 +24,13 @@ describe('IntervalInput', () => {
   });
 
   test('change value', () => {
-    const inputFrom: HTMLInputElement = document.querySelector('.input__from');
-    const inputTo: HTMLInputElement = document.querySelector('.input__to');
+    const inputFrom = document.querySelector(
+      '.input__from'
+    ) as HTMLInputElement;
+    const inputTo = document.querySelector('.input__to') as HTMLInputElement;
+
+    if (!inputFrom) throw new Error('.input__from - не найдено');
+    if (!inputTo) throw new Error('.input__to - не найдено');
 
     expect(inputFrom.value).toMatch(/10/);
     expect(inputTo.value).toMatch(/20/);

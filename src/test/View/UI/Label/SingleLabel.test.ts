@@ -11,6 +11,8 @@ anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
 const handleSingle = anchor.querySelector('.slider__handle_single');
 
+if (!handleSingle) throw new Error('.slider__handle_single - не найдено');
+
 describe('SingleLabel', () => {
   beforeEach(() => {
     const label = new SingleLabel(anchor);
@@ -22,9 +24,12 @@ describe('SingleLabel', () => {
   });
 
   test('change text', () => {
-    const labelSingle: HTMLInputElement = document.querySelector(
+    const labelSingle = document.querySelector(
       '.slider__label-text_single'
-    );
+    ) as HTMLInputElement;
+
+    if (!labelSingle)
+      throw new Error('.slider__label-text_single - не найдено');
 
     expect(labelSingle.textContent).toMatch(/10/);
   });

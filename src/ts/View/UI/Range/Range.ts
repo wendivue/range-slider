@@ -22,6 +22,9 @@ class Range {
     `;
 
     const slider = anchor.querySelector('.slider__wrapper');
+
+    if (!slider) throw new Error('.slider__wrapper - не найдено');
+
     slider.insertAdjacentHTML('afterend', rangeTemplate);
   }
 }

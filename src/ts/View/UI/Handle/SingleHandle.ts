@@ -18,6 +18,8 @@ class SingleHandle {
     ${this.classHandleSingleVertical}"></div>`;
     const slider = anchor.querySelector('.slider__wrapper');
 
+    if (!slider) throw new Error('.slider__wrapper - не найдено');
+
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
 
@@ -29,9 +31,11 @@ class SingleHandle {
   }
 
   public moveElement(percentage: number): void {
-    const single: HTMLElement = this.anchor.querySelector(
+    const single = this.anchor.querySelector(
       '.slider__handle_single'
-    );
+    ) as HTMLElement;
+
+    if (!single) throw new Error('.slider__handle_single - не найдено');
 
     if (this.isVertical) {
       single.style.top = `${percentage}%`;

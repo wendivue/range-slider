@@ -14,6 +14,8 @@ anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
 const slider = document.querySelector('.slider__wrapper');
 
+if (!slider) throw new Error('.slider__wrapper - не найдено');
+
 describe('handleFrom', () => {
   beforeEach(() => {
     const handleFrom = new IntervalHandle(anchor, false);
@@ -25,7 +27,9 @@ describe('handleFrom', () => {
   });
 
   test('change left', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle_from');
+    const element = document.querySelector(
+      '.slider__handle_from'
+    ) as HTMLElement;
     expect(element.style.left).toMatch(/10%/);
   });
 });
@@ -41,7 +45,7 @@ describe('handleTo', () => {
   });
 
   test('change left', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle_to');
+    const element = document.querySelector('.slider__handle_to') as HTMLElement;
     expect(element.style.left).toMatch(/10%/);
   });
 });
@@ -57,7 +61,9 @@ describe('handleFromVertical', () => {
   });
 
   test('change top', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle_from');
+    const element = document.querySelector(
+      '.slider__handle_from'
+    ) as HTMLElement;
     expect(element.style.top).toMatch(/10%/);
   });
 });
@@ -73,7 +79,10 @@ describe('handleToVertical', () => {
   });
 
   test('change top', () => {
-    const element: HTMLElement = document.querySelector('.slider__handle_to');
+    const element = document.querySelector('.slider__handle_to') as HTMLElement;
+
+    if (!element) throw new Error('.slider__handle_to - не найдено');
+
     expect(element.style.top).toMatch(/10%/);
   });
 });
