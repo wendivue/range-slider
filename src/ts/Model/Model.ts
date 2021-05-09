@@ -20,8 +20,8 @@ class Model {
     const obj = this.config;
     let userObj: Record<string, T> = { value };
 
-    Object.keys(obj).forEach((key: Constants) => {
-      if (key === prop) userObj = { [key]: value };
+    Object.keys(obj).forEach((key) => {
+      if (key === prop) userObj = { [<keyof Config>key]: value };
     });
 
     this.config = { ...this.config, ...userObj };
@@ -31,7 +31,7 @@ class Model {
     const obj = this.config;
     let value;
 
-    Object.keys(obj).forEach((key: Constants) => {
+    Object.keys(obj).forEach((key) => {
       if (key === prop) value = obj[<keyof Config>key];
     });
 

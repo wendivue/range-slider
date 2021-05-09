@@ -96,7 +96,7 @@ class Setting {
     input.addEventListener('change', this.changeStep.bind(this));
   }
 
-  private changePresenter(event: MouseEvent) {
+  private changePresenter(event: Event) {
     const element = event.target as HTMLInputElement;
     const name = element.getAttribute('name');
     const check = element.checked;
@@ -120,7 +120,7 @@ class Setting {
     this.createPresenter();
   }
 
-  private changeStep(event: MouseEvent) {
+  private changeStep(event: Event) {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);
     const { max } = this.config;

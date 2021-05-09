@@ -203,7 +203,7 @@ class Presenter {
     this.updateView(elementType, false);
   }
 
-  private inputOnChange(event: MouseEvent): void {
+  private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     const elementType = this.view.checkElementType(element);
     const value = this.model.validateEdgeValue(parseFloat(element.value));
@@ -225,7 +225,7 @@ class Presenter {
     this.updateView(elementType, true);
   }
 
-  private rangeOnChange(event: MouseEvent): void {
+  private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     let min: number;
     let max: number;
