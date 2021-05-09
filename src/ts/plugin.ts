@@ -19,7 +19,7 @@ import defaultConfig from './Model/defaultConfig';
       return new Presenter(model, new View(model.getConfig(), anchor));
     }
 
-    this.each(() => app());
+    app();
 
     return this;
   };
