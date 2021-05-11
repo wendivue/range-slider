@@ -9,7 +9,7 @@ const sliderTemplate = `<div class="slider__wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const slider = document.querySelector('.slider__wrapper');
+const slider = document.querySelector('.slider__wrapper') as HTMLElement;
 
 if (!slider) throw new Error('.slider__wrapper - не найдено');
 
@@ -34,5 +34,24 @@ describe('IntervalInput', () => {
 
     expect(inputFrom.value).toMatch(/10/);
     expect(inputTo.value).toMatch(/20/);
+  });
+});
+
+describe('Input undefined', () => {
+  beforeEach(() => {
+    const input = new IntervalInput(anchor);
+    input.changeValue('10', '20');
+  });
+
+  afterEach(() => {
+    slider.innerHTML = '';
+  });
+
+  test('to undefined', () => {
+    const input = new IntervalInput(anchor);
+    const item = () => input.changeValue('10', undefined);
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('toValue не передан');
   });
 });

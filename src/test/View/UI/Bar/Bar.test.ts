@@ -88,3 +88,22 @@ describe('doubleBarVertical', () => {
     expect(element.style.top).toMatch(/10%/);
   });
 });
+
+describe('Bar undefined', () => {
+  beforeEach(() => {
+    const doubleBar = new Bar(anchor, false, DOUBLE);
+    doubleBar.changeBar(10, 30);
+  });
+
+  afterEach(() => {
+    slider.innerHTML = '';
+  });
+
+  test('to undefined', () => {
+    const doubleBar = new Bar(anchor, false, DOUBLE);
+    const bar = () => doubleBar.changeBar(10, undefined);
+
+    expect(bar).toThrow(Error);
+    expect(bar).toThrow('to не передан');
+  });
+});

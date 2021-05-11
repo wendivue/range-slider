@@ -2,7 +2,7 @@ import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Model from 'Ts/Model/Model';
 
-const { FROM, TO, MIN, TYPE, VERTICAL, DOUBLE } = Constants;
+const { FROM, TO, MIN, TYPE, VERTICAL, DOUBLE, SINGLE } = Constants;
 
 const config: Config = {
   single: 20,
@@ -21,7 +21,7 @@ const config: Config = {
   isVertical: false,
 };
 
-const model = new Model(config);
+let model = new Model(config);
 
 describe('Get value', () => {
   test('should convert percent to value', () => {
@@ -79,5 +79,37 @@ describe('Get value from config', () => {
     expect(model.get(MIN)).toBe(30);
     expect(model.get(TYPE)).toBe(DOUBLE);
     expect(model.get(VERTICAL)).toBe(false);
+  });
+});
+
+describe('Set value from config', () => {
+  afterEach(() => {
+    model = new Model(config);
+  });
+
+  test('should get value from config', () => {
+    model.add(60, MIN);
+    model.add(SINGLE, TYPE);
+    model.add(true, VERTICAL);
+
+    expect(model.get(MIN)).toBe(60);
+    expect(model.get(TYPE)).toBe(SINGLE);
+    expect(model.get(VERTICAL)).toBe(true);
+  });
+});
+
+describe('Validate step', () => {
+  test('value > 0.5', () => {
+    expect(model.validateStep(0.3)).toBe(0.5);
+  });
+
+  test('value > max', () => {
+    expect(model.validateStep(600)).toBe(500);
+  });
+});
+
+describe('Config', () => {
+  test('get config', () => {
+    expect(model.getConfig()).toBe(config);
   });
 });
