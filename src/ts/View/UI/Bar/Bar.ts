@@ -25,9 +25,7 @@ class Bar {
   private createHtml(anchor: HTMLElement): void {
     const barTemplate = `<div class="slider__bar ${this.classBarVertical}
     ${this.classBarSingle} ${this.classBarSingleVertical}"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterbegin', barTemplate);
   }
@@ -42,15 +40,11 @@ class Bar {
   public changeBar(from: number, to?: number): void {
     const bar = this.anchor.querySelector('.slider__bar') as HTMLElement;
 
-    if (!bar) throw new Error('.slider__bar - не найдено');
-
     if (this.isVertical) {
       if (this.type === SINGLE) {
         bar.style.height = `${from}%`;
       } else {
-        if (from === undefined || to === undefined) {
-          throw new Error('from || to не передан');
-        }
+        if (to === undefined) throw new Error('to не передан');
 
         bar.style.height = `${to - from}%`;
         bar.style.top = `${from}%`;
@@ -58,9 +52,7 @@ class Bar {
     } else if (this.type === SINGLE) {
       bar.style.width = `${from}%`;
     } else {
-      if (from === undefined || to === undefined) {
-        throw new Error('from || to не передан');
-      }
+      if (to === undefined) throw new Error('to не передан');
 
       bar.style.width = `${to - from}%`;
       bar.style.left = `${from}%`;

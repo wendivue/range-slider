@@ -15,9 +15,7 @@ class SingleInput {
     </div>
     `;
 
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
@@ -26,8 +24,6 @@ class SingleInput {
     const inputSingle = this.anchor.querySelector(
       '.input__single'
     ) as HTMLInputElement;
-
-    if (!inputSingle) throw new Error('.input__single - не найдено');
 
     inputSingle.value = fromValue;
   }

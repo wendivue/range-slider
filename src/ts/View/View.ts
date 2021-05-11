@@ -36,13 +36,13 @@ class View {
 
   public labelTo?: HTMLInputElement;
 
-  private factoryBar?: methodsViewFactory;
+  public factoryBar?: methodsViewFactory;
 
-  private factoryHandle?: methodsViewFactory;
+  public factoryHandle?: methodsViewFactory;
 
-  private factoryLabel?: methodsViewFactory;
+  public factoryLabel?: methodsViewFactory;
 
-  private factoryInput?: methodsViewFactory;
+  public factoryInput?: methodsViewFactory;
 
   constructor(public config: Config, public app: HTMLElement) {
     this.init();

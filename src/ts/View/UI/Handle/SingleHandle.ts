@@ -16,9 +16,7 @@ class SingleHandle {
   private createHtml(anchor: HTMLElement): void {
     const handleTemplate = `<div class="slider__handle slider__handle_single ${this.classHandleVertical} 
     ${this.classHandleSingleVertical}"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
@@ -34,8 +32,6 @@ class SingleHandle {
     const single = this.anchor.querySelector(
       '.slider__handle_single'
     ) as HTMLElement;
-
-    if (!single) throw new Error('.slider__handle_single - не найдено');
 
     if (this.isVertical) {
       single.style.top = `${percentage}%`;

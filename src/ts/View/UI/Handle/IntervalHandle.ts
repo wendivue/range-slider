@@ -21,9 +21,7 @@ class IntervalHandle {
     const handleTemplate =
       `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
       `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
@@ -38,9 +36,6 @@ class IntervalHandle {
       '.slider__handle_from'
     ) as HTMLElement;
     const to = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
-
-    if (!from) throw new Error('.slider__handle_from - не найдено');
-    if (!to) throw new Error('.slider__handle_to - не найдено');
 
     if (this.isVertical) {
       if (elementType === FROM) {

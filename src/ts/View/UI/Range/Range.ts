@@ -21,9 +21,7 @@ class Range {
     </div>
     `;
 
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', rangeTemplate);
   }

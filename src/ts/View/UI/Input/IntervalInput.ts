@@ -21,9 +21,7 @@ class IntervalInput {
       </div>
       `;
 
-    const slider = anchor.querySelector('.slider__wrapper');
-
-    if (!slider) throw new Error('.slider__wrapper - не найдено');
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
@@ -34,11 +32,7 @@ class IntervalInput {
     ) as HTMLInputElement;
     const inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
 
-    if (!inputFrom) throw new Error('.input__from - не найдено');
-    if (!inputTo) throw new Error('.input__to - не найдено');
-    if (fromValue === undefined || toValue === undefined) {
-      throw new Error('fromValue || toValue не передан');
-    }
+    if (toValue === undefined) throw new Error('toValue не передан');
 
     inputFrom.value = fromValue;
     inputTo.value = toValue;
