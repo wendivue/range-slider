@@ -12,12 +12,12 @@ class Range {
     const rangeTemplate = `
     <div class="slider__wrapper-input">
       <label class="slider__title-input" for="${minId}">Min</label>
-      <input id="${minId}" type="text" class="input slider__range slider__range-min" value=${min} >
+      <input id="${minId}" type="number" class="input slider__range slider__range-min" value=${min} >
     </div>
 
     <div class="slider__wrapper-input">
       <label class="slider__title-input" for="${maxId}">Max</label>
-      <input id="${maxId}" type="text" class="input slider__range slider__range-max" value=${max} >
+      <input id="${maxId}" type="number" class="input slider__range slider__range-max" value=${max} >
     </div>
     `;
 

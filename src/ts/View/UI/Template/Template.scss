@@ -163,4 +163,13 @@
   color: $dark-shade-75;
   border: 1px solid rgba(31, 32, 65, 0.25);
   border-radius: 4px;
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 }

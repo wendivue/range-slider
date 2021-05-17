@@ -11,7 +11,7 @@ class SingleInput {
     const inputTemplate = `
     <div class="slider__wrapper-input">
       <label class="slider__title-input" for="${singleId}">From</label>
-      <input id="${singleId}" type="text" class="input input__single">
+      <input id="${singleId}" type="number" class="input input__single">
     </div>
     `;
 

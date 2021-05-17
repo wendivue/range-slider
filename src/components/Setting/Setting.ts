@@ -49,7 +49,7 @@ class Setting {
 
         <div class="setting__wrapper-input">
         <label class="setting__title-input" for="${stepId}">Step</label>
-          <input id="${stepId}" type="text" class="input setting__input" value=${this.config.step}>
+          <input id="${stepId}" type="number" class="input setting__input" value=${this.config.step}>
         </div>
       </div>
     </div>

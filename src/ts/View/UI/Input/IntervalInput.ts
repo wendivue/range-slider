@@ -12,12 +12,12 @@ class IntervalInput {
     const inputTemplate = `
       <div class="slider__wrapper-input">
         <label class="slider__title-input" for="${fromId}">From</label>
-        <input id="${fromId}" type="text" class="input input__from">
+        <input id="${fromId}" type="number" class="input input__from">
       </div>
 
       <div class="slider__wrapper-input">
         <label class="slider__title-input" for="${toId}">To</label>
-        <input id="${toId}" type="text" class="input input__to">
+        <input id="${toId}" type="number" class="input input__to">
       </div>
       `;
 
