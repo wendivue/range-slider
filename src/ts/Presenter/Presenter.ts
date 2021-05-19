@@ -171,7 +171,6 @@ class Presenter {
   }
 
   private handleMouseDown(event: MouseEvent): void {
-    event.preventDefault();
     const element = event.target as HTMLElement;
     const shift: Shift = this.view.getShift(event, element);
 
@@ -232,7 +231,9 @@ class Presenter {
   private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     const elementType = this.view.checkElementType(element);
-    const value = this.model.validateEdgeValue(parseFloat(element.value));
+    let value = this.model.validateEdgeValue(parseFloat(element.value));
+    value = this.model.validateTwoHandleValue(value, elementType);
+    element.value = value.toString();
 
     let percentage: number = this.model.getPercentageInput(value);
     percentage = this.model.getPercentage(percentage, elementType);
@@ -257,10 +258,14 @@ class Presenter {
     let max: number;
 
     if (element === this.view.rangeMin) {
-      min = parseFloat(this.view.rangeMin.value);
+      min = Math.abs(parseFloat(this.view.rangeMin.value));
+      min = this.model.validateRange(min, MIN);
+      this.view.rangeMin.value = min.toString();
       this.model.add(min, MIN);
     } else if (element === this.view.rangeMax) {
-      max = parseFloat(this.view.rangeMax.value);
+      max = Math.abs(parseFloat(this.view.rangeMax.value));
+      max = this.model.validateRange(max, MAX);
+      this.view.rangeMax.value = max.toString();
       this.model.add(max, MAX);
     }
   }

@@ -136,7 +136,7 @@ class Model {
     return newValue;
   }
 
-  public validateTwoHandle(percentage: number, element: Constants): number {
+  private validateTwoHandle(percentage: number, element: Constants): number {
     const from: number = this.get(PERCENT_FROM);
     const to: number = this.get(PERCENT_TO);
     let value = percentage;
@@ -164,6 +164,42 @@ class Model {
     if (step > halfMax) step = halfMax;
     if (step < 0.5) step = 0.5;
     return step;
+  }
+
+  public validateRange(value: number, type: Constants): number {
+    const max: number = this.get(MAX);
+    const min: number = this.get(MIN);
+    const step: number = this.get(STEP);
+    let newValue = value;
+
+    if (type === MAX && value < min) newValue = min + step;
+    if (type === MIN && value > max) newValue = max - step;
+    if (type === MAX && value < step) newValue = step * 2;
+
+    return newValue;
+  }
+
+  public validateTwoHandleValue(
+    percentage: number,
+    element: Constants
+  ): number {
+    const from: number = this.get(FROM);
+    const to: number = this.get(TO);
+    let value = percentage;
+
+    if (element === FROM) {
+      if (percentage > to) {
+        value = to;
+      }
+    }
+
+    if (element === TO) {
+      if (percentage < from) {
+        value = from;
+      }
+    }
+
+    return value;
   }
 }
 

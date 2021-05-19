@@ -133,8 +133,10 @@ class Setting {
 
     const halfMax = max / 2;
     if (step > halfMax) step = halfMax;
+    if (!step) step = 0.5;
 
     step = this.model.validateStep(step);
+    element.value = step.toString();
     this.model.add(step, STEP);
 
     this.createPresenter();
