@@ -6,8 +6,12 @@ import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
 
 class IntervalFactory {
-  public createTemplate(anchor: HTMLElement, isVertical: boolean): Template {
-    return new Template(anchor, isVertical);
+  public createTemplate(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: string
+  ): Template {
+    return new Template(anchor, isVertical, type);
   }
 
   public createBar(

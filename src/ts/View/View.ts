@@ -36,6 +36,10 @@ class View {
 
   public labelTo?: HTMLInputElement;
 
+  public sliderSingle?: HTMLElement;
+
+  public sliderDouble?: HTMLElement;
+
   public factoryBar?: methodsViewFactory;
 
   public factoryHandle?: methodsViewFactory;
@@ -75,7 +79,11 @@ class View {
       throw new Error('factory не передан');
     }
 
-    this.factory.createTemplate(this.app, this.config.isVertical);
+    this.factory.createTemplate(
+      this.app,
+      this.config.isVertical,
+      this.config.type
+    );
     this.factoryBar = this.factory.createBar(
       this.app,
       this.config.isVertical,
@@ -125,8 +133,13 @@ class View {
         '.input__single'
       ) as HTMLInputElement;
 
+      const sliderSingle = this.app.querySelector(
+        '.slider__wrapper_single'
+      ) as HTMLElement;
+
       this.inputSingle = inputSingle;
       this.single = single;
+      this.sliderSingle = sliderSingle;
     } else if (this.config.type === DOUBLE) {
       const from = this.app.querySelector(
         '.slider__handle_from'
@@ -150,6 +163,11 @@ class View {
         this.labelTo = labelTo;
       }
 
+      const sliderDouble = this.app.querySelector(
+        '.slider__wrapper_double'
+      ) as HTMLElement;
+
+      this.sliderDouble = sliderDouble;
       this.inputFrom = inputFrom;
       this.inputTo = inputTo;
       this.from = from;
@@ -179,11 +197,19 @@ class View {
 
   public checkElementType(element: HTMLElement): Constants {
     let elementType: Constants | undefined;
-    if (element === this.from || element === this.inputFrom) {
+    if (
+      element === this.from ||
+      element === this.inputFrom ||
+      element === this.sliderDouble
+    ) {
       elementType = FROM;
     } else if (element === this.to || element === this.inputTo) {
       elementType = TO;
-    } else if (element === this.single || element === this.inputSingle) {
+    } else if (
+      element === this.single ||
+      element === this.inputSingle ||
+      element === this.sliderSingle
+    ) {
       elementType = SINGLE;
     }
 

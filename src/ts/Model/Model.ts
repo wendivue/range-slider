@@ -136,7 +136,7 @@ class Model {
     return newValue;
   }
 
-  private validateTwoHandle(percentage: number, element: Constants): number {
+  public validateTwoHandle(percentage: number, element: Constants): number {
     const from: number = this.get(PERCENT_FROM);
     const to: number = this.get(PERCENT_TO);
     let value = percentage;

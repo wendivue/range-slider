@@ -6,8 +6,12 @@ import SingleInput from 'UI/Input/SingleInput';
 import Bar from 'UI/Bar/Bar';
 
 class SingleFactory {
-  public createTemplate(anchor: HTMLElement, isVertical: boolean): Template {
-    return new Template(anchor, isVertical);
+  public createTemplate(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: string
+  ): Template {
+    return new Template(anchor, isVertical, type);
   }
 
   public createBar(

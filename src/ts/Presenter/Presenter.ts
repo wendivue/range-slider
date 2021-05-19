@@ -37,6 +37,8 @@ class Presenter {
 
     if (type === SINGLE) {
       if (this.view.single === undefined) throw new Error('single не передан');
+      if (this.view.sliderSingle === undefined)
+        throw new Error('sliderSingle не передан');
 
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -44,10 +46,13 @@ class Presenter {
         SINGLE
       );
 
+      this.bindHandleEvents(this.view.sliderSingle);
       this.bindHandleEvents(this.view.single);
     } else {
       if (this.view.from === undefined) throw new Error('from не передан');
       if (this.view.to === undefined) throw new Error('to не передан');
+      if (this.view.sliderDouble === undefined)
+        throw new Error('sliderDouble не передан');
 
       this.initConfigValue(
         this.model.get(FROM),
@@ -60,6 +65,7 @@ class Presenter {
         TO
       );
 
+      this.bindHandleEvents(this.view.sliderDouble);
       this.bindHandleEvents(this.view.from);
       this.bindHandleEvents(this.view.to);
     }
@@ -165,6 +171,7 @@ class Presenter {
   }
 
   private handleMouseDown(event: MouseEvent): void {
+    event.preventDefault();
     const element = event.target as HTMLElement;
     const shift: Shift = this.view.getShift(event, element);
 
@@ -176,10 +183,16 @@ class Presenter {
     const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
 
     const onMouseUp = () => {
+      if (forMouseMove.element === this.view.slider) {
+        document.removeEventListener('mousedown', handleMouseMove);
+      }
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
 
+    if (forMouseMove.element === this.view.slider) {
+      document.addEventListener('mousedown', handleMouseMove);
+    }
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
@@ -187,7 +200,11 @@ class Presenter {
   private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {
     let percentage: number;
     const elementType = this.view.checkElementType(forMouseMove.element);
-    const newShift = this.view.getNewShift(event, forMouseMove.shift);
+    let newShift = this.view.getNewShift(event, forMouseMove.shift);
+
+    if (forMouseMove.element === this.view.slider) {
+      newShift = this.view.getShift(event, forMouseMove.element);
+    }
 
     if (this.model.get(VERTICAL)) {
       percentage = this.view.calcPercentage(newShift.y);
