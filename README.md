@@ -30,6 +30,14 @@
 
 ### Инициализация слайдера<br/>
 
+```js
+import 'range-slider-ts';
+```
+
+```scss
+@import 'range-slider-ts/dist/plugin'; //css
+```
+
 ```html
 <div id="slider" class="slider"></div>
 ```
