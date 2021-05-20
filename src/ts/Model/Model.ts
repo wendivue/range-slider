@@ -62,10 +62,13 @@ class Model {
   private createStep(): Array<number> {
     let step: number = this.get(STEP);
     const max: number = this.get(MAX);
+    const min: number = this.get(MIN);
 
     step = this.validateStep(step);
 
-    const length = max / step - 1;
+    const amount = min / step + 1;
+
+    const length = max / step - amount;
     let array: Array<number> = [];
     let nextValue = 0;
 
@@ -110,10 +113,8 @@ class Model {
   }
 
   private calcValue(percentage: number): number {
-    return (
-      Math.round(
-        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage
-      ) + <number>this.get(MIN)
+    return Math.round(
+      (<number>this.get(MAX) / 100) * percentage + <number>this.get(MIN)
     );
   }
 

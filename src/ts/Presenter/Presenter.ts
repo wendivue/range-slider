@@ -46,7 +46,7 @@ class Presenter {
         SINGLE
       );
 
-      this.bindHandleEvents(this.view.sliderSingle);
+      this.bindWrapperEvents(this.view.sliderSingle);
       this.bindHandleEvents(this.view.single);
     } else {
       if (this.view.from === undefined) throw new Error('from не передан');
@@ -65,7 +65,7 @@ class Presenter {
         TO
       );
 
-      this.bindHandleEvents(this.view.sliderDouble);
+      this.bindWrapperEvents(this.view.sliderDouble);
       this.bindHandleEvents(this.view.from);
       this.bindHandleEvents(this.view.to);
     }
@@ -162,6 +162,10 @@ class Presenter {
     element.addEventListener('mousedown', this.handleMouseDown.bind(this));
   }
 
+  private bindWrapperEvents(element: HTMLElement): void {
+    element.addEventListener('click', this.wrapperClick.bind(this));
+  }
+
   private bindInputEvents(element: HTMLElement): void {
     element.addEventListener('change', this.inputOnChange.bind(this));
   }
@@ -182,16 +186,9 @@ class Presenter {
     const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
 
     const onMouseUp = () => {
-      if (forMouseMove.element === this.view.slider) {
-        document.removeEventListener('mousedown', handleMouseMove);
-      }
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-
-    if (forMouseMove.element === this.view.slider) {
-      document.addEventListener('mousedown', handleMouseMove);
-    }
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
@@ -199,11 +196,7 @@ class Presenter {
   private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {
     let percentage: number;
     const elementType = this.view.checkElementType(forMouseMove.element);
-    let newShift = this.view.getNewShift(event, forMouseMove.shift);
-
-    if (forMouseMove.element === this.view.slider) {
-      newShift = this.view.getShift(event, forMouseMove.element);
-    }
+    const newShift = this.view.getNewShift(event, forMouseMove.shift);
 
     if (this.model.get(VERTICAL)) {
       percentage = this.view.calcPercentage(newShift.y);
@@ -250,6 +243,47 @@ class Presenter {
     }
 
     this.updateView(elementType, true);
+  }
+
+  private wrapperClick(event: MouseEvent): void {
+    const element = event.currentTarget as HTMLElement;
+    const newShift: Shift = this.view.getShift(event, element);
+
+    let percentage: number;
+    let elementType = this.view.checkElementType(element);
+
+    if (this.model.get(VERTICAL)) {
+      percentage = this.view.calcPercentage(newShift.y);
+    } else {
+      percentage = this.view.calcPercentage(newShift.x);
+    }
+
+    const range =
+      <number>this.model.get(PERCENT_TO) - <number>this.model.get(PERCENT_FROM);
+
+    if (elementType !== SINGLE) {
+      if (percentage > <number>this.model.get(PERCENT_FROM) + range / 2) {
+        elementType = TO;
+      } else {
+        elementType = FROM;
+      }
+    }
+
+    percentage = this.model.getPercentage(percentage, elementType);
+    const value = this.model.getValue(percentage);
+
+    if (elementType === FROM) {
+      this.model.add(percentage, PERCENT_FROM);
+      this.model.add(value, FROM);
+    } else if (elementType === TO) {
+      this.model.add(percentage, PERCENT_TO);
+      this.model.add(value, TO);
+    } else if (elementType === SINGLE) {
+      this.model.add(percentage, PERCENT_SINGLE);
+      this.model.add(value, SINGLE);
+    }
+
+    this.updateView(elementType, false);
   }
 
   private rangeOnChange(event: Event): void {

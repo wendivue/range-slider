@@ -278,9 +278,10 @@ class View {
 
   private getCoords(element: HTMLElement): Coords {
     const box = element.getBoundingClientRect();
+
     return {
-      top: box.top,
-      left: box.left,
+      top: box.top + pageYOffset,
+      left: box.left + pageXOffset,
     };
   }
 
