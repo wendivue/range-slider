@@ -95,8 +95,10 @@ class Model {
     const step: number = this.get(STEP);
 
     array.map((item: number) => {
-      const halfItemGreater = item + step / 2;
-      const halfItemLess = item - step / 2;
+      const stepPercentage =
+        (100 * step) / (<number>this.get(MAX) - <number>this.get(MIN));
+      const halfItemGreater = item + stepPercentage / 2;
+      const halfItemLess = item - stepPercentage / 2;
 
       if (item === 0) {
         newPercentage = item;

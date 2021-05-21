@@ -52,8 +52,8 @@ describe('Get percentage', () => {
   test('should adjust the value', () => {
     config.percentTo = 70;
 
-    expect(model.getPercentage(33, FROM)).toBe(33.5);
-    expect(model.getPercentage(38, FROM)).toBe(38.5);
+    expect(model.getPercentage(33, FROM)).toBe(33);
+    expect(model.getPercentage(38, FROM)).toBe(38);
   });
 
   test('negative number', () => {
