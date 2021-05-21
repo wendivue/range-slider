@@ -5,7 +5,9 @@ const { SINGLE, DOUBLE } = Constants;
 class Template {
   private classWrapperVertical?: string;
 
-  private classWrapperType?: string;
+  private classWrapperSingle?: string;
+
+  private classWrapperDouble?: string;
 
   constructor(
     public anchor: HTMLElement,
@@ -21,18 +23,15 @@ class Template {
   }
 
   private createHtml(anchor: HTMLElement): void {
-    const sliderTemplate = `<div class="slider__wrapper ${this.classWrapperVertical} ${this.classWrapperType}">`;
+    const sliderTemplate = `<div class="slider__wrapper ${this.classWrapperVertical} ${this.classWrapperSingle} ${this.classWrapperDouble}">`;
 
     anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
   }
 
   private createClass(isVertical: boolean, type: string): void {
     this.classWrapperVertical = isVertical ? 'slider__wrapper_vertical' : '';
-    if (type === SINGLE) {
-      this.classWrapperType = type === SINGLE ? 'slider__wrapper_single' : '';
-    } else if (type === DOUBLE) {
-      this.classWrapperType = type === DOUBLE ? 'slider__wrapper_double' : '';
-    }
+    this.classWrapperSingle = type === SINGLE ? 'slider__wrapper_single' : '';
+    this.classWrapperDouble = type === DOUBLE ? 'slider__wrapper_double' : '';
   }
 }
 

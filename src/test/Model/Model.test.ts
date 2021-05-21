@@ -2,17 +2,17 @@ import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Model from 'Ts/Model/Model';
 
-const { FROM, TO, MIN, TYPE, VERTICAL, DOUBLE, SINGLE } = Constants;
+const { FROM, TO, MIN, MAX, TYPE, VERTICAL, DOUBLE, SINGLE, STEP } = Constants;
 
 const config: Config = {
   single: 20,
   from: 20,
   to: 50,
-  step: 100,
+  step: 1,
   percentFrom: 0,
   percentTo: 0,
   percentSingle: 0,
-  min: 30,
+  min: 0,
   max: 1000,
   type: 'double',
   isInput: true,
@@ -24,17 +24,27 @@ const config: Config = {
 let model = new Model(config);
 
 describe('Get value', () => {
+  afterEach(() => {
+    model = new Model(config);
+  });
+
   test('should convert percent to value', () => {
-    expect(model.getValue(30)).toBe(321);
-    expect(model.getValue(65)).toBe(661);
+    expect(model.getValue(30)).toBe(300);
+    expect(model.getValue(65)).toBe(650);
   });
 
   test('negative number', () => {
-    expect(model.getValue(-2)).toBe(30);
+    expect(model.getValue(-2)).toBe(0);
   });
 
   test('value > max ', () => {
     expect(model.getValue(99999)).toBe(1000);
+  });
+
+  test('fractional step', () => {
+    model.add(1.5, STEP);
+
+    expect(model.getValue(30)).toBe(300);
   });
 });
 
@@ -42,8 +52,8 @@ describe('Get percentage', () => {
   test('should adjust the value', () => {
     config.percentTo = 70;
 
-    expect(model.getPercentage(33, FROM)).toBe(30);
-    expect(model.getPercentage(38, FROM)).toBe(40);
+    expect(model.getPercentage(33, FROM)).toBe(33.5);
+    expect(model.getPercentage(38, FROM)).toBe(38.5);
   });
 
   test('negative number', () => {
@@ -55,15 +65,15 @@ describe('Get percentage', () => {
   });
 
   test('percentage(from) > to', () => {
-    config.percentTo = 70;
+    config.percentTo = 69.9;
 
-    expect(model.getPercentage(80, FROM)).toBe(70);
+    expect(model.getPercentage(80, FROM)).toBe(69.80000000000001);
   });
 
   test('percentage(to) < from', () => {
-    config.percentFrom = 30;
+    config.percentFrom = 30.1;
 
-    expect(model.getPercentage(20, TO)).toBe(30);
+    expect(model.getPercentage(20, TO)).toBe(30.200000000000003);
   });
 });
 
@@ -76,7 +86,7 @@ describe('Get percentage(input)', () => {
 
 describe('Get value from config', () => {
   test('should get value from config', () => {
-    expect(model.get(MIN)).toBe(30);
+    expect(model.get(MIN)).toBe(0);
     expect(model.get(TYPE)).toBe(DOUBLE);
     expect(model.get(VERTICAL)).toBe(false);
   });
@@ -111,5 +121,23 @@ describe('Validate step', () => {
 describe('Config', () => {
   test('get config', () => {
     expect(model.getConfig()).toBe(config);
+  });
+});
+
+describe('Validate range', () => {
+  test('validate', () => {
+    expect(model.validateRange(22, MIN)).toBe(22);
+    expect(model.validateRange(2000, MIN)).toBe(999);
+    expect(model.validateRange(10, MAX)).toBe(10);
+  });
+});
+
+describe('validate Two Handle Value', () => {
+  test('from > to', () => {
+    expect(model.validateTwoHandleValue(60, FROM)).toBe(49);
+  });
+
+  test('to < from', () => {
+    expect(model.validateTwoHandleValue(4, TO)).toBe(21);
   });
 });

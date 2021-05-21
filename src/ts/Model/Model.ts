@@ -159,13 +159,10 @@ class Model {
     const step: number = this.get(STEP);
     const max: number = this.get(MAX);
     const stepPercentage = (100 * step) / max;
-    const rightEdge = 100;
     let value = percentage;
 
     if (element === FROM) {
       if (percentage >= to) value = to - stepPercentage;
-      if (percentage > rightEdge && to === rightEdge)
-        value = rightEdge - stepPercentage;
     }
 
     if (element === TO) {
