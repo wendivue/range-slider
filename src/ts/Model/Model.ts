@@ -77,9 +77,12 @@ class Model {
       array = [...array, ...[nextValue]];
     }
 
-    array = [0, ...array, max];
+    array = array.map(
+      (item: number) =>
+        (100 * item) / (<number>this.get(MAX) - <number>this.get(MIN))
+    );
 
-    array = array.map((item: number) => (100 * item) / <number>this.get(MAX));
+    array = [0, ...array, 100];
 
     return array;
   }
@@ -113,9 +116,19 @@ class Model {
   }
 
   private calcValue(percentage: number): number {
-    return Math.round(
-      (<number>this.get(MAX) / 100) * percentage + <number>this.get(MIN)
-    );
+    let value;
+    if (Number.isInteger(this.get(STEP))) {
+      value = Math.round(
+        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage +
+          <number>this.get(MIN)
+      );
+    } else {
+      value =
+        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage +
+        <number>this.get(MIN);
+    }
+
+    return value;
   }
 
   private calcPercentageInput(value: number): number {
@@ -140,18 +153,21 @@ class Model {
   private validateTwoHandle(percentage: number, element: Constants): number {
     const from: number = this.get(PERCENT_FROM);
     const to: number = this.get(PERCENT_TO);
+    const step: number = this.get(STEP);
+    const max: number = this.get(MAX);
+    const stepPercentage = (100 * step) / max;
+    const rightEdge = 100;
     let value = percentage;
 
     if (element === FROM) {
-      if (percentage > to) {
-        value = to;
-      }
+      if (percentage >= to) value = to - stepPercentage;
+      if (percentage > rightEdge && to === rightEdge)
+        value = rightEdge - stepPercentage;
     }
 
     if (element === TO) {
-      if (percentage < from) {
-        value = from;
-      }
+      if (percentage <= from) value = from + stepPercentage;
+      if (percentage <= 0 && from === 0) value = stepPercentage;
     }
 
     return value;
@@ -186,18 +202,18 @@ class Model {
   ): number {
     const from: number = this.get(FROM);
     const to: number = this.get(TO);
+    const step: number = this.get(STEP);
+    const max: number = this.get(MAX);
     let value = percentage;
 
     if (element === FROM) {
-      if (percentage > to) {
-        value = to;
-      }
+      if (percentage > to) value = to - step;
+      if (percentage >= max && to === max) value = max - step;
     }
 
     if (element === TO) {
-      if (percentage < from) {
-        value = from;
-      }
+      if (percentage < from) value = from + step;
+      if (percentage <= 0 && from === 0) value = step;
     }
 
     return value;
