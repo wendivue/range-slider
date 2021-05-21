@@ -92,18 +92,21 @@ class Model {
     percentage: number
   ): number {
     let newPercentage: number | undefined;
+    const step: number = this.get(STEP);
 
     array.map((item: number) => {
+      const halfItemGreater = item + step / 2;
+      const halfItemLess = item - step / 2;
+
       if (item === 0) {
         newPercentage = item;
       }
 
-      if (percentage > item) {
+      if (percentage >= 100) {
         newPercentage = item;
       }
 
-      const halfItem = (item / 2) * 1.9;
-      if (percentage >= halfItem && percentage <= item) {
+      if (percentage <= halfItemGreater && percentage >= halfItemLess) {
         newPercentage = item;
       }
 
