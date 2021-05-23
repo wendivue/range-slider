@@ -133,3 +133,50 @@ describe('Create element', () => {
     expect(input).toBeTruthy();
   });
 });
+
+describe('Check undefined', () => {
+  afterEach(() => {
+    anchor.innerHTML = '';
+
+    intervalConfig.isVertical = false;
+    intervalConfig.type = 'double';
+    intervalConfig.min = 30;
+    intervalConfig.max = 1000;
+  });
+
+  test('changeBar undefined', () => {
+    const view = new View(intervalConfig, anchor);
+    view.factoryBar = undefined;
+    const item = () => view.changeBar(24);
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('changeBar не передан');
+  });
+
+  test('moveElement undefined', () => {
+    const view = new View(intervalConfig, anchor);
+    view.factoryHandle = undefined;
+    const item = () => view.moveElement(24);
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('moveElement не передан');
+  });
+
+  test('changeLabelValue undefined', () => {
+    const view = new View(intervalConfig, anchor);
+    view.factoryLabel = undefined;
+    const item = () => view.changeLabelValue('23');
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('changeLabelValue не передан');
+  });
+
+  test('changeValue undefined', () => {
+    const view = new View(intervalConfig, anchor);
+    view.factoryInput = undefined;
+    const item = () => view.changeValue('23');
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('changeValue не передан');
+  });
+});
