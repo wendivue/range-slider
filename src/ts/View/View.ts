@@ -8,37 +8,37 @@ const { SINGLE, FROM, TO, DOUBLE } = Constants;
 class View {
   public factory?: SingleFactory | IntervalFactory;
 
-  public slider?: HTMLElement;
+  public slider!: HTMLElement;
 
-  public bar?: HTMLElement;
+  public bar!: HTMLElement;
 
-  public single?: HTMLElement;
+  public single!: HTMLElement;
 
-  public from?: HTMLElement;
+  public from!: HTMLElement;
 
-  public to?: HTMLElement;
+  public to!: HTMLElement;
 
-  public handle?: HTMLElement;
+  public handle!: HTMLElement;
 
-  public rangeMin?: HTMLInputElement;
+  public rangeMin!: HTMLInputElement;
 
-  public rangeMax?: HTMLInputElement;
+  public rangeMax!: HTMLInputElement;
 
-  public inputSingle?: HTMLInputElement;
+  public inputSingle!: HTMLInputElement;
 
-  public inputFrom?: HTMLInputElement;
+  public inputFrom!: HTMLInputElement;
 
-  public inputTo?: HTMLInputElement;
+  public inputTo!: HTMLInputElement;
 
-  public labelSingle?: HTMLInputElement;
+  public labelSingle!: HTMLInputElement;
 
-  public labelFrom?: HTMLInputElement;
+  public labelFrom!: HTMLInputElement;
 
-  public labelTo?: HTMLInputElement;
+  public labelTo!: HTMLInputElement;
 
-  public sliderSingle?: HTMLElement;
+  public sliderSingle!: HTMLElement;
 
-  public sliderDouble?: HTMLElement;
+  public sliderDouble!: HTMLElement;
 
   public factoryBar?: methodsViewFactory;
 
@@ -59,22 +59,6 @@ class View {
   }
 
   private getHtml(): void {
-    if (this.config.isVertical === undefined) {
-      throw new Error('isVertical не передан');
-    }
-
-    if (this.config.type === undefined) {
-      throw new Error('type не передан');
-    }
-
-    if (this.config.min === undefined) {
-      throw new Error('min не передан');
-    }
-
-    if (this.config.max === undefined) {
-      throw new Error('max не передан');
-    }
-
     if (this.factory === undefined) {
       throw new Error('factory не передан');
     }
@@ -265,8 +249,6 @@ class View {
   public calcPercentage(left: number): number {
     let slider;
 
-    if (this.slider === undefined) throw new Error('slider не передан');
-
     if (this.config.isVertical) {
       slider = this.slider.offsetHeight;
     } else {
@@ -295,8 +277,6 @@ class View {
   }
 
   public getNewShift(event: MouseEvent, shift: Shift): Shift {
-    if (this.slider === undefined) throw new Error('slider не передан');
-
     const sliderCoords = this.getCoords(this.slider);
 
     return {

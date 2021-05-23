@@ -4,7 +4,7 @@ import Constants from 'Helpers/enums';
 const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
 
 class Model {
-  public config: Config;
+  private config: Config;
 
   constructor(public options: Config) {
     this.config = options;

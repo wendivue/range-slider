@@ -1,4 +1,4 @@
-import { Config } from 'Helpers/interface';
+import { PartialConfig } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
@@ -7,7 +7,7 @@ import defaultConfig from './Model/defaultConfig';
 ((jQuery) => {
   const $: JQueryStatic = jQuery;
 
-  $.fn.rangeSlider = function rangeSlider(options: Config, id: string) {
+  $.fn.rangeSlider = function rangeSlider(options: PartialConfig, id: string) {
     const config = { ...defaultConfig, ...options };
     const anchor = document.getElementById(id) as HTMLElement;
 

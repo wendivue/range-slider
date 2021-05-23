@@ -1,18 +1,18 @@
 interface Config {
-  min?: number;
-  max?: number;
-  single?: number;
-  from?: number;
-  to?: number;
-  step?: number;
-  percentFrom?: number;
-  percentTo?: number;
-  percentSingle?: number;
-  type?: string;
-  isInput?: boolean;
-  isRange?: boolean;
-  isLabel?: boolean;
-  isVertical?: boolean;
+  min: number;
+  max: number;
+  single: number;
+  from: number;
+  to: number;
+  step: number;
+  percentFrom: number;
+  percentTo: number;
+  percentSingle: number;
+  type: string;
+  isInput: boolean;
+  isRange: boolean;
+  isLabel: boolean;
+  isVertical: boolean;
 }
 
 interface Coords {
@@ -37,4 +37,10 @@ interface methodsViewFactory {
   changeValue?(fromValue: string, toValue?: string): void;
 }
 
-export { Config, Coords, Shift, forMouse, methodsViewFactory };
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+type PartialConfig = Partial<Config>;
+
+export { Config, Coords, Shift, forMouse, methodsViewFactory, PartialConfig };

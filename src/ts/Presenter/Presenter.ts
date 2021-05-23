@@ -29,17 +29,7 @@ class Presenter {
   }
 
   private init(type: Constants, isInput: boolean, isRange: boolean): void {
-    if (this.view.config.isVertical === undefined)
-      throw new Error('isVertical не передан');
-    if (this.view.config.type === undefined) throw new Error('type не передан');
-    if (this.view.config.min === undefined) throw new Error('min не передан');
-    if (this.view.config.max === undefined) throw new Error('max не передан');
-
     if (type === SINGLE) {
-      if (this.view.single === undefined) throw new Error('single не передан');
-      if (this.view.sliderSingle === undefined)
-        throw new Error('sliderSingle не передан');
-
       this.initConfigValue(
         this.model.get(SINGLE),
         [this.view.config.min, this.view.config.max],
@@ -49,11 +39,6 @@ class Presenter {
       this.bindWrapperEvents(this.view.sliderSingle);
       this.bindHandleEvents(this.view.single);
     } else {
-      if (this.view.from === undefined) throw new Error('from не передан');
-      if (this.view.to === undefined) throw new Error('to не передан');
-      if (this.view.sliderDouble === undefined)
-        throw new Error('sliderDouble не передан');
-
       this.initConfigValue(
         this.model.get(FROM),
         [this.view.config.min, this.view.config.max],
@@ -72,27 +57,14 @@ class Presenter {
 
     if (isInput) {
       if (type === SINGLE) {
-        if (this.view.inputSingle === undefined)
-          throw new Error('inputSingle не передан');
-
         this.bindInputEvents(this.view.inputSingle);
       } else {
-        if (this.view.inputFrom === undefined)
-          throw new Error('inputFrom не передан');
-        if (this.view.inputTo === undefined)
-          throw new Error('inputTo не передан');
-
         this.bindInputEvents(this.view.inputFrom);
         this.bindInputEvents(this.view.inputTo);
       }
     }
 
     if (isRange) {
-      if (this.view.rangeMin === undefined)
-        throw new Error('rangeMin не передан');
-      if (this.view.rangeMax === undefined)
-        throw new Error('rangeMax не передан');
-
       this.bindRangeEvents(this.view.rangeMin);
       this.bindRangeEvents(this.view.rangeMax);
     }

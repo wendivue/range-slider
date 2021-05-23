@@ -1,10 +1,10 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { Config } from 'Helpers/interface';
+import { Config, PartialConfig } from 'Helpers/interface';
 
 declare global {
   interface JQuery {
-    rangeSlider(options: Config, id: string): void;
+    rangeSlider(options: PartialConfig, id: string): void;
   }
 }
 
