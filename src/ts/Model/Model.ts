@@ -14,9 +14,9 @@ class Model {
     return this.config;
   }
 
-  public add<T>(value: T, prop: Constants): void {
+  public add<T extends keyof Config>(value: Config[T], prop: T): void {
     const obj = this.config;
-    let userObj: Record<string, T> = { value };
+    let userObj: Record<string, Config[T]> = { value };
 
     Object.keys(obj).forEach((key) => {
       if (key === prop) userObj = { [<keyof Config>key]: value };
@@ -25,7 +25,7 @@ class Model {
     this.config = { ...this.config, ...userObj };
   }
 
-  public get<T>(prop: Constants): T {
+  public get<T extends keyof Config>(prop: T): Config[T] {
     const obj = this.config;
     let value;
 
@@ -60,9 +60,9 @@ class Model {
   }
 
   private createStep(): Array<number> {
-    let step: number = this.get(STEP);
-    const max: number = this.get(MAX);
-    const min: number = this.get(MIN);
+    let step = this.get(STEP);
+    const max = this.get(MAX);
+    const min = this.get(MIN);
 
     step = this.validateStep(step);
 
@@ -78,8 +78,7 @@ class Model {
     }
 
     array = array.map(
-      (item: number) =>
-        (100 * item) / (<number>this.get(MAX) - <number>this.get(MIN))
+      (item: number) => (100 * item) / (this.get(MAX) - this.get(MIN))
     );
 
     array = [0, ...array, 100];
@@ -92,11 +91,10 @@ class Model {
     percentage: number
   ): number {
     let newPercentage: number | undefined;
-    const step: number = this.get(STEP);
+    const step = this.get(STEP);
 
     array.map((item: number) => {
-      const stepPercentage =
-        (100 * step) / (<number>this.get(MAX) - <number>this.get(MIN));
+      const stepPercentage = (100 * step) / (this.get(MAX) - this.get(MIN));
       const halfItemGreater = item + stepPercentage / 2;
       const halfItemLess = item - stepPercentage / 2;
 
@@ -124,20 +122,18 @@ class Model {
     let value;
     if (Number.isInteger(this.get(STEP))) {
       value = Math.round(
-        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage +
-          <number>this.get(MIN)
+        ((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN)
       );
     } else {
       value =
-        ((<number>this.get(MAX) - <number>this.get(MIN)) / 100) * percentage +
-        <number>this.get(MIN);
+        ((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN);
     }
 
     return value;
   }
 
   private calcPercentageInput(value: number): number {
-    return (value * 100) / <number>this.get(MAX);
+    return (value * 100) / this.get(MAX);
   }
 
   private validateEdgePercentage(percentage: number): number {
@@ -150,16 +146,16 @@ class Model {
 
   public validateEdgeValue(value: number): number {
     let newValue = value;
-    if (value < <number>this.get(MIN)) newValue = this.get(MIN);
-    if (value > <number>this.get(MAX)) newValue = this.get(MAX);
+    if (value < this.get(MIN)) newValue = this.get(MIN);
+    if (value > this.get(MAX)) newValue = this.get(MAX);
     return newValue;
   }
 
   private validateTwoHandle(percentage: number, element: Constants): number {
-    const from: number = this.get(PERCENT_FROM);
-    const to: number = this.get(PERCENT_TO);
-    const step: number = this.get(STEP);
-    const max: number = this.get(MAX);
+    const from = this.get(PERCENT_FROM);
+    const to = this.get(PERCENT_TO);
+    const step = this.get(STEP);
+    const max = this.get(MAX);
     const stepPercentage = (100 * step) / max;
     let value = percentage;
 
@@ -176,7 +172,7 @@ class Model {
   }
 
   public validateStep(value: number): number {
-    const max: number = this.get(MAX);
+    const max = this.get(MAX);
     const halfMax = max / 2;
     let step = value;
 
@@ -186,9 +182,9 @@ class Model {
   }
 
   public validateRange(value: number, type: Constants): number {
-    const max: number = this.get(MAX);
-    const min: number = this.get(MIN);
-    const step: number = this.get(STEP);
+    const max = this.get(MAX);
+    const min = this.get(MIN);
+    const step = this.get(STEP);
     let newValue = value;
 
     if (type === MAX && value < min) newValue = min + step;
@@ -202,10 +198,10 @@ class Model {
     percentage: number,
     element: Constants
   ): number {
-    const from: number = this.get(FROM);
-    const to: number = this.get(TO);
-    const step: number = this.get(STEP);
-    const max: number = this.get(MAX);
+    const from = this.get(FROM);
+    const to = this.get(TO);
+    const step = this.get(STEP);
+    const max = this.get(MAX);
     let value = percentage;
 
     if (element === FROM) {

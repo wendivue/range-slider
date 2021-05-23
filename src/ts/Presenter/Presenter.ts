@@ -28,7 +28,7 @@ class Presenter {
     );
   }
 
-  private init(type: Constants, isInput: boolean, isRange: boolean): void {
+  private init(type: string, isInput: boolean, isRange: boolean): void {
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -114,17 +114,23 @@ class Presenter {
 
     if (this.model.get(LABEL))
       if (this.model.get(TYPE) === SINGLE) {
-        this.view.changeLabelValue(this.model.get(SINGLE));
+        this.view.changeLabelValue(this.model.get(SINGLE).toString());
       } else {
-        this.view.changeLabelValue(this.model.get(FROM), this.model.get(TO));
+        this.view.changeLabelValue(
+          this.model.get(FROM).toString(),
+          this.model.get(TO).toString()
+        );
       }
 
     if (!isInput) {
       if (this.model.get(INPUT)) {
         if (this.model.get(TYPE) === SINGLE) {
-          this.view.changeValue(this.model.get(SINGLE));
+          this.view.changeValue(this.model.get(SINGLE).toString());
         } else {
-          this.view.changeValue(this.model.get(FROM), this.model.get(TO));
+          this.view.changeValue(
+            this.model.get(FROM).toString(),
+            this.model.get(TO).toString()
+          );
         }
       }
     }
@@ -230,11 +236,10 @@ class Presenter {
       percentage = this.view.calcPercentage(newShift.x);
     }
 
-    const range =
-      <number>this.model.get(PERCENT_TO) - <number>this.model.get(PERCENT_FROM);
+    const range = this.model.get(PERCENT_TO) - this.model.get(PERCENT_FROM);
 
     if (elementType !== SINGLE) {
-      if (percentage > <number>this.model.get(PERCENT_FROM) + range / 2) {
+      if (percentage > this.model.get(PERCENT_FROM) + range / 2) {
         elementType = TO;
       } else {
         elementType = FROM;

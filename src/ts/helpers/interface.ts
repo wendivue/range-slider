@@ -37,10 +37,6 @@ interface methodsViewFactory {
   changeValue?(fromValue: string, toValue?: string): void;
 }
 
-type Partial<T> = {
-  [P in keyof T]?: T[P];
-};
-
 type PartialConfig = Partial<Config>;
 
 export { Config, Coords, Shift, forMouse, methodsViewFactory, PartialConfig };
