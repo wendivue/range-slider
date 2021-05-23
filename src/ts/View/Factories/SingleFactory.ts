@@ -26,8 +26,8 @@ class SingleFactory {
     return new SingleHandle(anchor, isVertical);
   }
 
-  public createLabel(anchor: HTMLElement): SingleLabel {
-    return new SingleLabel(anchor);
+  public createLabel(anchor: HTMLElement, isVertical: boolean): SingleLabel {
+    return new SingleLabel(anchor, isVertical);
   }
 
   public createRange(anchor: HTMLElement, min: number, max: number): Range {

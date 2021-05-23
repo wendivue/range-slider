@@ -29,8 +29,8 @@ class IntervalFactory {
     return new IntervalHandle(anchor, isVertical);
   }
 
-  public createLabel(anchor: HTMLElement): IntervalLabel {
-    return new IntervalLabel(anchor);
+  public createLabel(anchor: HTMLElement, isVertical: boolean): IntervalLabel {
+    return new IntervalLabel(anchor, isVertical);
   }
 
   public createRange(anchor: HTMLElement, min: number, max: number): Range {

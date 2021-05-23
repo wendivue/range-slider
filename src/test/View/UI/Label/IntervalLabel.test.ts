@@ -14,13 +14,14 @@ anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
 const handleFrom = anchor.querySelector('.slider__handle_from');
 const handleTo = anchor.querySelector('.slider__handle_to');
+const isLabel = true;
 
 if (!handleFrom) throw new Error('.slider__handle_from - не найдено');
 if (!handleTo) throw new Error('.slider__handle_to - не найдено');
 
 describe('IntervalLabel', () => {
   beforeEach(() => {
-    const label = new IntervalLabel(anchor);
+    const label = new IntervalLabel(anchor, isLabel);
     label.changeLabelValue('10', '30');
   });
 

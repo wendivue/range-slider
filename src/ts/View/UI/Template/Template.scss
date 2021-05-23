@@ -94,11 +94,6 @@
 
     &:active {
       box-shadow: 0 0 0 10px rgba(98, 0, 238, 0.1);
-
-      .slider__label {
-        display: block;
-        font-family: $font-family;
-      }
     }
 
     &:hover {
@@ -133,7 +128,6 @@
   }
 
   &__label {
-    display: none;
     position: absolute;
     top: -40px;
     right: -3px;
@@ -145,8 +139,13 @@
     background-color: $color-secondary;
     text-align: center;
     transform: rotate(45deg);
-    pointer-events: none;
     user-select: none;
+
+    &_vertical {
+      transform: rotate(-45deg);
+      top: -4px;
+      right: 40px;
+    }
   }
 
   &__label-text {

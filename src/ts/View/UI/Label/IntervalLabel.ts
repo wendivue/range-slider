@@ -1,16 +1,23 @@
 class IntervalLabel {
-  constructor(public anchor: HTMLElement) {
-    this.init(anchor);
+  private classLabelVertical?: string;
+
+  constructor(public anchor: HTMLElement, public isVertical: boolean) {
+    this.init();
   }
 
-  private init(anchor: HTMLElement): void {
+  private init(): void {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
     const labelFrom =
-      '<div class="slider__label">' +
+      `<div class="slider__label ${this.classLabelVertical}">` +
       '<div class="slider__label-text slider__label-text_from"></div>' +
       '</div>';
 
     const labelTo =
-      '<div class="slider__label">' +
+      `<div class="slider__label ${this.classLabelVertical}">` +
       '<div class="slider__label-text slider__label-text_to"></div>' +
       '</div>';
 
@@ -21,6 +28,10 @@ class IntervalLabel {
 
     handleFrom.insertAdjacentHTML('afterbegin', labelFrom);
     handleTo.insertAdjacentHTML('afterbegin', labelTo);
+  }
+
+  private createClass(isVertical: boolean): void {
+    this.classLabelVertical = isVertical ? 'slider__label_vertical' : '';
   }
 
   public changeLabelValue(fromValue: string, toValue: string): void {

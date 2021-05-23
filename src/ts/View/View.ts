@@ -79,7 +79,10 @@ class View {
     );
 
     if (this.config.isLabel) {
-      this.factoryLabel = this.factory.createLabel(this.app);
+      this.factoryLabel = this.factory.createLabel(
+        this.app,
+        this.config.isVertical
+      );
     }
 
     if (this.config.isRange) {
@@ -181,19 +184,26 @@ class View {
 
   public checkElementType(element: HTMLElement): Constants {
     let elementType: Constants | undefined;
-    if (
+    const conditionFrom =
       element === this.from ||
       element === this.inputFrom ||
-      element === this.sliderDouble
-    ) {
-      elementType = FROM;
-    } else if (element === this.to || element === this.inputTo) {
-      elementType = TO;
-    } else if (
+      element === this.sliderDouble ||
+      element === this.labelFrom;
+    const conditionTo =
+      element === this.to ||
+      element === this.inputTo ||
+      element === this.labelTo;
+    const conditionSingle =
       element === this.single ||
       element === this.inputSingle ||
-      element === this.sliderSingle
-    ) {
+      element === this.sliderSingle ||
+      element === this.labelSingle;
+
+    if (conditionFrom) {
+      elementType = FROM;
+    } else if (conditionTo) {
+      elementType = TO;
+    } else if (conditionSingle) {
       elementType = SINGLE;
     }
 

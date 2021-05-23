@@ -10,12 +10,13 @@ const handleTemplate = `<div class="slider__handle slider__handle_single"></div>
 anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
 const handleSingle = anchor.querySelector('.slider__handle_single');
+const isLabel = true;
 
 if (!handleSingle) throw new Error('.slider__handle_single - не найдено');
 
 describe('SingleLabel', () => {
   beforeEach(() => {
-    const label = new SingleLabel(anchor);
+    const label = new SingleLabel(anchor, isLabel);
     label.changeLabelValue('10');
   });
 
