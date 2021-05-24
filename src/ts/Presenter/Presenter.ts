@@ -202,12 +202,18 @@ class Presenter {
     }
 
     this.updateView(elementType, false);
+    event.preventDefault();
   }
 
   private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
-    const elementType = this.view.checkElementType(element);
-    let value = this.model.validateEdgeValue(parseFloat(element.value));
+    const elementType = this.view.checkElementType(element) as
+      | typeof FROM
+      | typeof TO;
+    let value = parseFloat(element.value);
+    if (Number.isNaN(value)) value = this.model.get(elementType);
+
+    value = this.model.validateEdgeValue(value);
     value = this.model.validateTwoHandleValue(value, elementType);
     element.value = value.toString();
 
@@ -270,16 +276,17 @@ class Presenter {
 
   private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
-    let min: number;
-    let max: number;
+    let min = Math.abs(parseFloat(this.view.rangeMin.value));
+    let max = Math.abs(parseFloat(this.view.rangeMax.value));
+
+    if (Number.isNaN(min)) min = this.model.get(MIN);
+    if (Number.isNaN(max)) max = this.model.get(MAX);
 
     if (element === this.view.rangeMin) {
-      min = Math.abs(parseFloat(this.view.rangeMin.value));
       min = this.model.validateRange(min, MIN);
       this.view.rangeMin.value = min.toString();
       this.model.add(min, MIN);
     } else if (element === this.view.rangeMax) {
-      max = Math.abs(parseFloat(this.view.rangeMax.value));
       max = this.model.validateRange(max, MAX);
       this.view.rangeMax.value = max.toString();
       this.model.add(max, MAX);
