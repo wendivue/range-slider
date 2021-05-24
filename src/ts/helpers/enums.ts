@@ -13,6 +13,7 @@ enum Constants {
   RANGE = 'isRange',
   LABEL = 'isLabel',
   VERTICAL = 'isVertical',
+  SCALE = 'isScale',
   DOUBLE = 'double',
 }
 

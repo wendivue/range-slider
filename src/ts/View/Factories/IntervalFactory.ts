@@ -4,6 +4,7 @@ import IntervalLabel from 'UI/Label/IntervalLabel';
 import Range from 'UI/Range/Range';
 import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
+import Scale from 'UI/Scale/Scale';
 
 class IntervalFactory {
   public createTemplate(
@@ -39,6 +40,15 @@ class IntervalFactory {
 
   public createInput(anchor: HTMLElement): IntervalInput {
     return new IntervalInput(anchor);
+  }
+
+  public createScale(
+    anchor: HTMLElement,
+    min: number,
+    max: number,
+    isVertical: boolean
+  ): Scale {
+    return new Scale(anchor, min, max, isVertical);
   }
 }
 

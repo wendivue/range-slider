@@ -4,6 +4,7 @@ import SingleLabel from 'UI/Label/SingleLabel';
 import Range from 'UI/Range/Range';
 import SingleInput from 'UI/Input/SingleInput';
 import Bar from 'UI/Bar/Bar';
+import Scale from 'UI/Scale/Scale';
 
 class SingleFactory {
   public createTemplate(
@@ -36,6 +37,15 @@ class SingleFactory {
 
   public createInput(anchor: HTMLElement): SingleInput {
     return new SingleInput(anchor);
+  }
+
+  public createScale(
+    anchor: HTMLElement,
+    min: number,
+    max: number,
+    isVertical: boolean
+  ): Scale {
+    return new Scale(anchor, min, max, isVertical);
   }
 }
 

@@ -17,6 +17,7 @@ const {
   PERCENT_FROM,
   PERCENT_TO,
   PERCENT_SINGLE,
+  SCALE,
 } = Constants;
 
 class Presenter {
@@ -133,6 +134,10 @@ class Presenter {
           );
         }
       }
+    }
+
+    if (this.model.get(SCALE)) {
+      this.view.changeScale(this.model.createStep());
     }
   }
 

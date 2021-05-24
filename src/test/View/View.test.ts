@@ -27,6 +27,7 @@ const singleConfig: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: false,
 };
 
 const intervalConfig: Config = {
@@ -44,6 +45,7 @@ const intervalConfig: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: false,
 };
 
 describe('Check type single', () => {

@@ -9,10 +9,10 @@ declare global {
 }
 
 const config1: Config = {
-  single: 10,
+  single: 50,
   from: 20,
   to: 50,
-  step: 1,
+  step: 10,
   percentFrom: 0,
   percentTo: 0,
   percentSingle: 0,
@@ -23,6 +23,7 @@ const config1: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: true,
 };
 
 const config2: Config = {
@@ -40,6 +41,7 @@ const config2: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: false,
 };
 
 const config3: Config = {
@@ -57,6 +59,7 @@ const config3: Config = {
   isRange: true,
   isLabel: false,
   isVertical: true,
+  isScale: false,
 };
 
 const anchor1 = document.getElementById('slider1') as HTMLElement;
@@ -73,8 +76,11 @@ function createSetting(config: Config, anchor: HTMLElement) {
 
 $('#slider1').rangeSlider(
   {
-    single: 400,
+    single: 50,
+    max: 1000,
+    step: 10,
     type: 'single',
+    isScale: true,
   },
   'slider1'
 );

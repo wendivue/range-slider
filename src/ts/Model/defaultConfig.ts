@@ -15,6 +15,7 @@ const defaultConfig: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: false,
 };
 
 export default defaultConfig;

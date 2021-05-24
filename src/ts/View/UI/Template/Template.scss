@@ -12,7 +12,7 @@
   &__wrapper {
     position: relative;
     width: 50%;
-    min-width: 250px;
+    min-width: 300px;
     height: 10px;
     background-color: $color-third;
     border-radius: 5px;
@@ -144,7 +144,7 @@
     &_vertical {
       transform: rotate(-45deg);
       top: -4px;
-      right: 40px;
+      right: 55px;
     }
   }
 
@@ -152,6 +152,27 @@
     font-size: 11px;
     color: $dark-shade-100;
     transform: rotate(-45deg);
+  }
+
+  &__scale {
+    position: relative;
+    left: -10px;
+    display: flex;
+    pointer-events: none;
+    user-select: none;
+
+    &_vertical {
+      position: absolute;
+      top: -15px;
+      left: -30px;
+      height: 100%;
+    }
+  }
+
+  &__scale-item {
+    position: absolute;
+    font-size: 12px;
+    pointer-events: all;
   }
 
   &_vertical {

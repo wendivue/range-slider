@@ -13,6 +13,7 @@ interface Config {
   isRange: boolean;
   isLabel: boolean;
   isVertical: boolean;
+  isScale: boolean;
 }
 
 interface Coords {
@@ -35,6 +36,7 @@ interface methodsViewFactory {
   moveElement?(percentage: number, elementType?: string): void;
   changeLabelValue?(fromValue: string, toValue?: string): void;
   changeValue?(fromValue: string, toValue?: string): void;
+  changeScale?(percentage: Array<number>): void;
 }
 
 type PartialConfig = Partial<Config>;

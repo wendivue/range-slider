@@ -59,7 +59,7 @@ class Model {
     return percentage;
   }
 
-  private createStep(): Array<number> {
+  public createStep(): Array<number> {
     let step = this.get(STEP);
     const max = this.get(MAX);
     const min = this.get(MIN);

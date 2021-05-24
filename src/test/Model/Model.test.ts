@@ -19,6 +19,7 @@ const config: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
+  isScale: false,
 };
 
 let model = new Model(config);

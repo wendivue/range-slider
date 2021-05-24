@@ -48,6 +48,8 @@ class View {
 
   public factoryInput?: methodsViewFactory;
 
+  public factoryScale?: methodsViewFactory;
+
   constructor(public config: Config, public app: HTMLElement) {
     this.init();
   }
@@ -68,6 +70,7 @@ class View {
       this.config.isVertical,
       this.config.type
     );
+
     this.factoryBar = this.factory.createBar(
       this.app,
       this.config.isVertical,
@@ -75,6 +78,12 @@ class View {
     );
     this.factoryHandle = this.factory.createHandle(
       this.app,
+      this.config.isVertical
+    );
+    this.factoryScale = this.factory.createScale(
+      this.app,
+      this.config.min,
+      this.config.max,
       this.config.isVertical
     );
 
@@ -254,6 +263,17 @@ class View {
     }
 
     this.factoryInput.changeValue(fromValue, toValue);
+  }
+
+  public changeScale(arrayPercentage: Array<number>): void {
+    if (
+      this.factoryScale === undefined ||
+      this.factoryScale.changeScale === undefined
+    ) {
+      throw new Error('factoryScale не передан');
+    }
+
+    this.factoryScale.changeScale(arrayPercentage);
   }
 
   public calcPercentage(left: number): number {
