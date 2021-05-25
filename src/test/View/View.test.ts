@@ -27,7 +27,7 @@ const singleConfig: Config = {
   isRange: true,
   isLabel: true,
   isVertical: false,
-  isScale: false,
+  isScale: true,
 };
 
 const intervalConfig: Config = {
@@ -134,6 +134,14 @@ describe('Create element', () => {
 
     expect(input).toBeTruthy();
   });
+
+  test('create scale', () => {
+    const view = new View(singleConfig, anchor);
+    view.changeScale([0, 50, 100], 0, 100, 50);
+    const input = anchor.querySelector('.slider__scale') as HTMLElement;
+
+    expect(input).toBeTruthy();
+  });
 });
 
 describe('Check undefined', () => {
@@ -180,5 +188,14 @@ describe('Check undefined', () => {
 
     expect(item).toThrow(Error);
     expect(item).toThrow('changeValue не передан');
+  });
+
+  test('changeScale undefined', () => {
+    const view = new View(intervalConfig, anchor);
+    view.factoryScale = undefined;
+    const item = () => view.changeScale([0, 50, 100], 0, 100, 50);
+
+    expect(item).toThrow(Error);
+    expect(item).toThrow('factoryScale не передан');
   });
 });

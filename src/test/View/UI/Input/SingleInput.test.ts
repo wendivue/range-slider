@@ -5,13 +5,11 @@ const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;
 
 const anchor = document.querySelector('.anchor') as HTMLElement;
-const sliderTemplate = `<div class="slider__wrapper">`;
+const sliderTemplate = `<div class="slider__main-wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const slider = document.querySelector('.slider__wrapper');
-
-if (!slider) throw new Error('.slider__wrapper - не найдено');
+const slider = document.querySelector('.slider__main-wrapper') as HTMLElement;
 
 describe('SingleInput', () => {
   beforeEach(() => {
@@ -27,8 +25,6 @@ describe('SingleInput', () => {
     const inputSingle = document.querySelector(
       '.input__single'
     ) as HTMLInputElement;
-
-    if (!inputSingle) throw new Error('.input__single - не найдено');
 
     expect(inputSingle.value).toMatch(/10/);
   });

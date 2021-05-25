@@ -18,7 +18,7 @@ describe('Template', () => {
 
   test('create modifier vertical', () => {
     const element = document.querySelector(
-      '.slider__wrapper_vertical'
+      '.slider__main-wrapper_vertical'
     ) as HTMLElement;
 
     expect(element).toBeTruthy();
