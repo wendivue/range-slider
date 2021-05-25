@@ -41,11 +41,10 @@ class SingleFactory {
 
   public createScale(
     anchor: HTMLElement,
-    min: number,
-    max: number,
-    isVertical: boolean
+    isVertical: boolean,
+    type: string
   ): Scale {
-    return new Scale(anchor, min, max, isVertical);
+    return new Scale(anchor, isVertical, type);
   }
 }
 

@@ -36,7 +36,12 @@ interface methodsViewFactory {
   moveElement?(percentage: number, elementType?: string): void;
   changeLabelValue?(fromValue: string, toValue?: string): void;
   changeValue?(fromValue: string, toValue?: string): void;
-  changeScale?(percentage: Array<number>): void;
+  changeScale?(
+    percentage: Array<number>,
+    min: number,
+    max: number,
+    step: number
+  ): void;
 }
 
 type PartialConfig = Partial<Config>;

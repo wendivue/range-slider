@@ -7,7 +7,7 @@ import View from 'Ts/View/View';
 
 import './Setting.scss';
 
-const { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL } = Constants;
+const { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL, SCALE } = Constants;
 
 class Setting {
   private model = new Model(this.config);
@@ -30,7 +30,13 @@ class Setting {
     const typeId = `type-${getUniqueID()}`;
     const labelId = `label-${getUniqueID()}`;
     const stepId = `step-${getUniqueID()}`;
-    const [checkedVertical, checkedDouble, checkedLabel] = this.addChecked();
+    const scaleId = `scale-${getUniqueID()}`;
+    const [
+      checkedVertical,
+      checkedDouble,
+      checkedLabel,
+      checkedScale,
+    ] = this.addChecked();
 
     const settingTemplate = `
     <div id=${settingId} class="setting">
@@ -45,6 +51,9 @@ class Setting {
 
         <input name="isLabel" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
         <label for="${labelId}" class="setting__label">Labels</label>
+
+        <input name="isScale" id="${scaleId}" class="setting__checkbox" type="checkbox" ${checkedScale}>
+        <label for="${scaleId}" class="setting__label">Scale</label>
         </div>
 
         <div class="setting__wrapper-input">
@@ -58,16 +67,15 @@ class Setting {
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
     const setting = document.getElementById(settingId) as HTMLElement;
     this.setting = setting;
-
-    if (!this.setting) throw new Error('setting id - не найдено');
   }
 
   private addChecked(): Array<string> {
     const checkedVertical = this.config.isVertical ? 'checked' : '';
     const checkedDouble = this.config.type === DOUBLE ? 'checked' : '';
     const checkedLabel = this.config.isLabel ? 'checked' : '';
+    const checkedScale = this.config.isScale ? 'checked' : '';
 
-    return [checkedVertical, checkedDouble, checkedLabel];
+    return [checkedVertical, checkedDouble, checkedLabel, checkedScale];
   }
 
   private createPresenter() {
@@ -113,6 +121,10 @@ class Setting {
       this.model.add(check, LABEL);
     }
 
+    if (name === SCALE) {
+      this.model.add(check, SCALE);
+    }
+
     if (name === TYPE) {
       if (element.checked) {
         this.model.add(DOUBLE, TYPE);
@@ -128,9 +140,6 @@ class Setting {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);
     const { max } = this.config;
-
-    if (max === undefined) throw new Error('max не передан');
-
     const halfMax = max / 2;
     if (step > halfMax) step = halfMax;
     if (!step) step = 0.5;

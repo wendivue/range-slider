@@ -15,7 +15,7 @@ class SingleInput {
     </div>
     `;
 
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }

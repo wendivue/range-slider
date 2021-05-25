@@ -1,13 +1,18 @@
+import Constants from 'Helpers/enums';
+
+const { DOUBLE } = Constants;
+
 class Scale {
+  classType?: string;
+
   classScaleVertical?: string;
 
   classScaleItemVertical?: string;
 
   constructor(
     public anchor: HTMLElement,
-    public min: number,
-    public max: number,
-    public isVertical: boolean
+    public isVertical: boolean,
+    public type: string
   ) {
     this.init();
   }
@@ -18,33 +23,48 @@ class Scale {
   }
 
   private createHtml(anchor: HTMLElement): void {
-    const scaleTemplate = `<div class="slider__scale ${this.classScaleVertical}"></div>`;
+    const scaleTemplate = `<div class="slider__scale ${this.classScaleVertical} ${this.classType}"></div>`;
 
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('beforeend', scaleTemplate);
   }
 
   private createClass(isVertical: boolean): void {
+    this.classType =
+      this.type === DOUBLE ? 'slider__scale_double' : 'slider__scale_single';
     this.classScaleVertical = isVertical ? 'slider__scale_vertical' : '';
     this.classScaleItemVertical = isVertical
       ? 'slider__scale-item_vertical'
       : '';
   }
 
-  private calculateValue(percentage: number): number {
+  private calculateValue(
+    percentage: number,
+    min: number,
+    max: number,
+    step: number
+  ): number {
     let newValue = percentage;
-    newValue = Math.round(
-      ((this.max - this.min) / 100) * percentage + this.min
-    );
+    if (Number.isInteger(step)) {
+      newValue = Math.round(((max - min) / 100) * percentage + min);
+    } else {
+      newValue = ((max - min) / 100) * percentage + min;
+    }
 
     return newValue;
   }
 
-  public changeScale(ArrayPercentage: Array<number>): void {
+  public changeScale(
+    ArrayPercentage: Array<number>,
+    min: number,
+    max: number,
+    step: number
+  ): void {
     let newPercentage = ArrayPercentage;
+    const maxLength = 12;
 
-    while (newPercentage.length > 20) {
+    while (newPercentage.length > maxLength) {
       for (let i = 0; i <= newPercentage.length; i += 1) {
         newPercentage.splice(i, 1);
       }
@@ -58,18 +78,18 @@ class Scale {
     const scale = this.anchor.querySelector('.slider__scale') as HTMLElement;
     scale.innerHTML = '';
     Object.entries(newPercentage).forEach(([key, percentage]) => {
-      const value = this.calculateValue(percentage);
+      const value = this.calculateValue(percentage, min, max, step);
       const scaleItemTemplate = `<div class="slider__scale-item ${this.classScaleItemVertical}">${value}</div>`;
       scale.insertAdjacentHTML('beforeend', scaleItemTemplate);
 
       const scaleItem = this.anchor.querySelectorAll(
         '.slider__scale-item'
-      ) as any;
+      ) as NodeListOf<HTMLElement>;
 
       if (this.isVertical) {
-        scaleItem[key].style.top = `${percentage}%`;
+        scaleItem[parseFloat(key)].style.top = `${percentage}%`;
       } else {
-        scaleItem[key].style.left = `${percentage}%`;
+        scaleItem[parseFloat(key)].style.left = `${percentage}%`;
       }
     });
   }

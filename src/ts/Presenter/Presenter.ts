@@ -13,6 +13,7 @@ const {
   INPUT,
   RANGE,
   LABEL,
+  STEP,
   VERTICAL,
   PERCENT_FROM,
   PERCENT_TO,
@@ -25,11 +26,17 @@ class Presenter {
     this.init(
       this.model.get(TYPE),
       this.model.get(INPUT),
-      this.model.get(RANGE)
+      this.model.get(RANGE),
+      this.model.get(SCALE)
     );
   }
 
-  private init(type: string, isInput: boolean, isRange: boolean): void {
+  private init(
+    type: string,
+    isInput: boolean,
+    isRange: boolean,
+    isScale: boolean
+  ): void {
     if (type === SINGLE) {
       this.initConfigValue(
         this.model.get(SINGLE),
@@ -68,6 +75,10 @@ class Presenter {
     if (isRange) {
       this.bindRangeEvents(this.view.rangeMin);
       this.bindRangeEvents(this.view.rangeMax);
+    }
+
+    if (isScale) {
+      this.bindScaleEvents(this.view.scale);
     }
   }
 
@@ -137,7 +148,12 @@ class Presenter {
     }
 
     if (this.model.get(SCALE)) {
-      this.view.changeScale(this.model.createStep());
+      this.view.changeScale(
+        this.model.createStep(),
+        this.model.get(MIN),
+        this.model.get(MAX),
+        this.model.get(STEP)
+      );
     }
   }
 
@@ -147,6 +163,10 @@ class Presenter {
 
   private bindWrapperEvents(element: HTMLElement): void {
     element.addEventListener('click', this.wrapperClick.bind(this));
+  }
+
+  private bindScaleEvents(element: HTMLElement): void {
+    element.addEventListener('click', this.scaleClick.bind(this));
   }
 
   private bindInputEvents(element: HTMLElement): void {
@@ -274,6 +294,48 @@ class Presenter {
     this.updateView(elementType, false);
   }
 
+  private scaleClick(event: MouseEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    let element = event.target as HTMLElement;
+    element = element.closest('.slider__scale-item') as HTMLElement;
+
+    let percentage: number;
+    let elementType = this.view.checkElementType(target);
+
+    if (this.model.get(VERTICAL)) {
+      percentage = element.offsetTop;
+    } else {
+      percentage = element.offsetLeft;
+    }
+
+    percentage = this.view.calcPercentage(percentage);
+    const range = this.model.get(PERCENT_TO) - this.model.get(PERCENT_FROM);
+
+    if (elementType !== SINGLE) {
+      if (percentage > this.model.get(PERCENT_FROM) + range / 2) {
+        elementType = TO;
+      } else {
+        elementType = FROM;
+      }
+    }
+
+    percentage = this.model.getPercentage(percentage, elementType);
+    const value = this.model.getValue(percentage);
+
+    if (elementType === FROM) {
+      this.model.add(percentage, PERCENT_FROM);
+      this.model.add(value, FROM);
+    } else if (elementType === TO) {
+      this.model.add(percentage, PERCENT_TO);
+      this.model.add(value, TO);
+    } else if (elementType === SINGLE) {
+      this.model.add(percentage, PERCENT_SINGLE);
+      this.model.add(value, SINGLE);
+    }
+
+    this.updateView(elementType, false);
+  }
+
   private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     let min = Math.abs(parseFloat(this.view.rangeMin.value));
@@ -290,6 +352,15 @@ class Presenter {
       max = this.model.validateRange(max, MAX);
       this.view.rangeMax.value = max.toString();
       this.model.add(max, MAX);
+    }
+
+    if (this.model.get(SCALE)) {
+      this.view.changeScale(
+        this.model.createStep(),
+        this.model.get(MIN),
+        this.model.get(MAX),
+        this.model.get(STEP)
+      );
     }
   }
 }

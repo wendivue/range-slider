@@ -36,6 +36,12 @@ class View {
 
   public labelTo!: HTMLInputElement;
 
+  public scale!: HTMLElement;
+
+  public scaleDouble!: HTMLElement;
+
+  public scaleSingle!: HTMLElement;
+
   public sliderSingle!: HTMLElement;
 
   public sliderDouble!: HTMLElement;
@@ -82,9 +88,8 @@ class View {
     );
     this.factoryScale = this.factory.createScale(
       this.app,
-      this.config.min,
-      this.config.max,
-      this.config.isVertical
+      this.config.isVertical,
+      this.config.type
     );
 
     if (this.config.isLabel) {
@@ -104,7 +109,9 @@ class View {
   }
 
   private getElement(): void {
-    const slider = this.app.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = this.app.querySelector(
+      '.slider__main-wrapper'
+    ) as HTMLElement;
     const bar = this.app.querySelector('.slider__bar') as HTMLElement;
     const handle = this.app.querySelector('.slider__handle') as HTMLElement;
 
@@ -123,6 +130,18 @@ class View {
         ) as HTMLInputElement;
 
         this.labelSingle = labelSingle;
+      }
+
+      if (this.config.isScale) {
+        const scale = this.app.querySelector(
+          '.slider__scale'
+        ) as HTMLInputElement;
+        const scaleSingle = this.app.querySelector(
+          '.slider__scale_single'
+        ) as HTMLInputElement;
+
+        this.scale = scale;
+        this.scaleSingle = scaleSingle;
       }
 
       const inputSingle = this.app.querySelector(
@@ -157,6 +176,18 @@ class View {
 
         this.labelFrom = labelFrom;
         this.labelTo = labelTo;
+      }
+
+      if (this.config.isScale) {
+        const scale = this.app.querySelector(
+          '.slider__scale'
+        ) as HTMLInputElement;
+        const scaleDouble = this.app.querySelector(
+          '.slider__scale_double'
+        ) as HTMLInputElement;
+
+        this.scale = scale;
+        this.scaleDouble = scaleDouble;
       }
 
       const sliderDouble = this.app.querySelector(
@@ -197,6 +228,7 @@ class View {
       element === this.from ||
       element === this.inputFrom ||
       element === this.sliderDouble ||
+      element === this.scaleDouble ||
       element === this.labelFrom;
     const conditionTo =
       element === this.to ||
@@ -206,6 +238,7 @@ class View {
       element === this.single ||
       element === this.inputSingle ||
       element === this.sliderSingle ||
+      element === this.scaleSingle ||
       element === this.labelSingle;
 
     if (conditionFrom) {
@@ -265,7 +298,12 @@ class View {
     this.factoryInput.changeValue(fromValue, toValue);
   }
 
-  public changeScale(arrayPercentage: Array<number>): void {
+  public changeScale(
+    arrayPercentage: Array<number>,
+    min: number,
+    max: number,
+    step: number
+  ): void {
     if (
       this.factoryScale === undefined ||
       this.factoryScale.changeScale === undefined
@@ -273,7 +311,7 @@ class View {
       throw new Error('factoryScale не передан');
     }
 
-    this.factoryScale.changeScale(arrayPercentage);
+    this.factoryScale.changeScale(arrayPercentage, min, max, step);
   }
 
   public calcPercentage(left: number): number {
