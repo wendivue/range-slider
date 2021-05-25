@@ -1,4 +1,5 @@
 import { PartialConfig } from 'Helpers/interface';
+import { checkConfig } from 'Helpers/helpersFunctions';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
@@ -10,6 +11,7 @@ import defaultConfig from './Model/defaultConfig';
   $.fn.rangeSlider = function rangeSlider(options: PartialConfig, id: string) {
     const config = { ...defaultConfig, ...options };
     const anchor = document.getElementById(id) as HTMLElement;
+    checkConfig(config);
 
     if (!anchor) throw new Error('anchorId - не передан');
 

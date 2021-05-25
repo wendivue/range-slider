@@ -1,6 +1,6 @@
 import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-import getUniqueID from 'Helpers/helpersFunctions';
+import { getUniqueID } from 'Helpers/helpersFunctions';
 import Presenter from 'Ts/Presenter/Presenter';
 import Model from 'Ts/Model/Model';
 import View from 'Ts/View/View';

@@ -1,4 +1,4 @@
-import getUniqueID from 'Helpers/helpersFunctions';
+import { getUniqueID } from 'Helpers/helpersFunctions';
 
 class IntervalInput {
   constructor(public anchor: HTMLElement) {

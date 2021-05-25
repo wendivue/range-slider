@@ -1,4 +1,4 @@
-import getUniqueID from 'Helpers/helpersFunctions';
+import { getUniqueID } from 'Helpers/helpersFunctions';
 
 class Range {
   constructor(anchor: HTMLElement, min: number, max: number) {
