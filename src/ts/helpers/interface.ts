@@ -1,3 +1,5 @@
+type typeData = 'single' | 'double';
+
 interface Config {
   min: number;
   max: number;
@@ -8,7 +10,7 @@ interface Config {
   percentFrom: number;
   percentTo: number;
   percentSingle: number;
-  type: string;
+  type: typeData;
   isInput: boolean;
   isRange: boolean;
   isLabel: boolean;
@@ -46,4 +48,12 @@ interface methodsViewFactory {
 
 type PartialConfig = Partial<Config>;
 
-export { Config, Coords, Shift, forMouse, methodsViewFactory, PartialConfig };
+export {
+  Config,
+  Coords,
+  Shift,
+  forMouse,
+  methodsViewFactory,
+  PartialConfig,
+  typeData,
+};

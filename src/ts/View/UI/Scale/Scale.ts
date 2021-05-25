@@ -1,3 +1,4 @@
+import { typeData } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 
 const { DOUBLE } = Constants;
@@ -12,7 +13,7 @@ class Scale {
   constructor(
     public anchor: HTMLElement,
     public isVertical: boolean,
-    public type: string
+    public type: typeData
   ) {
     this.init();
   }

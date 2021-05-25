@@ -31,7 +31,7 @@ class IntervalHandle {
     this.classHandleToVertical = isVertical ? 'slider__handle_to_vertical' : '';
   }
 
-  public moveElement(percentage: number, elementType: string): void {
+  public moveElement(percentage: number, elementType: Constants): void {
     const from = this.anchor.querySelector(
       '.slider__handle_from'
     ) as HTMLElement;

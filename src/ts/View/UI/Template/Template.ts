@@ -1,3 +1,4 @@
+import { typeData } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 
 const { SINGLE, DOUBLE } = Constants;
@@ -14,7 +15,7 @@ class Template {
   constructor(
     public anchor: HTMLElement,
     public isVertical: boolean,
-    public type: string
+    public type: typeData
   ) {
     this.init();
   }
@@ -30,7 +31,7 @@ class Template {
     anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
   }
 
-  private createClass(isVertical: boolean, type: string): void {
+  private createClass(isVertical: boolean, type: typeData): void {
     this.classWrapperMainVertical = isVertical
       ? 'slider__main-wrapper_vertical'
       : '';

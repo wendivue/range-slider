@@ -5,12 +5,13 @@ import Range from 'UI/Range/Range';
 import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
+import { typeData } from 'Helpers/interface';
 
 class IntervalFactory {
   public createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: string
+    type: typeData
   ): Template {
     return new Template(anchor, isVertical, type);
   }
@@ -18,7 +19,7 @@ class IntervalFactory {
   public createBar(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: string
+    type: typeData
   ): Bar {
     return new Bar(anchor, isVertical, type);
   }
@@ -45,7 +46,7 @@ class IntervalFactory {
   public createScale(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: string
+    type: typeData
   ): Scale {
     return new Scale(anchor, isVertical, type);
   }
