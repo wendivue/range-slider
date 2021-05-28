@@ -19,6 +19,7 @@ const {
   PERCENT_TO,
   PERCENT_SINGLE,
   SCALE,
+  DOUBLE,
 } = Constants;
 
 class Presenter {
@@ -44,8 +45,8 @@ class Presenter {
         SINGLE
       );
 
-      this.bindWrapperEvents(this.view.sliderSingle);
-      this.bindHandleEvents(this.view.single);
+      this.view.bindWrapperEvents(SINGLE, this.wrapperClick.bind(this));
+      this.view.bindHandleEvents(SINGLE, this.handleMouseMove.bind(this));
     } else {
       this.initConfigValue(
         this.model.get(FROM),
@@ -58,27 +59,27 @@ class Presenter {
         TO
       );
 
-      this.bindWrapperEvents(this.view.sliderDouble);
-      this.bindHandleEvents(this.view.from);
-      this.bindHandleEvents(this.view.to);
+      this.view.bindWrapperEvents(DOUBLE, this.wrapperClick.bind(this));
+      this.view.bindHandleEvents(FROM, this.handleMouseMove.bind(this));
+      this.view.bindHandleEvents(TO, this.handleMouseMove.bind(this));
     }
 
     if (isInput) {
       if (type === SINGLE) {
-        this.bindInputEvents(this.view.inputSingle);
+        this.view.bindInputEvents(SINGLE, this.inputOnChange.bind(this));
       } else {
-        this.bindInputEvents(this.view.inputFrom);
-        this.bindInputEvents(this.view.inputTo);
+        this.view.bindInputEvents(FROM, this.inputOnChange.bind(this));
+        this.view.bindInputEvents(TO, this.inputOnChange.bind(this));
       }
     }
 
     if (isRange) {
-      this.bindRangeEvents(this.view.rangeMin);
-      this.bindRangeEvents(this.view.rangeMax);
+      this.view.bindRangeEvents(MIN, this.rangeOnChange.bind(this));
+      this.view.bindRangeEvents(MAX, this.rangeOnChange.bind(this));
     }
 
     if (isScale) {
-      this.bindScaleEvents(this.view.scale);
+      this.view.bindScaleEvents(this.scaleClick.bind(this));
     }
   }
 
@@ -155,45 +156,6 @@ class Presenter {
         this.model.get(STEP)
       );
     }
-  }
-
-  private bindHandleEvents(element: HTMLElement): void {
-    element.addEventListener('mousedown', this.handleMouseDown.bind(this));
-  }
-
-  private bindWrapperEvents(element: HTMLElement): void {
-    element.addEventListener('click', this.wrapperClick.bind(this));
-  }
-
-  private bindScaleEvents(element: HTMLElement): void {
-    element.addEventListener('click', this.scaleClick.bind(this));
-  }
-
-  private bindInputEvents(element: HTMLElement): void {
-    element.addEventListener('change', this.inputOnChange.bind(this));
-  }
-
-  private bindRangeEvents(element: HTMLElement): void {
-    element.addEventListener('change', this.rangeOnChange.bind(this));
-  }
-
-  private handleMouseDown(event: MouseEvent): void {
-    const element = event.target as HTMLElement;
-    const shift: Shift = this.view.getShift(event, element);
-
-    const forMouseMove: forMouse = {
-      shift,
-      element,
-    };
-
-    const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
-
-    const onMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
   }
 
   private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {

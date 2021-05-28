@@ -1,9 +1,19 @@
-import { Config, Coords, Shift, methodsViewFactory } from 'Helpers/interface';
+import {
+  Config,
+  Coords,
+  Shift,
+  forMouse,
+  methodsViewFactory,
+} from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
-const { SINGLE, FROM, TO, DOUBLE } = Constants;
+const { SINGLE, FROM, TO, DOUBLE, MIN, MAX } = Constants;
+
+type TypeEventMouse = (event: MouseEvent) => void;
+type TypeEventMouseHandle = (forMouseMove: forMouse, event: MouseEvent) => void;
+type TypeEventChange = (event: Event) => void;
 
 class View {
   public factory?: SingleFactory | IntervalFactory;
@@ -58,6 +68,97 @@ class View {
 
   constructor(public config: Config, public app: HTMLElement) {
     this.init();
+  }
+
+  public bindHandleEvents(
+    elementType: Constants,
+    func: TypeEventMouseHandle
+  ): void {
+    let element;
+
+    if (elementType === SINGLE) {
+      element = this.single;
+    } else if (elementType === FROM) {
+      element = this.from;
+    } else if (elementType === TO) {
+      element = this.to;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener(
+      'mousedown',
+      this.handleMouseDown.bind(this, func)
+    );
+  }
+
+  public bindWrapperEvents(elementType: Constants, func: TypeEventMouse): void {
+    let element;
+
+    if (elementType === SINGLE) {
+      element = this.sliderSingle;
+    } else if (elementType === DOUBLE) {
+      element = this.sliderDouble;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('click', func);
+  }
+
+  public bindScaleEvents(func: TypeEventMouse): void {
+    const element = this.scale;
+
+    element.addEventListener('click', func);
+  }
+
+  public bindInputEvents(elementType: Constants, func: TypeEventChange): void {
+    let element;
+
+    if (elementType === SINGLE) {
+      element = this.inputSingle;
+    } else if (elementType === FROM) {
+      element = this.inputFrom;
+    } else if (elementType === TO) {
+      element = this.inputTo;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('change', func);
+  }
+
+  public bindRangeEvents(elementType: Constants, func: TypeEventChange): void {
+    let element;
+
+    if (elementType === MIN) {
+      element = this.rangeMin;
+    } else if (elementType === MAX) {
+      element = this.rangeMax;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('change', func);
+  }
+
+  private handleMouseDown(func: TypeEventMouseHandle, event: MouseEvent): void {
+    const element = event.target as HTMLElement;
+    const shift: Shift = this.getShift(event, element);
+
+    const forMouseMove: forMouse = {
+      shift,
+      element,
+    };
+
+    const handleMouseMove = func.bind(this, forMouseMove);
+
+    const onMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   }
 
   private init(): void {
