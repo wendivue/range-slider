@@ -1,7 +1,7 @@
 import Constants from 'Helpers/enums';
 import { forMouse, Shift } from 'Helpers/interface';
-import View from '../View/View';
 import { IModel } from '../Model/IModel';
+import { IView } from '../View/IView';
 
 const {
   SINGLE,
@@ -23,7 +23,7 @@ const {
 } = Constants;
 
 class Presenter {
-  constructor(public model: IModel, public view: View) {
+  constructor(public model: IModel, public view: IView) {
     this.init(
       this.model.get(TYPE),
       this.model.get(INPUT),
@@ -300,19 +300,19 @@ class Presenter {
 
   private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
-    let min = Math.abs(parseFloat(this.view.rangeMin.value));
-    let max = Math.abs(parseFloat(this.view.rangeMax.value));
+    let min = Math.abs(parseFloat(this.view.getElement(MIN).value));
+    let max = Math.abs(parseFloat(this.view.getElement(MAX).value));
 
     if (Number.isNaN(min)) min = this.model.get(MIN);
     if (Number.isNaN(max)) max = this.model.get(MAX);
 
-    if (element === this.view.rangeMin) {
+    if (element === this.view.getElement(MIN)) {
       min = this.model.validateRange(min, MIN);
-      this.view.rangeMin.value = min.toString();
+      this.view.getElement(MIN).value = min.toString();
       this.model.add(min, MIN);
-    } else if (element === this.view.rangeMax) {
+    } else if (element === this.view.getElement(MAX)) {
       max = this.model.validateRange(max, MAX);
-      this.view.rangeMax.value = max.toString();
+      this.view.getElement(MAX).value = max.toString();
       this.model.add(max, MAX);
     }
 
