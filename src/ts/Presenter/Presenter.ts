@@ -23,7 +23,7 @@ const {
 } = Constants;
 
 class Presenter {
-  constructor(public model: IModel, public view: IView) {
+  constructor(private model: IModel, private view: IView) {
     this.init(
       this.model.get(TYPE),
       this.model.get(INPUT),

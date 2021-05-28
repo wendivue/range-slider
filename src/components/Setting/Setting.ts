@@ -12,9 +12,9 @@ const { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL, SCALE } = Constants;
 class Setting {
   private model = new Model(this.config);
 
-  public setting?: HTMLElement;
+  private setting!: HTMLElement;
 
-  constructor(public config: Config, public anchor: HTMLElement) {
+  constructor(private config: Config, private anchor: HTMLElement) {
     this.init();
   }
 
@@ -86,9 +86,7 @@ class Setting {
     );
   }
 
-  public bindEvents(): void {
-    if (!this.setting) throw new Error('setting id - не найдено');
-
+  private bindEvents(): void {
     const checkbox: NodeListOf<HTMLInputElement> = this.setting.querySelectorAll(
       '.setting__checkbox'
     );
@@ -98,9 +96,7 @@ class Setting {
     });
   }
 
-  public bindEventInput(): void {
-    if (!this.setting) throw new Error('setting id - не найдено');
-
+  private bindEventInput(): void {
     const input = this.setting.querySelector(
       '.setting__input'
     ) as HTMLInputElement;

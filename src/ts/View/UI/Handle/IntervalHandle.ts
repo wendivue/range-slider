@@ -1,34 +1,16 @@
 import Constants from 'Helpers/enums';
+import { IIntervalHandle } from './IIntervalHandle';
 
 const { FROM, TO } = Constants;
 
-class IntervalHandle {
+class IntervalHandle implements IIntervalHandle {
   private classHandleVertical?: string;
 
   private classHandleToVertical?: string;
 
-  constructor(public anchor: HTMLElement, public isVertical: boolean) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean) {
     this.anchor = anchor;
     this.init();
-  }
-
-  private init(): void {
-    this.createClass(this.isVertical);
-    this.createHtml(this.anchor);
-  }
-
-  private createHtml(anchor: HTMLElement): void {
-    const handleTemplate =
-      `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
-      `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
-
-    slider.insertAdjacentHTML('beforeend', handleTemplate);
-  }
-
-  private createClass(isVertical: boolean): void {
-    this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
-    this.classHandleToVertical = isVertical ? 'slider__handle_to_vertical' : '';
   }
 
   public moveElement(percentage: number, elementType: Constants): void {
@@ -48,6 +30,25 @@ class IntervalHandle {
     } else if (elementType === TO) {
       to.style.left = `${percentage}%`;
     }
+  }
+
+  private init(): void {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
+    const handleTemplate =
+      `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
+      `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
+    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+
+    slider.insertAdjacentHTML('beforeend', handleTemplate);
+  }
+
+  private createClass(isVertical: boolean): void {
+    this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
+    this.classHandleToVertical = isVertical ? 'slider__handle_to_vertical' : '';
   }
 }
 

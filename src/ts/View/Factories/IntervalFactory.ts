@@ -5,9 +5,29 @@ import Range from 'UI/Range/Range';
 import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
-import { typeData } from 'Helpers/interface';
 
-class IntervalFactory {
+import { typeData } from 'Helpers/interface';
+import { IBar } from 'UI/Bar/IBar';
+import { IIntervalHandle } from 'UI/Handle/IIntervalHandle';
+import { IIntervalInput } from 'UI/Input/IIntervalInput';
+import { IIntervalLabel } from 'UI/Label/IIntervalLabel';
+import { IScale } from 'UI/Scale/IScale';
+
+export interface IIntervalFactory {
+  createTemplate(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: typeData
+  ): Template;
+  createBar(anchor: HTMLElement, isVertical: boolean, type: typeData): IBar;
+  createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle;
+  createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel;
+  createRange(anchor: HTMLElement, min: number, max: number): Range;
+  createInput(anchor: HTMLElement): IIntervalInput;
+  createScale(anchor: HTMLElement, isVertical: boolean, type: typeData): IScale;
+}
+
+class IntervalFactory implements IIntervalFactory {
   public createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
@@ -20,18 +40,18 @@ class IntervalFactory {
     anchor: HTMLElement,
     isVertical: boolean,
     type: typeData
-  ): Bar {
+  ): IBar {
     return new Bar(anchor, isVertical, type);
   }
 
   public createHandle(
     anchor: HTMLElement,
     isVertical: boolean
-  ): IntervalHandle {
+  ): IIntervalHandle {
     return new IntervalHandle(anchor, isVertical);
   }
 
-  public createLabel(anchor: HTMLElement, isVertical: boolean): IntervalLabel {
+  public createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel {
     return new IntervalLabel(anchor, isVertical);
   }
 
@@ -39,7 +59,7 @@ class IntervalFactory {
     return new Range(anchor, min, max);
   }
 
-  public createInput(anchor: HTMLElement): IntervalInput {
+  public createInput(anchor: HTMLElement): IIntervalInput {
     return new IntervalInput(anchor);
   }
 
@@ -47,7 +67,7 @@ class IntervalFactory {
     anchor: HTMLElement,
     isVertical: boolean,
     type: typeData
-  ): Scale {
+  ): IScale {
     return new Scale(anchor, isVertical, type);
   }
 }

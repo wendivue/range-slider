@@ -44,12 +44,4 @@ describe('Input undefined', () => {
   afterEach(() => {
     slider.innerHTML = '';
   });
-
-  test('to undefined', () => {
-    const input = new IntervalInput(anchor);
-    const item = () => input.changeValue('10', undefined);
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('toValue не передан');
-  });
 });

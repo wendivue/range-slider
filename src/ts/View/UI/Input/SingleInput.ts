@@ -1,8 +1,17 @@
 import { getUniqueID } from 'Helpers/helpersFunctions';
+import { ISingleInput } from './ISingleInput';
 
-class SingleInput {
-  constructor(public anchor: HTMLElement) {
+class SingleInput implements ISingleInput {
+  constructor(private anchor: HTMLElement) {
     this.init(anchor);
+  }
+
+  public changeValue(fromValue: string): void {
+    const inputSingle = this.anchor.querySelector(
+      '.input__single'
+    ) as HTMLInputElement;
+
+    inputSingle.value = fromValue;
   }
 
   private init(anchor: HTMLElement): void {
@@ -18,14 +27,6 @@ class SingleInput {
     const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
-  }
-
-  public changeValue(fromValue: string): void {
-    const inputSingle = this.anchor.querySelector(
-      '.input__single'
-    ) as HTMLInputElement;
-
-    inputSingle.value = fromValue;
   }
 }
 

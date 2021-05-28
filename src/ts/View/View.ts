@@ -5,13 +5,14 @@ import {
   TypeEventMouseHandle,
   TypeEventChange,
   PartialUI,
+  IView,
 } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
 const { SINGLE, FROM, TO, DOUBLE, MIN, MAX } = Constants;
 
-class View {
+class View implements IView {
   public UI: PartialUI = {};
 
   private factory?: SingleFactory | IntervalFactory;

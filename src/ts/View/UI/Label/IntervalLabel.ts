@@ -1,8 +1,22 @@
-class IntervalLabel {
+import { IIntervalLabel } from './IIntervalLabel';
+
+class IntervalLabel implements IIntervalLabel {
   private classLabelVertical?: string;
 
-  constructor(public anchor: HTMLElement, public isVertical: boolean) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean) {
     this.init();
+  }
+
+  public changeLabelValue(fromValue: string, toValue: string): void {
+    const labelFrom = this.anchor.querySelector(
+      '.slider__label-text_from'
+    ) as HTMLElement;
+    const labelTo = this.anchor.querySelector(
+      '.slider__label-text_to'
+    ) as HTMLElement;
+
+    labelFrom.innerHTML = fromValue;
+    labelTo.innerHTML = toValue;
   }
 
   private init(): void {
@@ -32,18 +46,6 @@ class IntervalLabel {
 
   private createClass(isVertical: boolean): void {
     this.classLabelVertical = isVertical ? 'slider__label_vertical' : '';
-  }
-
-  public changeLabelValue(fromValue: string, toValue: string): void {
-    const labelFrom = this.anchor.querySelector(
-      '.slider__label-text_from'
-    ) as HTMLElement;
-    const labelTo = this.anchor.querySelector(
-      '.slider__label-text_to'
-    ) as HTMLElement;
-
-    labelFrom.innerHTML = fromValue;
-    labelTo.innerHTML = toValue;
   }
 }
 export default IntervalLabel;

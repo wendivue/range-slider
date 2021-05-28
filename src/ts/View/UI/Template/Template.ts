@@ -13,9 +13,9 @@ class Template {
   private classWrapperDouble?: string;
 
   constructor(
-    public anchor: HTMLElement,
-    public isVertical: boolean,
-    public type: typeData
+    private anchor: HTMLElement,
+    private isVertical: boolean,
+    private type: typeData
   ) {
     this.init();
   }

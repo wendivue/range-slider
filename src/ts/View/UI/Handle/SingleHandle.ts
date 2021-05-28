@@ -1,11 +1,25 @@
-class SingleHandle {
+import { ISingleHandle } from './ISingleHandle';
+
+class SingleHandle implements ISingleHandle {
   private classHandleSingleVertical?: string;
 
   private classHandleVertical?: string;
 
-  constructor(public anchor: HTMLElement, public isVertical: boolean) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean) {
     this.anchor = anchor;
     this.init();
+  }
+
+  public moveElement(percentage: number): void {
+    const single = this.anchor.querySelector(
+      '.slider__handle_single'
+    ) as HTMLElement;
+
+    if (this.isVertical) {
+      single.style.top = `${percentage}%`;
+    } else {
+      single.style.left = `${percentage}%`;
+    }
   }
 
   private init(): void {
@@ -26,18 +40,6 @@ class SingleHandle {
       ? 'slider__handle_single_vertical'
       : '';
     this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
-  }
-
-  public moveElement(percentage: number): void {
-    const single = this.anchor.querySelector(
-      '.slider__handle_single'
-    ) as HTMLElement;
-
-    if (this.isVertical) {
-      single.style.top = `${percentage}%`;
-    } else {
-      single.style.left = `${percentage}%`;
-    }
   }
 }
 

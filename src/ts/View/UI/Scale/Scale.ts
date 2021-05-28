@@ -1,59 +1,22 @@
 import { typeData } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { IScale } from './IScale';
 
 const { DOUBLE } = Constants;
 
-class Scale {
-  classType?: string;
+class Scale implements IScale {
+  private classType?: string;
 
-  classScaleVertical?: string;
+  private classScaleVertical?: string;
 
-  classScaleItemVertical?: string;
+  private classScaleItemVertical?: string;
 
   constructor(
-    public anchor: HTMLElement,
-    public isVertical: boolean,
-    public type: typeData
+    private anchor: HTMLElement,
+    private isVertical: boolean,
+    private type: typeData
   ) {
     this.init();
-  }
-
-  private init(): void {
-    this.createClass(this.isVertical);
-    this.createHtml(this.anchor);
-  }
-
-  private createHtml(anchor: HTMLElement): void {
-    const scaleTemplate = `<div class="slider__scale ${this.classScaleVertical} ${this.classType}"></div>`;
-
-    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
-
-    slider.insertAdjacentHTML('beforeend', scaleTemplate);
-  }
-
-  private createClass(isVertical: boolean): void {
-    this.classType =
-      this.type === DOUBLE ? 'slider__scale_double' : 'slider__scale_single';
-    this.classScaleVertical = isVertical ? 'slider__scale_vertical' : '';
-    this.classScaleItemVertical = isVertical
-      ? 'slider__scale-item_vertical'
-      : '';
-  }
-
-  private calculateValue(
-    percentage: number,
-    min: number,
-    max: number,
-    step: number
-  ): number {
-    let newValue = percentage;
-    if (Number.isInteger(step)) {
-      newValue = Math.round(((max - min) / 100) * percentage + min);
-    } else {
-      newValue = ((max - min) / 100) * percentage + min;
-    }
-
-    return newValue;
   }
 
   public changeScale(
@@ -93,6 +56,44 @@ class Scale {
         scaleItem[parseFloat(key)].style.left = `${percentage}%`;
       }
     });
+  }
+
+  private init(): void {
+    this.createClass(this.isVertical);
+    this.createHtml(this.anchor);
+  }
+
+  private createHtml(anchor: HTMLElement): void {
+    const scaleTemplate = `<div class="slider__scale ${this.classScaleVertical} ${this.classType}"></div>`;
+
+    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+
+    slider.insertAdjacentHTML('beforeend', scaleTemplate);
+  }
+
+  private createClass(isVertical: boolean): void {
+    this.classType =
+      this.type === DOUBLE ? 'slider__scale_double' : 'slider__scale_single';
+    this.classScaleVertical = isVertical ? 'slider__scale_vertical' : '';
+    this.classScaleItemVertical = isVertical
+      ? 'slider__scale-item_vertical'
+      : '';
+  }
+
+  private calculateValue(
+    percentage: number,
+    min: number,
+    max: number,
+    step: number
+  ): number {
+    let newValue = percentage;
+    if (Number.isInteger(step)) {
+      newValue = Math.round(((max - min) / 100) * percentage + min);
+    } else {
+      newValue = ((max - min) / 100) * percentage + min;
+    }
+
+    return newValue;
   }
 }
 

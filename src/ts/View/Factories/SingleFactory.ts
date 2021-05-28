@@ -5,9 +5,29 @@ import Range from 'UI/Range/Range';
 import SingleInput from 'UI/Input/SingleInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
-import { typeData } from 'Helpers/interface';
 
-class SingleFactory {
+import { typeData } from 'Helpers/interface';
+import { IBar } from 'UI/Bar/IBar';
+import { ISingleHandle } from 'UI/Handle/ISingleHandle';
+import { ISingleInput } from 'UI/Input/ISingleInput';
+import { ISingleLabel } from 'UI/Label/ISingleLabel';
+import { IScale } from 'UI/Scale/IScale';
+
+export interface ISingleFactory {
+  createTemplate(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: typeData
+  ): Template;
+  createBar(anchor: HTMLElement, isVertical: boolean, type: typeData): IBar;
+  createHandle(anchor: HTMLElement, isVertical: boolean): ISingleHandle;
+  createLabel(anchor: HTMLElement, isVertical: boolean): ISingleLabel;
+  createRange(anchor: HTMLElement, min: number, max: number): Range;
+  createInput(anchor: HTMLElement): ISingleInput;
+  createScale(anchor: HTMLElement, isVertical: boolean, type: typeData): IScale;
+}
+
+class SingleFactory implements ISingleFactory {
   public createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
@@ -20,15 +40,15 @@ class SingleFactory {
     anchor: HTMLElement,
     isVertical: boolean,
     type: typeData
-  ): Bar {
+  ): IBar {
     return new Bar(anchor, isVertical, type);
   }
 
-  public createHandle(anchor: HTMLElement, isVertical: boolean): SingleHandle {
+  public createHandle(anchor: HTMLElement, isVertical: boolean): ISingleHandle {
     return new SingleHandle(anchor, isVertical);
   }
 
-  public createLabel(anchor: HTMLElement, isVertical: boolean): SingleLabel {
+  public createLabel(anchor: HTMLElement, isVertical: boolean): ISingleLabel {
     return new SingleLabel(anchor, isVertical);
   }
 
@@ -36,7 +56,7 @@ class SingleFactory {
     return new Range(anchor, min, max);
   }
 
-  public createInput(anchor: HTMLElement): SingleInput {
+  public createInput(anchor: HTMLElement): ISingleInput {
     return new SingleInput(anchor);
   }
 
@@ -44,7 +64,7 @@ class SingleFactory {
     anchor: HTMLElement,
     isVertical: boolean,
     type: typeData
-  ): Scale {
+  ): IScale {
     return new Scale(anchor, isVertical, type);
   }
 }

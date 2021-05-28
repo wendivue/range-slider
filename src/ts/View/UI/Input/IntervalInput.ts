@@ -1,8 +1,19 @@
 import { getUniqueID } from 'Helpers/helpersFunctions';
+import { IIntervalInput } from './IIntervalInput';
 
-class IntervalInput {
-  constructor(public anchor: HTMLElement) {
+class IntervalInput implements IIntervalInput {
+  constructor(private anchor: HTMLElement) {
     this.init(anchor);
+  }
+
+  public changeValue(fromValue: string, toValue: string): void {
+    const inputFrom = this.anchor.querySelector(
+      '.input__from'
+    ) as HTMLInputElement;
+    const inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
+
+    inputFrom.value = fromValue;
+    inputTo.value = toValue;
   }
 
   private init(anchor: HTMLElement): void {
@@ -24,18 +35,6 @@ class IntervalInput {
     const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
-  }
-
-  public changeValue(fromValue: string, toValue?: string): void {
-    const inputFrom = this.anchor.querySelector(
-      '.input__from'
-    ) as HTMLInputElement;
-    const inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
-
-    if (toValue === undefined) throw new Error('toValue не передан');
-
-    inputFrom.value = fromValue;
-    inputTo.value = toValue;
   }
 }
 
