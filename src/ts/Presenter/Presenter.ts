@@ -1,7 +1,7 @@
 import Constants from 'Helpers/enums';
 import { forMouse, Shift } from 'Helpers/interface';
 import { IModel } from '../Model/IModel';
-import { IView } from '../View/IView';
+import { IView, IUI } from '../View/IView';
 
 const {
   SINGLE,
@@ -108,28 +108,27 @@ class Presenter {
   }
 
   private updateView(elementType: Constants, isInput: boolean): void {
+    const { handle, bar, scale, label, input } = this.view.UI as IUI;
+
     if (elementType === FROM) {
-      this.view.moveElement(this.model.get(PERCENT_FROM), elementType);
+      handle.moveElement(this.model.get(PERCENT_FROM), elementType);
     } else if (elementType === TO) {
-      this.view.moveElement(this.model.get(PERCENT_TO), elementType);
+      handle.moveElement(this.model.get(PERCENT_TO), elementType);
     } else if (elementType === SINGLE) {
-      this.view.moveElement(this.model.get(PERCENT_SINGLE), elementType);
+      handle.moveElement(this.model.get(PERCENT_SINGLE), elementType);
     }
 
     if (this.model.get(TYPE) === SINGLE) {
-      this.view.changeBar(this.model.get(PERCENT_SINGLE));
+      bar.changeBar(this.model.get(PERCENT_SINGLE));
     } else {
-      this.view.changeBar(
-        this.model.get(PERCENT_FROM),
-        this.model.get(PERCENT_TO)
-      );
+      bar.changeBar(this.model.get(PERCENT_FROM), this.model.get(PERCENT_TO));
     }
 
     if (this.model.get(LABEL))
       if (this.model.get(TYPE) === SINGLE) {
-        this.view.changeLabelValue(this.model.get(SINGLE).toString());
+        label.changeLabelValue(this.model.get(SINGLE).toString());
       } else {
-        this.view.changeLabelValue(
+        label.changeLabelValue(
           this.model.get(FROM).toString(),
           this.model.get(TO).toString()
         );
@@ -138,9 +137,9 @@ class Presenter {
     if (!isInput) {
       if (this.model.get(INPUT)) {
         if (this.model.get(TYPE) === SINGLE) {
-          this.view.changeValue(this.model.get(SINGLE).toString());
+          input.changeValue(this.model.get(SINGLE).toString());
         } else {
-          this.view.changeValue(
+          input.changeValue(
             this.model.get(FROM).toString(),
             this.model.get(TO).toString()
           );
@@ -149,7 +148,7 @@ class Presenter {
     }
 
     if (this.model.get(SCALE)) {
-      this.view.changeScale(
+      scale.changeScale(
         this.model.createStep(),
         this.model.get(MIN),
         this.model.get(MAX),
@@ -300,6 +299,7 @@ class Presenter {
 
   private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
+    const { scale } = this.view.UI as IUI;
     let min = Math.abs(parseFloat(this.view.getElement(MIN).value));
     let max = Math.abs(parseFloat(this.view.getElement(MAX).value));
 
@@ -317,7 +317,7 @@ class Presenter {
     }
 
     if (this.model.get(SCALE)) {
-      this.view.changeScale(
+      scale.changeScale(
         this.model.createStep(),
         this.model.get(MIN),
         this.model.get(MAX),

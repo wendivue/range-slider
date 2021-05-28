@@ -33,27 +33,6 @@ interface forMouse {
   element: HTMLElement;
 }
 
-interface methodsViewFactory {
-  changeBar?(from: number, to?: number): void;
-  moveElement?(percentage: number, elementType?: string): void;
-  changeLabelValue?(fromValue: string, toValue?: string): void;
-  changeValue?(fromValue: string, toValue?: string): void;
-  changeScale?(
-    percentage: Array<number>,
-    min: number,
-    max: number,
-    step: number
-  ): void;
-}
-
 type PartialConfig = Partial<Config>;
 
-export {
-  Config,
-  Coords,
-  Shift,
-  forMouse,
-  methodsViewFactory,
-  PartialConfig,
-  typeData,
-};
+export { Config, Coords, Shift, forMouse, PartialConfig, typeData };

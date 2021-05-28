@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';
+import { IUI } from 'Ts/View/IView';
 
 const { FROM, SINGLE, TO } = Constants;
 
@@ -103,99 +104,57 @@ describe('Create element', () => {
 
   test('create handle', () => {
     const view = new View(singleConfig, anchor);
-    view.moveElement(23, SINGLE);
-    const handle = anchor.querySelector(
+    const { handle } = view.UI as IUI;
+
+    handle.moveElement(23, SINGLE);
+
+    const element = anchor.querySelector(
       '.slider__handle_single'
     ) as HTMLElement;
 
-    expect(handle).toBeTruthy();
+    expect(element).toBeTruthy();
   });
 
   test('create bar', () => {
     const view = new View(singleConfig, anchor);
-    view.changeBar(23);
-    const bar = anchor.querySelector('.slider__bar') as HTMLElement;
+    const { bar } = view.UI as IUI;
 
-    expect(bar).toBeTruthy();
+    bar.changeBar(23);
+    const element = anchor.querySelector('.slider__bar') as HTMLElement;
+
+    expect(element).toBeTruthy();
   });
 
   test('create label', () => {
     const view = new View(singleConfig, anchor);
-    view.changeLabelValue('23');
-    const label = anchor.querySelector('.slider__label') as HTMLElement;
+    const { label } = view.UI as IUI;
 
-    expect(label).toBeTruthy();
+    label.changeLabelValue('23');
+
+    const element = anchor.querySelector('.slider__label') as HTMLElement;
+
+    expect(element).toBeTruthy();
   });
 
   test('create input', () => {
     const view = new View(singleConfig, anchor);
-    view.changeValue('23');
-    const input = anchor.querySelector('.slider__wrapper-input') as HTMLElement;
+    const { input } = view.UI as IUI;
 
-    expect(input).toBeTruthy();
+    input.changeValue('23');
+    const element = anchor.querySelector(
+      '.slider__wrapper-input'
+    ) as HTMLElement;
+
+    expect(element).toBeTruthy();
   });
 
   test('create scale', () => {
     const view = new View(singleConfig, anchor);
-    view.changeScale([0, 50, 100], 0, 100, 50);
-    const input = anchor.querySelector('.slider__scale') as HTMLElement;
+    const { scale } = view.UI as IUI;
 
-    expect(input).toBeTruthy();
-  });
-});
+    scale.changeScale([0, 50, 100], 0, 100, 50);
+    const element = anchor.querySelector('.slider__scale') as HTMLElement;
 
-describe('Check undefined', () => {
-  afterEach(() => {
-    anchor.innerHTML = '';
-
-    intervalConfig.isVertical = false;
-    intervalConfig.type = 'double';
-    intervalConfig.min = 30;
-    intervalConfig.max = 1000;
-  });
-
-  test('changeBar undefined', () => {
-    const view = new View(intervalConfig, anchor);
-    view.factoryBar = undefined;
-    const item = () => view.changeBar(24);
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('changeBar не передан');
-  });
-
-  test('moveElement undefined', () => {
-    const view = new View(intervalConfig, anchor);
-    view.factoryHandle = undefined;
-    const item = () => view.moveElement(24);
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('moveElement не передан');
-  });
-
-  test('changeLabelValue undefined', () => {
-    const view = new View(intervalConfig, anchor);
-    view.factoryLabel = undefined;
-    const item = () => view.changeLabelValue('23');
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('changeLabelValue не передан');
-  });
-
-  test('changeValue undefined', () => {
-    const view = new View(intervalConfig, anchor);
-    view.factoryInput = undefined;
-    const item = () => view.changeValue('23');
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('changeValue не передан');
-  });
-
-  test('changeScale undefined', () => {
-    const view = new View(intervalConfig, anchor);
-    view.factoryScale = undefined;
-    const item = () => view.changeScale([0, 50, 100], 0, 100, 50);
-
-    expect(item).toThrow(Error);
-    expect(item).toThrow('factoryScale не передан');
+    expect(element).toBeTruthy();
   });
 });

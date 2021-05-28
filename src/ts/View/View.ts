@@ -1,18 +1,19 @@
-import {
-  Config,
-  Coords,
-  Shift,
-  forMouse,
-  methodsViewFactory,
-} from 'Helpers/interface';
+import { Config, Coords, Shift, forMouse } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-import { TypeEventMouse, TypeEventMouseHandle, TypeEventChange } from './IView';
+import {
+  TypeEventMouse,
+  TypeEventMouseHandle,
+  TypeEventChange,
+  PartialUI,
+} from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
 const { SINGLE, FROM, TO, DOUBLE, MIN, MAX } = Constants;
 
 class View {
+  public UI: PartialUI = {};
+
   private factory?: SingleFactory | IntervalFactory;
 
   private slider!: HTMLElement;
@@ -48,16 +49,6 @@ class View {
   private sliderSingle!: HTMLElement;
 
   private sliderDouble!: HTMLElement;
-
-  public factoryBar?: methodsViewFactory;
-
-  public factoryHandle?: methodsViewFactory;
-
-  public factoryLabel?: methodsViewFactory;
-
-  public factoryInput?: methodsViewFactory;
-
-  public factoryScale?: methodsViewFactory;
 
   constructor(public config: Config, private app: HTMLElement) {
     this.init();
@@ -167,66 +158,6 @@ class View {
     return elementType;
   }
 
-  public moveElement(percentage: number, elementType?: string): void {
-    if (
-      this.factoryHandle === undefined ||
-      this.factoryHandle.moveElement === undefined
-    ) {
-      throw new Error('moveElement не передан');
-    }
-
-    this.factoryHandle.moveElement(percentage, elementType);
-  }
-
-  public changeBar(from: number, to?: number): void {
-    if (
-      this.factoryBar === undefined ||
-      this.factoryBar.changeBar === undefined
-    ) {
-      throw new Error('changeBar не передан');
-    }
-
-    this.factoryBar.changeBar(from, to);
-  }
-
-  public changeLabelValue(fromValue: string, toValue?: string): void {
-    if (
-      this.factoryLabel === undefined ||
-      this.factoryLabel.changeLabelValue === undefined
-    ) {
-      throw new Error('changeLabelValue не передан');
-    }
-
-    this.factoryLabel.changeLabelValue(fromValue, toValue);
-  }
-
-  public changeValue(fromValue: string, toValue?: string): void {
-    if (
-      this.factoryInput === undefined ||
-      this.factoryInput.changeValue === undefined
-    ) {
-      throw new Error('changeValue не передан');
-    }
-
-    this.factoryInput.changeValue(fromValue, toValue);
-  }
-
-  public changeScale(
-    arrayPercentage: Array<number>,
-    min: number,
-    max: number,
-    step: number
-  ): void {
-    if (
-      this.factoryScale === undefined ||
-      this.factoryScale.changeScale === undefined
-    ) {
-      throw new Error('factoryScale не передан');
-    }
-
-    this.factoryScale.changeScale(arrayPercentage, min, max, step);
-  }
-
   public calcPercentage(left: number): number {
     let slider;
 
@@ -324,23 +255,23 @@ class View {
       this.config.type
     );
 
-    this.factoryBar = this.factory.createBar(
+    this.UI.bar = this.factory.createBar(
       this.app,
       this.config.isVertical,
       this.config.type
     );
-    this.factoryHandle = this.factory.createHandle(
+    this.UI.handle = this.factory.createHandle(
       this.app,
       this.config.isVertical
     );
-    this.factoryScale = this.factory.createScale(
+    this.UI.scale = this.factory.createScale(
       this.app,
       this.config.isVertical,
       this.config.type
     );
 
     if (this.config.isLabel) {
-      this.factoryLabel = this.factory.createLabel(
+      this.UI.label = this.factory.createLabel(
         this.app,
         this.config.isVertical
       );
@@ -351,7 +282,7 @@ class View {
     }
 
     if (this.config.isInput) {
-      this.factoryInput = this.factory.createInput(this.app);
+      this.UI.input = this.factory.createInput(this.app);
     }
   }
 
