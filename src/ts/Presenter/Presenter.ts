@@ -1,7 +1,7 @@
 import Constants from 'Helpers/enums';
 import { forMouse, Shift } from 'Helpers/interface';
 import View from '../View/View';
-import Model from '../Model/Model';
+import { IModel } from '../Model/IModel';
 
 const {
   SINGLE,
@@ -22,7 +22,7 @@ const {
 } = Constants;
 
 class Presenter {
-  constructor(public model: Model, public view: View) {
+  constructor(public model: IModel, public view: View) {
     this.init(
       this.model.get(TYPE),
       this.model.get(INPUT),

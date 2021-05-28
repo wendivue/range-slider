@@ -1,13 +1,12 @@
 import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { IModel } from './IModel';
 
 const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
 
-class Model {
-  private config: Config;
-
-  constructor(public options: Config) {
-    this.config = options;
+class Model implements IModel {
+  constructor(private config: Config) {
+    this.config = config;
   }
 
   public getConfig(): Config {
@@ -86,6 +85,59 @@ class Model {
     return array;
   }
 
+  public validateEdgeValue(value: number): number {
+    let newValue = value;
+    if (value < this.get(MIN)) newValue = this.get(MIN);
+    if (value > this.get(MAX)) newValue = this.get(MAX);
+    return newValue;
+  }
+
+  public validateRange(value: number, type: Constants): number {
+    const max = this.get(MAX);
+    const min = this.get(MIN);
+    const step = this.get(STEP);
+    let newValue = value;
+
+    if (type === MAX && value < min) newValue = min + step;
+    if (type === MIN && value > max) newValue = max - step;
+    if (type === MAX && value < step) newValue = step * 2;
+
+    return newValue;
+  }
+
+  public validateTwoHandleValue(
+    percentage: number,
+    element: Constants
+  ): number {
+    const from = this.get(FROM);
+    const to = this.get(TO);
+    const step = this.get(STEP);
+    const max = this.get(MAX);
+    let value = percentage;
+
+    if (element === FROM) {
+      if (percentage > to) value = to - step;
+      if (percentage >= max && to === max) value = max - step;
+    }
+
+    if (element === TO) {
+      if (percentage < from) value = from + step;
+      if (percentage <= 0 && from === 0) value = step;
+    }
+
+    return value;
+  }
+
+  public validateStep(value: number): number {
+    const max = this.get(MAX);
+    const halfMax = max / 2;
+    let step = value;
+
+    if (step > halfMax) step = halfMax;
+    if (step < 0.5) step = 0.5;
+    return step;
+  }
+
   private calcPercentageFromStep(
     array: Array<number>,
     percentage: number
@@ -144,13 +196,6 @@ class Model {
     return value;
   }
 
-  public validateEdgeValue(value: number): number {
-    let newValue = value;
-    if (value < this.get(MIN)) newValue = this.get(MIN);
-    if (value > this.get(MAX)) newValue = this.get(MAX);
-    return newValue;
-  }
-
   private validateTwoHandle(percentage: number, element: Constants): number {
     const from = this.get(PERCENT_FROM);
     const to = this.get(PERCENT_TO);
@@ -166,52 +211,6 @@ class Model {
     if (element === TO) {
       if (percentage <= from) value = from + stepPercentage;
       if (percentage <= 0 && from === 0) value = stepPercentage;
-    }
-
-    return value;
-  }
-
-  public validateStep(value: number): number {
-    const max = this.get(MAX);
-    const halfMax = max / 2;
-    let step = value;
-
-    if (step > halfMax) step = halfMax;
-    if (step < 0.5) step = 0.5;
-    return step;
-  }
-
-  public validateRange(value: number, type: Constants): number {
-    const max = this.get(MAX);
-    const min = this.get(MIN);
-    const step = this.get(STEP);
-    let newValue = value;
-
-    if (type === MAX && value < min) newValue = min + step;
-    if (type === MIN && value > max) newValue = max - step;
-    if (type === MAX && value < step) newValue = step * 2;
-
-    return newValue;
-  }
-
-  public validateTwoHandleValue(
-    percentage: number,
-    element: Constants
-  ): number {
-    const from = this.get(FROM);
-    const to = this.get(TO);
-    const step = this.get(STEP);
-    const max = this.get(MAX);
-    let value = percentage;
-
-    if (element === FROM) {
-      if (percentage > to) value = to - step;
-      if (percentage >= max && to === max) value = max - step;
-    }
-
-    if (element === TO) {
-      if (percentage < from) value = from + step;
-      if (percentage <= 0 && from === 0) value = step;
     }
 
     return value;
