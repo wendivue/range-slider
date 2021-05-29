@@ -34,6 +34,10 @@
     font-family: $font-family;
     color: $dark-shade-75;
     cursor: pointer;
+
+    @media (max-width: $breakpoint-xs) {
+      font-size: 14px;
+    }
   }
 
   &__checkbox {

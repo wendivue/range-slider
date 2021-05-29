@@ -3,6 +3,8 @@ import { ISingleLabel } from './ISingleLabel';
 class SingleLabel implements ISingleLabel {
   private classLabelVertical?: string;
 
+  private classLabelTextVertical?: string;
+
   constructor(private anchor: HTMLElement, private isVertical: boolean) {
     this.init();
   }
@@ -23,7 +25,7 @@ class SingleLabel implements ISingleLabel {
   private createHtml(anchor: HTMLElement): void {
     const label =
       `<div class="slider__label ${this.classLabelVertical}">` +
-      '<div class="slider__label-text slider__label-text_single"></div>' +
+      `<div class="slider__label-text ${this.classLabelTextVertical} slider__label-text_single"></div>` +
       '</div>';
 
     const handle = anchor.querySelector(
@@ -35,6 +37,9 @@ class SingleLabel implements ISingleLabel {
 
   private createClass(isVertical: boolean): void {
     this.classLabelVertical = isVertical ? 'slider__label_vertical' : '';
+    this.classLabelTextVertical = isVertical
+      ? 'slider__label-text_vertical'
+      : '';
   }
 }
 

@@ -26,12 +26,22 @@ class Scale implements IScale {
     step: number
   ): void {
     let newPercentage = ArrayPercentage;
-    const maxLength = 12;
+    let maxLength = 12;
+
+    if (max >= 100) maxLength = 7;
+    if (max > 1000) maxLength = 4;
 
     while (newPercentage.length > maxLength) {
       for (let i = 0; i <= newPercentage.length; i += 1) {
         newPercentage.splice(i, 1);
       }
+    }
+
+    const stepPercentage = (100 * step) / (max - min);
+    const lastNumberArray = newPercentage.pop() as number;
+
+    if (stepPercentage < 100 - lastNumberArray && step > 10) {
+      newPercentage = [...newPercentage, lastNumberArray];
     }
 
     newPercentage = [0, ...newPercentage, 100];
@@ -41,6 +51,7 @@ class Scale implements IScale {
 
     const scale = this.anchor.querySelector('.slider__scale') as HTMLElement;
     scale.innerHTML = '';
+
     Object.entries(newPercentage).forEach(([key, percentage]) => {
       const value = this.calculateValue(percentage, min, max, step);
       const scaleItemTemplate = `<div class="slider__scale-item ${this.classScaleItemVertical}">${value}</div>`;
@@ -92,6 +103,8 @@ class Scale implements IScale {
     } else {
       newValue = ((max - min) / 100) * percentage + min;
     }
+
+    newValue = parseFloat(newValue.toFixed(2));
 
     return newValue;
   }

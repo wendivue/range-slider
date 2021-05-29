@@ -82,7 +82,7 @@ function createSetting(config: Config, anchor: HTMLElement) {
 $('#slider1').rangeSlider({
   single: 50,
   max: 1000,
-  step: 10,
+  step: 33.5,
   type: 'single',
   isScale: true,
 });
