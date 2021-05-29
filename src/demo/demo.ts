@@ -2,9 +2,14 @@ import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
 import { Config, PartialConfig } from 'Helpers/interface';
 
+type onGetData = (config: PartialConfig) => void;
+
 declare global {
   interface JQuery {
-    rangeSlider(options: PartialConfig, id: string): void;
+    rangeSlider(
+      options: string | PartialConfig,
+      data?: onGetData | PartialConfig
+    ): void;
   }
 }
 
@@ -74,37 +79,29 @@ function createSetting(config: Config, anchor: HTMLElement) {
   return new Setting(config, anchor);
 }
 
-$('#slider1').rangeSlider(
-  {
-    single: 50,
-    max: 1000,
-    step: 10,
-    type: 'single',
-    isScale: true,
-  },
-  'slider1'
-);
+$('#slider1').rangeSlider({
+  single: 50,
+  max: 1000,
+  step: 10,
+  type: 'single',
+  isScale: true,
+});
 
-$('#slider2').rangeSlider(
-  {
-    from: 200,
-    to: 700,
-    type: 'double',
-    step: 10,
-  },
-  'slider2'
-);
+$('#slider2').rangeSlider({
+  from: 200,
+  to: 700,
+  type: 'double',
+  step: 10,
+});
 
-$('#slider3').rangeSlider(
-  {
-    from: 60,
-    to: 600,
-    type: 'double',
-    isLabel: false,
-    isVertical: true,
-  },
-  'slider3'
-);
+$('#slider3').rangeSlider({
+  from: 60,
+  to: 600,
+  type: 'double',
+  step: 10,
+  isLabel: false,
+  isVertical: true,
+});
 
 createSetting(config1, anchor1);
 createSetting(config2, anchor2);

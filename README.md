@@ -43,15 +43,45 @@ import 'range-slider-ts';
 ```
 
 ```js
-$(sliderId).rangeSlider({}, sliderId); // инициализация слайдера с настройками по умолчанию;
-$(sliderId).rangeSlider(
-  {
-    from: 100,
-    to: 400,
-    vertical: true,
-  },
-  sliderId
-);
+$(sliderId).rangeSlider({}); // инициализация слайдера с настройками по умолчанию;
+$(sliderId).rangeSlider({
+  from: 100,
+  to: 400,
+  vertical: true,
+});
+```
+
+### API
+
+`update`
+
+```js
+// Изменение значение слайдера
+$(sliderId).rangeSlider('update', { from: 90, to: 170 });
+```
+
+`reset`
+
+```js
+// Возвращает настройки по дефолту
+$(sliderId).rangeSlider('reset');
+```
+
+`destroy`
+
+```js
+// Удаляет слайдер
+$(sliderId).rangeSlider('destroy');
+```
+
+**Событие** `onGet`
+
+```js
+// Есть возможность повесить callback функцию на это событие
+$(sliderId).rangeSlider('onGet', () => 'ваш код');
+
+// Взять значение слайдера
+$(sliderId).rangeSlider('onGet', (config) => console.log(config));
 ```
 
 ### Архитектура

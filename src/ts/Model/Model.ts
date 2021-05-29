@@ -13,6 +13,10 @@ class Model implements IModel {
     return this.config;
   }
 
+  public setConfig(option: Config): void {
+    this.config = { ...this.config, ...option };
+  }
+
   public add<T extends keyof Config>(value: Config[T], prop: T): void {
     const obj = this.config;
     let userObj: Record<string, Config[T]> = { value };
