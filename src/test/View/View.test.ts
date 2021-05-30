@@ -4,7 +4,7 @@ import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';
 import { IUI } from 'Ts/View/IView';
 
-const { FROM, SINGLE, TO } = Constants;
+const { FROM, SINGLE, TO, MIN, MAX } = Constants;
 
 const dom = new JSDOM(
   '<html><body><div id="azx2" class="anchor" style="width: 100px; height: 20px;"></div></body></html>'
@@ -85,15 +85,22 @@ describe('Check type single', () => {
   });
 });
 
-describe('calcPercentage', () => {
+describe('getElement', () => {
   afterEach(() => {
     anchor.innerHTML = '';
   });
 
-  test('get calcPercentage', () => {
+  test('get element', () => {
     const view = new View(intervalConfig, anchor);
+    const rangeMin = anchor.querySelector(
+      '.slider__range-min'
+    ) as HTMLInputElement;
+    const rangeMax = anchor.querySelector(
+      '.slider__range-max'
+    ) as HTMLInputElement;
 
-    expect(view.calcPercentage(0.0001)).toBeTruthy();
+    expect(view.getElement(MIN)).toBe(rangeMin);
+    expect(view.getElement(MAX)).toBe(rangeMax);
   });
 });
 
@@ -148,13 +155,31 @@ describe('Create element', () => {
     expect(element).toBeTruthy();
   });
 
-  test('create scale', () => {
+  test('create scale single', () => {
     const view = new View(singleConfig, anchor);
     const { scale } = view.UI as IUI;
 
     scale.changeScale([0, 50, 100], 0, 100, 50);
     const element = anchor.querySelector('.slider__scale') as HTMLElement;
+    const scaleSingle = anchor.querySelector(
+      '.slider__scale_single'
+    ) as HTMLInputElement;
 
     expect(element).toBeTruthy();
+    expect(scaleSingle).toBeTruthy();
+  });
+
+  test('create scale double', () => {
+    const view = new View(intervalConfig, anchor);
+    const { scale } = view.UI as IUI;
+
+    scale.changeScale([0, 50, 100], 0, 100, 50);
+    const element = anchor.querySelector('.slider__scale') as HTMLElement;
+    const scaleDouble = anchor.querySelector(
+      '.slider__scale_double'
+    ) as HTMLInputElement;
+
+    expect(element).toBeTruthy();
+    expect(scaleDouble).toBeTruthy();
   });
 });

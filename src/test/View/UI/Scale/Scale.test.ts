@@ -28,7 +28,7 @@ describe('Scale', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(element[0].style.left).toMatch(/0%/);
-    expect(element[2].style.left).toMatch(/80%/);
+    expect(element[2].style.left).toMatch(/100%/);
   });
 
   test('change vertical scale', () => {
@@ -40,7 +40,7 @@ describe('Scale', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(element[0].style.top).toMatch(/0%/);
-    expect(element[2].style.top).toMatch(/80%/);
+    expect(element[2].style.top).toMatch(/100%/);
   });
 
   test('step fractional', () => {
@@ -52,7 +52,7 @@ describe('Scale', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(element[0].style.left).toMatch(/0%/);
-    expect(element[2].style.left).toMatch(/81%/);
+    expect(element[2].style.left).toMatch(/100%/);
   });
 
   test('newPercentage.length > maxLength', () => {
@@ -69,6 +69,6 @@ describe('Scale', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(element[0].style.left).toMatch(/0%/);
-    expect(element[2].style.left).toMatch(/15%/);
+    expect(element[2].style.left).toMatch(/40%/);
   });
 });

@@ -165,7 +165,7 @@ class View implements IView {
     if (this.config.isVertical) {
       slider = this.slider.offsetHeight;
     } else {
-      slider = this.slider.offsetWidth;
+      slider = this.slider.offsetWidth - 10;
     }
 
     return (100 * left) / slider;

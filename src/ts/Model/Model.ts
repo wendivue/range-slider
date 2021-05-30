@@ -14,7 +14,7 @@ class Model implements IModel {
   }
 
   public setConfig(option: Config): void {
-    this.config = { ...this.config, ...this.checkConfig(option) };
+    this.config = { ...this.config, ...option };
   }
 
   public add<T extends keyof Config>(value: Config[T], prop: T): void {
@@ -183,7 +183,7 @@ class Model implements IModel {
     array: Array<number>,
     percentage: number
   ): number {
-    let newPercentage: number | undefined;
+    let newPercentage = percentage;
     const step = this.get(STEP);
 
     array.map((item: number) => {
@@ -205,8 +205,6 @@ class Model implements IModel {
 
       return newPercentage;
     });
-
-    if (newPercentage === undefined) throw new Error('value не передан');
 
     return newPercentage;
   }

@@ -22,9 +22,9 @@ const methods: methodsData = {
     $(this).on('onGet', func(config));
   },
   reset() {
-    const rangeSlider = $(this).data('rangeSlider');
-    rangeSlider.model.setConfig(defaultConfig);
-    rangeSlider.init();
+    $(this)[0].innerHTML = '';
+    const model = new Model(defaultConfig);
+    new Presenter(model, new View(defaultConfig, this[0]));
   },
   destroy() {
     $(this)[0].innerHTML = '';
