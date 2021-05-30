@@ -6,7 +6,7 @@ const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
 
 class Model implements IModel {
   constructor(private config: Config) {
-    this.config = config;
+    this.config = this.checkConfig(config);
   }
 
   public getConfig(): Config {
@@ -14,7 +14,7 @@ class Model implements IModel {
   }
 
   public setConfig(option: Config): void {
-    this.config = { ...this.config, ...option };
+    this.config = { ...this.config, ...this.checkConfig(option) };
   }
 
   public add<T extends keyof Config>(value: Config[T], prop: T): void {
@@ -52,6 +52,7 @@ class Model implements IModel {
   public getValue(percentage: number): number {
     let value = this.calcValue(percentage);
     value = this.validateEdgeValue(value);
+    value = parseFloat(value.toFixed(2));
 
     return value;
   }
@@ -102,8 +103,8 @@ class Model implements IModel {
     const step = this.get(STEP);
     let newValue = value;
 
-    if (type === MAX && value < min) newValue = min + step;
-    if (type === MIN && value > max) newValue = max - step;
+    if (type === MAX && value < min + step) newValue = min + step;
+    if (type === MIN && value > max - step) newValue = max - step;
     if (type === MAX && value < step) newValue = step * 2;
 
     return newValue;
@@ -134,12 +135,48 @@ class Model implements IModel {
 
   public validateStep(value: number): number {
     const max = this.get(MAX);
+    const min = this.get(MIN);
     const halfMax = max / 2;
     let step = value;
 
     if (step > halfMax) step = halfMax;
+    if (step > max - min) step = max - min;
     if (step < 0.5) step = 0.5;
     return step;
+  }
+
+  private checkConfig(options: Config): Config {
+    let { min, max, step, from, to, single } = options;
+    const config = options;
+    const halfMax = max / 2;
+
+    min = Math.abs(min);
+    max = Math.abs(max);
+    step = Math.abs(step);
+    from = Math.abs(from);
+    to = Math.abs(to);
+    single = Math.abs(single);
+
+    if (step < 0.5) step = 0.5;
+    if (min > max - step) min = max - step;
+    if (max < min + step) max = min + step;
+    if (max < step) max = step * 2;
+    if (step > halfMax) step = halfMax;
+    if (step > max - min) step = max - min;
+    if (from > to) from = to - step;
+    if (to < from) to = from + step;
+    if (from > max) from = max - step * 2;
+    if (to > max) to = max - step;
+    if (single > max) single = max - step;
+
+    config.min = min;
+    config.max = max;
+    config.step = step;
+    config.from = from;
+    config.to = to;
+    config.single = single;
+
+    return config;
   }
 
   private calcPercentageFromStep(

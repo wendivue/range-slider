@@ -135,9 +135,7 @@ class Setting {
   private changeStep(event: Event) {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);
-    const { max } = this.config;
-    const halfMax = max / 2;
-    if (step > halfMax) step = halfMax;
+
     if (!step) step = 0.5;
 
     step = this.model.validateStep(step);

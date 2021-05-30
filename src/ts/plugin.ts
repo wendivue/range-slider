@@ -1,5 +1,4 @@
 import { PartialConfig } from 'Helpers/interface';
-import { checkConfig } from 'Helpers/helpersFunctions';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
@@ -64,8 +63,6 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
     if (typeof options === 'object') {
       config = { ...defaultConfig, ...options };
     }
-
-    checkConfig(config);
 
     if (!$(this).data('rangeSlider')) {
       if (typeof options === 'object') {

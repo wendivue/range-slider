@@ -37,10 +37,14 @@ class Scale implements IScale {
       }
     }
 
+    let lastNumberArray = newPercentage.pop() as number;
     const stepPercentage = (100 * step) / (max - min);
-    const lastNumberArray = newPercentage.pop() as number;
 
-    if (stepPercentage < 100 - lastNumberArray && step > 10) {
+    if (lastNumberArray >= 100) {
+      lastNumberArray = newPercentage.pop() as number;
+    }
+
+    if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
       newPercentage = [...newPercentage, lastNumberArray];
     }
 
