@@ -15,6 +15,7 @@ class Model implements IModel {
 
   public setConfig(option: Config): void {
     this.config = { ...this.config, ...option };
+    this.config = this.checkConfig(this.config);
   }
 
   public add<T extends keyof Config>(value: Config[T], prop: T): void {
