@@ -1,8 +1,20 @@
 import { getUniqueID } from 'Helpers/helpersFunctions';
 
 class Range {
-  constructor(anchor: HTMLElement, min: number, max: number) {
+  constructor(private anchor: HTMLElement, min: number, max: number) {
     this.init(anchor, min, max);
+  }
+
+  public changeValue(min: string, max: string): void {
+    const rangeMin = this.anchor.querySelector(
+      '.slider__range-min'
+    ) as HTMLInputElement;
+    const rangeMax = this.anchor.querySelector(
+      '.slider__range-max'
+    ) as HTMLInputElement;
+
+    rangeMin.value = min;
+    rangeMax.value = max;
   }
 
   private init(anchor: HTMLElement, min: number, max: number): void {

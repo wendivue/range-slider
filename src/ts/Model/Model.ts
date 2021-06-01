@@ -1,11 +1,24 @@
 import { Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-import { IModel } from './IModel';
+import { IModel, ConstantsExcludeDouble } from './IModel';
+import Observable from '../Observable/Observable';
 
-const { FROM, TO, MAX, MIN, STEP, PERCENT_FROM, PERCENT_TO } = Constants;
+const {
+  FROM,
+  TO,
+  MAX,
+  MIN,
+  STEP,
+  PERCENT_FROM,
+  PERCENT_TO,
+  SINGLE,
+  PERCENT_SINGLE,
+} = Constants;
 
-class Model implements IModel {
+class Model extends Observable implements IModel {
   constructor(private config: Config) {
+    super();
+
     this.config = this.checkConfig(config);
   }
 
@@ -104,9 +117,9 @@ class Model implements IModel {
     const step = this.get(STEP);
     let newValue = value;
 
-    if (type === MAX && value < min + step) newValue = min + step;
-    if (type === MIN && value > max - step) newValue = max - step;
-    if (type === MAX && value < step) newValue = step * 2;
+    if (type === MAX && newValue < min + step) newValue = min + step;
+    if (type === MIN && newValue > max - step) newValue = max - step;
+    if (type === MAX && newValue < step) newValue = step * 2;
 
     return newValue;
   }
@@ -144,6 +157,55 @@ class Model implements IModel {
     if (step > max - min) step = max - min;
     if (step < 0.5) step = 0.5;
     return step;
+  }
+
+  public counting(options: Config): void {
+    let data = { ...options };
+    const elementType = data.type as ConstantsExcludeDouble;
+    let percentage = data[elementType] as number;
+
+    if (data.isInput) {
+      percentage = this.validateEdgeValue(percentage);
+      percentage = this.validateTwoHandleValue(percentage, elementType);
+      percentage = this.getPercentageInput(percentage);
+    }
+
+    percentage = this.getPercentage(percentage, elementType);
+    const value = this.getValue(percentage);
+
+    this.adds(percentage, value, elementType, data);
+    data = this.getConfig();
+    this.notify(data);
+  }
+
+  private adds(
+    percentage: number,
+    value: number,
+    elementType: Constants,
+    data: Config
+  ) {
+    if (elementType === FROM) {
+      this.add(percentage, PERCENT_FROM);
+      this.add(value, FROM);
+    } else if (elementType === TO) {
+      this.add(percentage, PERCENT_TO);
+      this.add(value, TO);
+    } else if (elementType === SINGLE) {
+      this.add(percentage, PERCENT_SINGLE);
+      this.add(value, SINGLE);
+    }
+
+    if (data.min) {
+      let { min } = data;
+      min = this.validateRange(min, MIN);
+      this.add(min, MIN);
+    }
+
+    if (data.max) {
+      let { max } = data;
+      max = this.validateRange(max, MAX);
+      this.add(max, MAX);
+    }
   }
 
   private checkConfig(options: Config): Config {

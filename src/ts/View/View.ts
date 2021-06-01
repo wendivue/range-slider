@@ -1,18 +1,13 @@
 import { Config, Coords, Shift, forMouse } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-import {
-  TypeEventMouse,
-  TypeEventMouseHandle,
-  TypeEventChange,
-  PartialUI,
-  IView,
-} from './IView';
+import { PartialUI, IView } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
+import Observable from '../Observable/Observable';
 
-const { SINGLE, FROM, TO, DOUBLE, MIN, MAX } = Constants;
+const { SINGLE, FROM, TO, DOUBLE, MIN, MAX, TYPE, INPUT } = Constants;
 
-class View implements IView {
+class View extends Observable implements IView {
   public UI: PartialUI = {};
 
   private factory?: SingleFactory | IntervalFactory;
@@ -52,79 +47,13 @@ class View implements IView {
   private sliderDouble!: HTMLElement;
 
   constructor(public config: Config, private app: HTMLElement) {
+    super();
+
     this.init();
   }
 
-  public bindHandleEvents(
-    elementType: Constants,
-    func: TypeEventMouseHandle
-  ): void {
-    let element;
-
-    if (elementType === SINGLE) {
-      element = this.single;
-    } else if (elementType === FROM) {
-      element = this.from;
-    } else if (elementType === TO) {
-      element = this.to;
-    }
-
-    if (element === undefined) throw new Error('element не передан');
-
-    element.addEventListener(
-      'mousedown',
-      this.handleMouseDown.bind(this, func)
-    );
-  }
-
-  public bindWrapperEvents(elementType: Constants, func: TypeEventMouse): void {
-    let element;
-
-    if (elementType === SINGLE) {
-      element = this.sliderSingle;
-    } else if (elementType === DOUBLE) {
-      element = this.sliderDouble;
-    }
-
-    if (element === undefined) throw new Error('element не передан');
-
-    element.addEventListener('click', func);
-  }
-
-  public bindScaleEvents(func: TypeEventMouse): void {
-    const element = this.scale;
-
-    element.addEventListener('click', func);
-  }
-
-  public bindInputEvents(elementType: Constants, func: TypeEventChange): void {
-    let element;
-
-    if (elementType === SINGLE) {
-      element = this.inputSingle;
-    } else if (elementType === FROM) {
-      element = this.inputFrom;
-    } else if (elementType === TO) {
-      element = this.inputTo;
-    }
-
-    if (element === undefined) throw new Error('element не передан');
-
-    element.addEventListener('change', func);
-  }
-
-  public bindRangeEvents(elementType: Constants, func: TypeEventChange): void {
-    let element;
-
-    if (elementType === MIN) {
-      element = this.rangeMin;
-    } else if (elementType === MAX) {
-      element = this.rangeMax;
-    }
-
-    if (element === undefined) throw new Error('element не передан');
-
-    element.addEventListener('change', func);
+  public setConfig(option: Config): void {
+    this.config = { ...this.config, ...option };
   }
 
   public checkElementType(element: HTMLElement): Constants {
@@ -207,6 +136,7 @@ class View implements IView {
     this.createFactory();
     this.getHtml();
     this.createElement();
+    this.bindEvents();
   }
 
   private getCoords(element: HTMLElement): Coords {
@@ -218,7 +148,73 @@ class View implements IView {
     };
   }
 
-  private handleMouseDown(func: TypeEventMouseHandle, event: MouseEvent): void {
+  private bindHandleEvents(elementType: Constants): void {
+    let element;
+
+    if (elementType === SINGLE) {
+      element = this.single;
+    } else if (elementType === FROM) {
+      element = this.from;
+    } else if (elementType === TO) {
+      element = this.to;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('mousedown', this.handleMouseDown.bind(this));
+  }
+
+  private bindWrapperEvents(): void {
+    let element;
+
+    if (this.config.type === SINGLE) {
+      element = this.sliderSingle;
+    } else if (this.config.type === DOUBLE) {
+      element = this.sliderDouble;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('click', this.wrapperClick.bind(this));
+  }
+
+  private bindScaleEvents(): void {
+    const element = this.scale;
+
+    element.addEventListener('click', this.scaleClick.bind(this));
+  }
+
+  private bindInputEvents(elementType: Constants): void {
+    let element;
+
+    if (elementType === SINGLE) {
+      element = this.inputSingle;
+    } else if (elementType === FROM) {
+      element = this.inputFrom;
+    } else if (elementType === TO) {
+      element = this.inputTo;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('change', this.inputOnChange.bind(this));
+  }
+
+  private bindRangeEvents(elementType: Constants): void {
+    let element;
+
+    if (elementType === MIN) {
+      element = this.rangeMin;
+    } else if (elementType === MAX) {
+      element = this.rangeMax;
+    }
+
+    if (element === undefined) throw new Error('element не передан');
+
+    element.addEventListener('change', this.rangeOnChange.bind(this));
+  }
+
+  private handleMouseDown(event: MouseEvent): void {
     const element = event.target as HTMLElement;
     const shift: Shift = this.getShift(event, element);
 
@@ -227,7 +223,7 @@ class View implements IView {
       element,
     };
 
-    const handleMouseMove = func.bind(this, forMouseMove);
+    const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
 
     const onMouseUp = () => {
       document.removeEventListener('mousemove', handleMouseMove);
@@ -235,6 +231,147 @@ class View implements IView {
     };
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  }
+
+  private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {
+    let percentage;
+    const elementType = this.checkElementType(forMouseMove.element);
+    const newShift = this.getNewShift(event, forMouseMove.shift);
+    const data: { [k: string]: number | Constants } = {};
+
+    if (this.config.isVertical) {
+      percentage = this.calcPercentage(newShift.y);
+    } else {
+      percentage = this.calcPercentage(newShift.x);
+    }
+
+    data[elementType] = percentage;
+    data[TYPE] = elementType;
+
+    this.notify(data);
+    event.preventDefault();
+  }
+
+  private scaleClick(event: MouseEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    let element = event.target as HTMLElement;
+    element = element.closest('.slider__scale-item') as HTMLElement;
+
+    let percentage;
+    let elementType = this.checkElementType(target);
+    const data: { [k: string]: number | Constants } = {};
+
+    if (this.config.isVertical) {
+      percentage = element.offsetTop;
+    } else {
+      percentage = element.offsetLeft;
+    }
+
+    percentage = this.calcPercentage(percentage);
+    elementType = this.checkRangeType(percentage, elementType);
+
+    data[elementType] = percentage;
+    data[TYPE] = elementType;
+
+    this.notify(data);
+  }
+
+  private wrapperClick(event: MouseEvent): void {
+    const element = event.currentTarget as HTMLElement;
+    const newShift: Shift = this.getShift(event, element);
+
+    let percentage: number;
+    let elementType = this.checkElementType(element);
+    const data: { [k: string]: number | Constants } = {};
+
+    if (this.config.isVertical) {
+      percentage = this.calcPercentage(newShift.y);
+    } else {
+      percentage = this.calcPercentage(newShift.x);
+    }
+
+    elementType = this.checkRangeType(percentage, elementType);
+
+    data[elementType] = percentage;
+    data[TYPE] = elementType;
+
+    this.notify(data);
+  }
+
+  private rangeOnChange(event: Event): void {
+    const element = event.target as HTMLInputElement;
+    let min = Math.abs(parseFloat(this.getElement(MIN).value));
+    let max = Math.abs(parseFloat(this.getElement(MAX).value));
+    let data: { [k: string]: number } = {};
+
+    if (Number.isNaN(min)) min = this.config.min;
+    if (Number.isNaN(max)) max = this.config.max;
+
+    if (element === this.getElement(MIN)) {
+      data = { min };
+    } else if (element === this.getElement(MAX)) {
+      data = { max };
+    }
+
+    this.notify(data);
+  }
+
+  private inputOnChange(event: Event): void {
+    const element = event.target as HTMLInputElement;
+    const elementType = this.checkElementType(element) as
+      | typeof FROM
+      | typeof TO;
+    const data: { [k: string]: number | boolean | Constants } = {};
+    let value = parseFloat(element.value);
+    if (Number.isNaN(value)) value = this.config[elementType];
+
+    data[elementType] = value;
+    data[TYPE] = elementType;
+    data[INPUT] = true;
+
+    this.notify(data);
+  }
+
+  private bindEvents() {
+    if (this.config.type === SINGLE) {
+      this.bindWrapperEvents();
+      this.bindHandleEvents(SINGLE);
+    } else {
+      this.bindWrapperEvents();
+      this.bindHandleEvents(FROM);
+      this.bindHandleEvents(TO);
+    }
+
+    if (this.config.isInput) {
+      if (this.config.type === SINGLE) {
+        this.bindInputEvents(SINGLE);
+      } else {
+        this.bindInputEvents(FROM);
+        this.bindInputEvents(TO);
+      }
+    }
+
+    if (this.config.isRange) {
+      this.bindRangeEvents(MIN);
+      this.bindRangeEvents(MAX);
+    }
+
+    if (this.config.isScale) this.bindScaleEvents();
+  }
+
+  private checkRangeType(percentage: number, type: Constants): Constants {
+    const range = this.config.percentTo - this.config.percentFrom;
+    let elementType = type;
+
+    if (elementType !== SINGLE) {
+      if (percentage > this.config.percentFrom + range / 2) {
+        elementType = TO;
+      } else {
+        elementType = FROM;
+      }
+    }
+
+    return elementType;
   }
 
   private createFactory() {
@@ -255,7 +392,6 @@ class View implements IView {
       this.config.isVertical,
       this.config.type
     );
-
     this.UI.bar = this.factory.createBar(
       this.app,
       this.config.isVertical,
@@ -279,7 +415,11 @@ class View implements IView {
     }
 
     if (this.config.isRange) {
-      this.factory.createRange(this.app, this.config.min, this.config.max);
+      this.UI.range = this.factory.createRange(
+        this.app,
+        this.config.min,
+        this.config.max
+      );
     }
 
     if (this.config.isInput) {

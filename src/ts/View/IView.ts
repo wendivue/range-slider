@@ -1,9 +1,6 @@
-import { forMouse, Shift, Config } from 'Helpers/interface';
+import { Shift, Config } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-
-type TypeEventMouse = (event: MouseEvent) => void;
-type TypeEventMouseHandle = (forMouseMove: forMouse, event: MouseEvent) => void;
-type TypeEventChange = (event: Event) => void;
+import { IObservable } from '../Observable/Observable';
 
 interface IUI {
   handle: { moveElement(percentage: number, elementType?: string): void };
@@ -18,19 +15,16 @@ interface IUI {
       step: number
     ): void;
   };
+  range: { changeValue(min: string, max: string): void };
 }
 
 type PartialUI = Partial<IUI>;
 
-interface IView {
+interface IView extends IObservable {
   config: Config;
   UI: PartialUI;
 
-  bindHandleEvents(elementType: Constants, func: TypeEventMouseHandle): void;
-  bindWrapperEvents(elementType: Constants, func: TypeEventMouse): void;
-  bindScaleEvents(func: TypeEventMouse): void;
-  bindInputEvents(elementType: Constants, func: TypeEventChange): void;
-  bindRangeEvents(elementType: Constants, func: TypeEventChange): void;
+  setConfig(option: Config): void;
   checkElementType(element: HTMLElement): Constants;
   calcPercentage(left: number): number;
   getShift(event: MouseEvent, element: HTMLElement): Shift;
@@ -38,11 +32,4 @@ interface IView {
   getElement(elementType: Constants): HTMLInputElement;
 }
 
-export {
-  IView,
-  TypeEventMouse,
-  TypeEventMouseHandle,
-  TypeEventChange,
-  IUI,
-  PartialUI,
-};
+export { IView, IUI, PartialUI };
