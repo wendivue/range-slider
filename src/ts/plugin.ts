@@ -1,45 +1,8 @@
-import { PartialConfig } from 'Helpers/interface';
+import { PartialConfig, OnGetData } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
 import defaultConfig from './Model/defaultConfig';
-
-type onGetData = (config: PartialConfig) => VoidFunction;
-
-interface methodsData {
-  onGet(this: JQuery, func: onGetData): void;
-  reset(): void;
-  destroy(): void;
-  update(config: PartialConfig): void;
-  [key: string]: any;
-}
-
-const methods: methodsData = {
-  onGet(this: JQuery, func: onGetData) {
-    const rangeSlider = $(this).data('rangeSlider');
-    const config = rangeSlider.getConfig();
-
-    $(this).on('onGet', func(config));
-  },
-  reset() {
-    $(this)[0].innerHTML = '';
-    const model = new Model(defaultConfig);
-    new Presenter(model, new View(defaultConfig, this[0]));
-  },
-  destroy() {
-    $(this)[0].innerHTML = '';
-
-    $(this).off('onGet');
-  },
-  update(config: PartialConfig = defaultConfig) {
-    $(this)[0].innerHTML = '';
-    const rangeSlider = $(this).data('rangeSlider');
-
-    const newConfig = { ...rangeSlider.getConfig(), ...config };
-    const model = new Model(newConfig);
-    new Presenter(model, new View(model.getConfig(), this[0]));
-  },
-};
 
 function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
   const model = new Model(config);
@@ -56,38 +19,41 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
 ((jQuery) => {
   const $: JQueryStatic = jQuery;
 
-  $.fn.rangeSlider = function rangeSlider(
-    options: string | PartialConfig,
-    data?: onGetData | PartialConfig
-  ) {
-    let config = { ...defaultConfig };
+  $.fn.rangeSlider = function rangeSlider(options: PartialConfig) {
+    const config = { ...defaultConfig, ...options };
     const anchor = this[0];
 
-    if (typeof options === 'object') {
-      config = { ...defaultConfig, ...options };
-    }
-
     if (!$(this).data('rangeSlider')) {
-      if (typeof options === 'object') {
-        app.call(this, config, anchor);
-      } else {
-        app.call(this, defaultConfig, anchor);
-      }
+      app.call(this, config, anchor);
     }
 
-    if (typeof options === 'string') {
-      if (options === 'onGet' && typeof data === 'function') {
-        return methods[options].call(this, data);
-      }
+    this.onGet = (func: OnGetData) => {
+      const slider = $(this).data('rangeSlider');
+      const data = slider.getConfig();
 
-      if (options === 'update' && typeof data === 'object') {
-        return methods[options].call(this, data);
-      }
+      $(this).on('onGet', func(data));
+    };
 
-      if (typeof options === 'string') {
-        return methods[options].call(this);
-      }
-    }
+    this.reset = () => {
+      $(this)[0].innerHTML = '';
+      const model = new Model(defaultConfig);
+      new Presenter(model, new View(defaultConfig, this[0]));
+    };
+
+    this.destroy = () => {
+      $(this)[0].innerHTML = '';
+
+      $(this).off('onGet');
+    };
+
+    this.update = (data: PartialConfig = defaultConfig) => {
+      $(this)[0].innerHTML = '';
+      const slider = $(this).data('rangeSlider');
+
+      const newConfig = { ...slider.getConfig(), ...data };
+      const model = new Model(newConfig);
+      new Presenter(model, new View(model.getConfig(), this[0]));
+    };
 
     return this;
   };

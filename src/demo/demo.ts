@@ -1,15 +1,14 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { Config, PartialConfig } from 'Helpers/interface';
-
-type onGetData = (config: PartialConfig) => void;
+import { Config, PartialConfig, OnGetData } from 'Helpers/interface';
 
 declare global {
   interface JQuery {
-    rangeSlider(
-      options: string | PartialConfig,
-      data?: onGetData | PartialConfig
-    ): void;
+    rangeSlider(options: PartialConfig): void;
+    reset(): void;
+    onGet(func: OnGetData): void;
+    destroy(): void;
+    update(data: PartialConfig): void;
   }
 }
 
@@ -103,8 +102,6 @@ $('#slider3').rangeSlider({
   isLabel: false,
   isVertical: true,
 });
-
-$('#slider1').rangeSlider('update', { type: 'double', to: 500 });
 
 createSetting(config1, anchor1);
 createSetting(config2, anchor2);
