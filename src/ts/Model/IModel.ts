@@ -6,6 +6,7 @@ type ConstantsExcludeDouble = Exclude<Constants, Constants.DOUBLE>;
 
 interface IModel extends IObservable {
   getConfig(): Config;
+  setConfig(option: Config): void;
   add<T extends keyof Config>(value: Config[T], prop: T): void;
   get<T extends keyof Config>(prop: T): Config[T];
   getPercentage(percentage: number, elementType: Constants): number;

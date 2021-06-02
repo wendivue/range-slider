@@ -17,7 +17,7 @@ interface methodsData {
 const methods: methodsData = {
   onGet(this: JQuery, func: onGetData) {
     const rangeSlider = $(this).data('rangeSlider');
-    const config = rangeSlider.model.getConfig();
+    const config = rangeSlider.getConfig();
 
     $(this).on('onGet', func(config));
   },
@@ -32,9 +32,12 @@ const methods: methodsData = {
     $(this).off('onGet');
   },
   update(config: PartialConfig = defaultConfig) {
+    $(this)[0].innerHTML = '';
     const rangeSlider = $(this).data('rangeSlider');
-    rangeSlider.model.setConfig(config);
-    rangeSlider.init();
+
+    const newConfig = { ...rangeSlider.getConfig(), ...config };
+    const model = new Model(newConfig);
+    new Presenter(model, new View(model.getConfig(), this[0]));
   },
 };
 

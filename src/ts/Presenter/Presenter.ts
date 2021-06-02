@@ -26,6 +26,10 @@ class Presenter {
     this.init();
   }
 
+  public getConfig(): Config {
+    return this.model.getConfig();
+  }
+
   private init(): void {
     if (this.model.get(TYPE) === SINGLE) {
       this.initConfigValue(this.model.get(SINGLE), SINGLE);
@@ -41,7 +45,7 @@ class Presenter {
     this.model.subscribe(() => this.updateView());
   }
 
-  updateView(): void {
+  private updateView(): void {
     const elementType = this.model.get(TYPE);
     const { handle, bar, scale, label, input, range } = this.view.UI as IUI;
 

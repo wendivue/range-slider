@@ -104,6 +104,8 @@ $('#slider3').rangeSlider({
   isVertical: true,
 });
 
+$('#slider1').rangeSlider('update', { type: 'double', to: 500 });
+
 createSetting(config1, anchor1);
 createSetting(config2, anchor2);
 createSetting(config3, anchor3);

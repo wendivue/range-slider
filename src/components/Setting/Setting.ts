@@ -80,10 +80,9 @@ class Setting {
 
   private createPresenter() {
     this.anchor.innerHTML = '';
-    return new Presenter(
-      this.model,
-      new View(this.model.getConfig(), this.anchor)
-    );
+    const newConfig = { ...this.model.getConfig() };
+    const model = new Model(newConfig);
+    return new Presenter(model, new View(model.getConfig(), this.anchor));
   }
 
   private bindEvents(): void {
