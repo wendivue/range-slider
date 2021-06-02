@@ -1,4 +1,4 @@
-import { PartialConfig, OnGetData } from 'Helpers/interface';
+import { PartialConfig } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
@@ -27,11 +27,11 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
       app.call(this, config, anchor);
     }
 
-    this.onGet = (func: OnGetData) => {
+    this.getConfig = () => {
       const slider = $(this).data('rangeSlider');
       const data = slider.getConfig();
 
-      $(this).on('onGet', func(data));
+      return data;
     };
 
     this.reset = () => {
@@ -42,8 +42,16 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
 
     this.destroy = () => {
       $(this)[0].innerHTML = '';
+    };
 
-      $(this).off('onGet');
+    this.subscribe = (callback: Function) => {
+      const slider = $(this).data('rangeSlider');
+      slider.subscribe(callback);
+    };
+
+    this.unsubscribe = (callback: Function) => {
+      const slider = $(this).data('rangeSlider');
+      slider.unsubscribe(callback);
     };
 
     this.update = (data: PartialConfig = defaultConfig) => {

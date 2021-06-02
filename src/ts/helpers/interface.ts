@@ -34,6 +34,5 @@ interface forMouse {
 }
 
 type PartialConfig = Partial<Config>;
-type OnGetData = (data: PartialConfig) => VoidFunction;
 
-export { Config, Coords, Shift, forMouse, PartialConfig, typeData, OnGetData };
+export { Config, Coords, Shift, forMouse, PartialConfig, typeData };

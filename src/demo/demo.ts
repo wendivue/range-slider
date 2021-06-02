@@ -1,14 +1,16 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { Config, PartialConfig, OnGetData } from 'Helpers/interface';
+import { Config, PartialConfig } from 'Helpers/interface';
 
 declare global {
   interface JQuery {
     rangeSlider(options: PartialConfig): void;
-    reset(): void;
-    onGet(func: OnGetData): void;
-    destroy(): void;
     update(data: PartialConfig): void;
+    subscribe(fn: Function): void;
+    unsubscribe(fn: Function): void;
+    getConfig(): Config;
+    destroy(): void;
+    reset(): void;
   }
 }
 

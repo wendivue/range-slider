@@ -55,33 +55,64 @@ $(sliderId).rangeSlider({
 
 `update`
 
+Изменение значение слайдера
+
 ```js
-// Изменение значение слайдера
-$(sliderId).rangeSlider('update', { from: 90, to: 170 });
+$(sliderId).rangeSlider().update({ from: 90, to: 170 });
 ```
 
 `reset`
 
+Возвращает настройки по дефолту
+
 ```js
-// Возвращает настройки по дефолту
-$(sliderId).rangeSlider('reset');
+$(sliderId).rangeSlider().reset();
 ```
 
 `destroy`
 
+Удаляет слайдер
+
 ```js
-// Удаляет слайдер
-$(sliderId).rangeSlider('destroy');
+$(sliderId).rangeSlider().destroy();
 ```
 
-**Событие** `onGet`
+`getConfig`
+
+Возвращает значения текущих настроек
 
 ```js
-// Есть возможность повесить callback функцию на это событие
-$(sliderId).rangeSlider('onGet', () => 'ваш код');
+const slider = $(sliderId).rangeSlider();
+console.log(slider.getConfig());
+```
 
-// Взять значение слайдера
-$(sliderId).rangeSlider('onGet', (config) => console.log(config));
+`subscribe`
+
+Запускает callback функцию, при каждом изменении настроек слайдера передает конфиг с измененными параметрами в аргументы callback функции
+
+```js
+const slider = $(sliderId).rangeSlider();
+
+slider.subscribe((changedConfig: Config) => {
+  console.log(changedConfig);
+});
+```
+
+`unsubscribe`
+
+Прекращает запуск callback функции при изменении настроек
+
+```js
+const slider = $(sliderId).rangeSlider();
+
+const cb = (changedConfig: Config) => {
+  console.log(changedConfig);
+};
+
+// подписка
+slider.subscribe(cb);
+// отписка
+slider.unsubscribe(cb);
 ```
 
 ### Архитектура

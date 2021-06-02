@@ -30,6 +30,14 @@ class Presenter {
     return this.model.getConfig();
   }
 
+  public subscribe(callback: Function): void {
+    this.model.subscribe(callback);
+  }
+
+  public unsubscribe(callback: Function): void {
+    this.model.unsubscribe(callback);
+  }
+
   private init(): void {
     if (this.model.get(TYPE) === SINGLE) {
       this.initConfigValue(this.model.get(SINGLE), SINGLE);

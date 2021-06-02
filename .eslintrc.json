@@ -33,7 +33,15 @@
     "import/no-unresolved": "off",
     "no-restricted-globals": ["error", "event"],
     "import/prefer-default-export": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "Function": false
+        }
+      }
+    ]
   },
   "ignorePatterns": [
     "webpack.base.config.js",
