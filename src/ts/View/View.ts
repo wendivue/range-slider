@@ -100,21 +100,42 @@ class View extends Observable implements IView {
     return (100 * left) / slider;
   }
 
-  public getShift(event: MouseEvent, element: HTMLElement): IShift {
+  public getShift(
+    event: MouseEvent | TouchEvent,
+    element: HTMLElement
+  ): IShift {
     const elemCoords = this.getCoords(element);
+    let pageX;
+    let pageY;
+    if ('clientX' in event) {
+      pageX = event.pageX;
+      pageY = event.pageY;
+    } else {
+      pageX = event.touches[0].pageX;
+      pageY = event.touches[0].pageY;
+    }
 
     return {
-      x: event.pageX - elemCoords.left,
-      y: event.pageY - elemCoords.top,
+      x: pageX - elemCoords.left,
+      y: pageY - elemCoords.top,
     };
   }
 
-  public getNewShift(event: MouseEvent, shift: IShift): IShift {
+  public getNewShift(event: MouseEvent | TouchEvent, shift: IShift): IShift {
     const sliderCoords = this.getCoords(this.slider);
+    let pageX;
+    let pageY;
+    if ('clientX' in event) {
+      pageX = event.pageX;
+      pageY = event.pageY;
+    } else {
+      pageX = event.touches[0].pageX;
+      pageY = event.touches[0].pageY;
+    }
 
     return {
-      x: event.pageX - shift.x - sliderCoords.left,
-      y: event.pageY - shift.y - sliderCoords.top,
+      x: pageX - shift.x - sliderCoords.left,
+      y: pageY - shift.y - sliderCoords.top,
     };
   }
 
@@ -162,6 +183,9 @@ class View extends Observable implements IView {
     if (element === undefined) throw new Error('element не передан');
 
     element.addEventListener('mousedown', this.handleMouseDown.bind(this));
+    element.addEventListener('touchstart', this.handleMouseDown.bind(this), {
+      passive: false,
+    });
   }
 
   private bindWrapperEvents(): void {
@@ -214,7 +238,8 @@ class View extends Observable implements IView {
     element.addEventListener('change', this.rangeOnChange.bind(this));
   }
 
-  private handleMouseDown(event: MouseEvent): void {
+  private handleMouseDown(event: MouseEvent | TouchEvent): void {
+    event.preventDefault();
     const element = event.target as HTMLElement;
     const shift: IShift = this.getShift(event, element);
 
@@ -227,13 +252,20 @@ class View extends Observable implements IView {
 
     const onMouseUp = () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('touchmove', handleMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('touchend', onMouseUp);
     };
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('touchmove', handleMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('touchend', onMouseUp);
   }
 
-  private handleMouseMove(forMouseMove: IForMouse, event: MouseEvent): void {
+  private handleMouseMove(
+    forMouseMove: IForMouse,
+    event: MouseEvent | TouchEvent
+  ): void {
     let percentage;
     const elementType = this.checkElementType(forMouseMove.element);
     const newShift = this.getNewShift(event, forMouseMove.shift);
@@ -249,7 +281,6 @@ class View extends Observable implements IView {
     data[TYPE] = elementType;
 
     this.notify(data);
-    event.preventDefault();
   }
 
   private scaleClick(event: MouseEvent): void {
