@@ -6,7 +6,7 @@ import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
 
-import { typeData } from 'Helpers/interface';
+import { TypeSlider } from 'Helpers/interface';
 import { IBar } from 'UI/Bar/IBar';
 import { IIntervalHandle } from 'UI/Handle/IIntervalHandle';
 import { IIntervalInput } from 'UI/Input/IIntervalInput';
@@ -17,21 +17,25 @@ export interface IIntervalFactory {
   createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): Template;
-  createBar(anchor: HTMLElement, isVertical: boolean, type: typeData): IBar;
+  createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
   createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel;
   createRange(anchor: HTMLElement, min: number, max: number): Range;
   createInput(anchor: HTMLElement): IIntervalInput;
-  createScale(anchor: HTMLElement, isVertical: boolean, type: typeData): IScale;
+  createScale(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: TypeSlider
+  ): IScale;
 }
 
 class IntervalFactory implements IIntervalFactory {
   public createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): Template {
     return new Template(anchor, isVertical, type);
   }
@@ -39,7 +43,7 @@ class IntervalFactory implements IIntervalFactory {
   public createBar(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): IBar {
     return new Bar(anchor, isVertical, type);
   }
@@ -66,7 +70,7 @@ class IntervalFactory implements IIntervalFactory {
   public createScale(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): IScale {
     return new Scale(anchor, isVertical, type);
   }

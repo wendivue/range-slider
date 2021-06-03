@@ -1,9 +1,9 @@
-import { Config, Coords, Shift, forMouse } from 'Helpers/interface';
+import { IConfig, ICoords, IShift, IForMouse } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import Observable from 'Ts/Observable/Observable';
 import { PartialUI, IView } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
-import Observable from '../Observable/Observable';
 
 const { SINGLE, FROM, TO, DOUBLE, MIN, MAX, TYPE, INPUT } = Constants;
 
@@ -46,13 +46,13 @@ class View extends Observable implements IView {
 
   private sliderDouble!: HTMLElement;
 
-  constructor(public config: Config, private app: HTMLElement) {
+  constructor(public config: IConfig, private app: HTMLElement) {
     super();
 
     this.init();
   }
 
-  public setConfig(option: Config): void {
+  public setConfig(option: IConfig): void {
     this.config = { ...this.config, ...option };
   }
 
@@ -100,7 +100,7 @@ class View extends Observable implements IView {
     return (100 * left) / slider;
   }
 
-  public getShift(event: MouseEvent, element: HTMLElement): Shift {
+  public getShift(event: MouseEvent, element: HTMLElement): IShift {
     const elemCoords = this.getCoords(element);
 
     return {
@@ -109,7 +109,7 @@ class View extends Observable implements IView {
     };
   }
 
-  public getNewShift(event: MouseEvent, shift: Shift): Shift {
+  public getNewShift(event: MouseEvent, shift: IShift): IShift {
     const sliderCoords = this.getCoords(this.slider);
 
     return {
@@ -139,7 +139,7 @@ class View extends Observable implements IView {
     this.bindEvents();
   }
 
-  private getCoords(element: HTMLElement): Coords {
+  private getCoords(element: HTMLElement): ICoords {
     const box = element.getBoundingClientRect();
 
     return {
@@ -216,9 +216,9 @@ class View extends Observable implements IView {
 
   private handleMouseDown(event: MouseEvent): void {
     const element = event.target as HTMLElement;
-    const shift: Shift = this.getShift(event, element);
+    const shift: IShift = this.getShift(event, element);
 
-    const forMouseMove: forMouse = {
+    const forMouseMove: IForMouse = {
       shift,
       element,
     };
@@ -233,7 +233,7 @@ class View extends Observable implements IView {
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  private handleMouseMove(forMouseMove: forMouse, event: MouseEvent): void {
+  private handleMouseMove(forMouseMove: IForMouse, event: MouseEvent): void {
     let percentage;
     const elementType = this.checkElementType(forMouseMove.element);
     const newShift = this.getNewShift(event, forMouseMove.shift);
@@ -278,7 +278,7 @@ class View extends Observable implements IView {
 
   private wrapperClick(event: MouseEvent): void {
     const element = event.currentTarget as HTMLElement;
-    const newShift: Shift = this.getShift(event, element);
+    const newShift: IShift = this.getShift(event, element);
 
     let percentage: number;
     let elementType = this.checkElementType(element);

@@ -1,6 +1,6 @@
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 
-const defaultConfig: Config = {
+const defaultConfig: IConfig = {
   single: 20,
   from: 20,
   to: 50,

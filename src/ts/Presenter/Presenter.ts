@@ -1,7 +1,8 @@
 import Constants from 'Helpers/enums';
-import { Config } from 'Helpers/interface';
-import { IModel } from '../Model/IModel';
-import { IView, IUI } from '../View/IView';
+import { IConfig } from 'Helpers/interface';
+import { IModel } from 'Ts/Model/IModel';
+import { IUI, IView } from 'Ts/View/IView';
+import { IPresenter } from './IPresenter';
 
 const {
   SINGLE,
@@ -21,12 +22,12 @@ const {
   DOUBLE,
 } = Constants;
 
-class Presenter {
+class Presenter implements IPresenter {
   constructor(private model: IModel, private view: IView) {
     this.init();
   }
 
-  public getConfig(): Config {
+  public getConfig(): IConfig {
     return this.model.getConfig();
   }
 
@@ -48,8 +49,8 @@ class Presenter {
 
     this.updateView();
 
-    this.view.subscribe((data: Config) => this.model.counting(data));
-    this.model.subscribe((data: Config) => this.view.setConfig(data));
+    this.view.subscribe((data: IConfig) => this.model.counting(data));
+    this.model.subscribe((data: IConfig) => this.view.setConfig(data));
     this.model.subscribe(() => this.updateView());
   }
 

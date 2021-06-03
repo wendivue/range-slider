@@ -1,10 +1,10 @@
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Model from 'Ts/Model/Model';
 
 const { FROM, TO, MIN, MAX, TYPE, VERTICAL, DOUBLE, SINGLE, STEP } = Constants;
 
-const config: Config = {
+const config: IConfig = {
   single: 20,
   from: 20,
   to: 50,
@@ -22,7 +22,7 @@ const config: Config = {
   isScale: false,
 };
 
-const configBroke: Config = {
+const configBroke: IConfig = {
   single: 20,
   from: 80,
   to: 50,
@@ -142,7 +142,7 @@ describe('Validate step', () => {
   });
 });
 
-describe('Config', () => {
+describe('IConfig', () => {
   afterEach(() => {
     model = new Model(config);
   });

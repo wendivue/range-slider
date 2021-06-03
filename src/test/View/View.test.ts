@@ -1,5 +1,5 @@
 import { JSDOM } from 'jsdom';
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';
 import { IUI } from 'Ts/View/IView';
@@ -13,7 +13,7 @@ const { document } = dom.window;
 
 const anchor = document.querySelector('#azx2') as HTMLElement;
 
-const singleConfig: Config = {
+const singleConfig: IConfig = {
   single: 20,
   from: 20,
   to: 50,
@@ -31,7 +31,7 @@ const singleConfig: Config = {
   isScale: true,
 };
 
-const intervalConfig: Config = {
+const intervalConfig: IConfig = {
   single: 20,
   from: 20,
   to: 50,

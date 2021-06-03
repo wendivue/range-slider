@@ -1,6 +1,6 @@
-type typeData = 'single' | 'double';
+type TypeSlider = 'single' | 'double';
 
-interface Config {
+interface IConfig {
   min: number;
   max: number;
   single: number;
@@ -10,7 +10,7 @@ interface Config {
   percentFrom: number;
   percentTo: number;
   percentSingle: number;
-  type: typeData;
+  type: TypeSlider;
   isInput: boolean;
   isRange: boolean;
   isLabel: boolean;
@@ -18,21 +18,21 @@ interface Config {
   isScale: boolean;
 }
 
-interface Coords {
+interface ICoords {
   top: number;
   left: number;
 }
 
-interface Shift {
+interface IShift {
   x: number;
   y: number;
 }
 
-interface forMouse {
-  shift: Shift;
+interface IForMouse {
+  shift: IShift;
   element: HTMLElement;
 }
 
-type PartialConfig = Partial<Config>;
+type PartialConfig = Partial<IConfig>;
 
-export { Config, Coords, Shift, forMouse, PartialConfig, typeData };
+export { IConfig, ICoords, IShift, IForMouse, PartialConfig, TypeSlider };

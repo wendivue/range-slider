@@ -1,7 +1,7 @@
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import Observable from 'Ts/Observable/Observable';
 import { IModel, ConstantsExcludeDouble } from './IModel';
-import Observable from '../Observable/Observable';
 
 const {
   FROM,
@@ -16,38 +16,38 @@ const {
 } = Constants;
 
 class Model extends Observable implements IModel {
-  constructor(private config: Config) {
+  constructor(private config: IConfig) {
     super();
 
     this.config = this.checkConfig(config);
   }
 
-  public getConfig(): Config {
+  public getConfig(): IConfig {
     return this.config;
   }
 
-  public setConfig(option: Config): void {
+  public setConfig(option: IConfig): void {
     this.config = { ...this.config, ...option };
     this.config = this.checkConfig(this.config);
   }
 
-  public add<T extends keyof Config>(value: Config[T], prop: T): void {
+  public add<T extends keyof IConfig>(value: IConfig[T], prop: T): void {
     const obj = this.config;
-    let userObj: Record<string, Config[T]> = { value };
+    let userObj: Record<string, IConfig[T]> = { value };
 
     Object.keys(obj).forEach((key) => {
-      if (key === prop) userObj = { [<keyof Config>key]: value };
+      if (key === prop) userObj = { [<keyof IConfig>key]: value };
     });
 
     this.config = { ...this.config, ...userObj };
   }
 
-  public get<T extends keyof Config>(prop: T): Config[T] {
+  public get<T extends keyof IConfig>(prop: T): IConfig[T] {
     const obj = this.config;
     let value;
 
     Object.keys(obj).forEach((key) => {
-      if (key === prop) value = obj[<keyof Config>key];
+      if (key === prop) value = obj[<keyof IConfig>key];
     });
 
     if (value === undefined) throw new Error('value не передан');
@@ -159,7 +159,7 @@ class Model extends Observable implements IModel {
     return step;
   }
 
-  public counting(options: Config): void {
+  public counting(options: IConfig): void {
     let data = { ...options };
     const elementType = data.type as ConstantsExcludeDouble;
     let percentage = data[elementType] as number;
@@ -182,7 +182,7 @@ class Model extends Observable implements IModel {
     percentage: number,
     value: number,
     elementType: Constants,
-    data: Config
+    data: IConfig
   ) {
     if (elementType === FROM) {
       this.add(percentage, PERCENT_FROM);
@@ -208,7 +208,7 @@ class Model extends Observable implements IModel {
     }
   }
 
-  private checkConfig(options: Config): Config {
+  private checkConfig(options: IConfig): IConfig {
     let { min, max, step, from, to, single } = options;
     const config = options;
     const halfMax = max / 2;

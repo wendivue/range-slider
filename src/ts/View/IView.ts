@@ -1,4 +1,4 @@
-import { Shift, Config } from 'Helpers/interface';
+import { IShift, IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IObservable } from '../Observable/Observable';
 
@@ -21,14 +21,14 @@ interface IUI {
 type PartialUI = Partial<IUI>;
 
 interface IView extends IObservable {
-  config: Config;
+  config: IConfig;
   UI: PartialUI;
 
-  setConfig(option: Config): void;
+  setConfig(option: IConfig): void;
   checkElementType(element: HTMLElement): Constants;
   calcPercentage(left: number): number;
-  getShift(event: MouseEvent, element: HTMLElement): Shift;
-  getNewShift(event: MouseEvent, shift: Shift): Shift;
+  getShift(event: MouseEvent, element: HTMLElement): IShift;
+  getNewShift(event: MouseEvent, shift: IShift): IShift;
   getElement(elementType: Constants): HTMLInputElement;
 }
 

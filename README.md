@@ -93,7 +93,7 @@ console.log(slider.getConfig());
 ```js
 const slider = $(sliderId).rangeSlider();
 
-slider.subscribe((changedConfig: Config) => {
+slider.subscribe((changedConfig: IConfig) => {
   console.log(changedConfig);
 });
 ```
@@ -105,7 +105,7 @@ slider.subscribe((changedConfig: Config) => {
 ```js
 const slider = $(sliderId).rangeSlider();
 
-const cb = (changedConfig: Config) => {
+const cb = (changedConfig: IConfig) => {
   console.log(changedConfig);
 };
 

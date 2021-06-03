@@ -1,18 +1,18 @@
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IObservable } from '../Observable/Observable';
 
 type ConstantsExcludeDouble = Exclude<Constants, Constants.DOUBLE>;
 
 interface IModel extends IObservable {
-  getConfig(): Config;
-  setConfig(option: Config): void;
-  add<T extends keyof Config>(value: Config[T], prop: T): void;
-  get<T extends keyof Config>(prop: T): Config[T];
+  getConfig(): IConfig;
+  setConfig(option: IConfig): void;
+  add<T extends keyof IConfig>(value: IConfig[T], prop: T): void;
+  get<T extends keyof IConfig>(prop: T): IConfig[T];
   getPercentage(percentage: number, elementType: Constants): number;
   getValue(percentage: number): number;
   getPercentageInput(value: number): number;
-  counting(options: Config): void;
+  counting(options: IConfig): void;
   createStep(): Array<number>;
   validateEdgeValue(value: number): number;
   validateRange(value: number, type: Constants): number;

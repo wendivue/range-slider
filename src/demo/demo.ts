@@ -1,6 +1,6 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { Config, PartialConfig } from 'Helpers/interface';
+import { IConfig, PartialConfig } from 'Helpers/interface';
 
 declare global {
   interface JQuery {
@@ -8,13 +8,13 @@ declare global {
     update(data: PartialConfig): void;
     subscribe(fn: Function): void;
     unsubscribe(fn: Function): void;
-    getConfig(): Config;
+    getConfig(): IConfig;
     destroy(): void;
     reset(): void;
   }
 }
 
-const config1: Config = {
+const config1: IConfig = {
   single: 50,
   from: 20,
   to: 50,
@@ -32,7 +32,7 @@ const config1: Config = {
   isScale: true,
 };
 
-const config2: Config = {
+const config2: IConfig = {
   single: 20,
   from: 20,
   to: 50,
@@ -50,7 +50,7 @@ const config2: Config = {
   isScale: false,
 };
 
-const config3: Config = {
+const config3: IConfig = {
   single: 20,
   from: 20,
   to: 50,
@@ -76,7 +76,7 @@ if (!anchor1) throw new Error('#slider1 - не найдено');
 if (!anchor2) throw new Error('#slider2 - не найдено');
 if (!anchor3) throw new Error('#slider3 - не найдено');
 
-function createSetting(config: Config, anchor: HTMLElement) {
+function createSetting(config: IConfig, anchor: HTMLElement) {
   return new Setting(config, anchor);
 }
 

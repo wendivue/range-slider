@@ -1,4 +1,4 @@
-import { Config } from 'Helpers/interface';
+import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import Presenter from 'Ts/Presenter/Presenter';
@@ -14,7 +14,7 @@ class Setting {
 
   private setting!: HTMLElement;
 
-  constructor(private config: Config, private anchor: HTMLElement) {
+  constructor(private config: IConfig, private anchor: HTMLElement) {
     this.init();
   }
 

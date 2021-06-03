@@ -6,7 +6,7 @@ import SingleInput from 'UI/Input/SingleInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
 
-import { typeData } from 'Helpers/interface';
+import { TypeSlider } from 'Helpers/interface';
 import { IBar } from 'UI/Bar/IBar';
 import { ISingleHandle } from 'UI/Handle/ISingleHandle';
 import { ISingleInput } from 'UI/Input/ISingleInput';
@@ -17,21 +17,25 @@ export interface ISingleFactory {
   createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): Template;
-  createBar(anchor: HTMLElement, isVertical: boolean, type: typeData): IBar;
+  createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
   createHandle(anchor: HTMLElement, isVertical: boolean): ISingleHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): ISingleLabel;
   createRange(anchor: HTMLElement, min: number, max: number): Range;
   createInput(anchor: HTMLElement): ISingleInput;
-  createScale(anchor: HTMLElement, isVertical: boolean, type: typeData): IScale;
+  createScale(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: TypeSlider
+  ): IScale;
 }
 
 class SingleFactory implements ISingleFactory {
   public createTemplate(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): Template {
     return new Template(anchor, isVertical, type);
   }
@@ -39,7 +43,7 @@ class SingleFactory implements ISingleFactory {
   public createBar(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): IBar {
     return new Bar(anchor, isVertical, type);
   }
@@ -63,7 +67,7 @@ class SingleFactory implements ISingleFactory {
   public createScale(
     anchor: HTMLElement,
     isVertical: boolean,
-    type: typeData
+    type: TypeSlider
   ): IScale {
     return new Scale(anchor, isVertical, type);
   }

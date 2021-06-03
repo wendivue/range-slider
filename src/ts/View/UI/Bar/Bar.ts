@@ -1,4 +1,4 @@
-import { typeData } from 'Helpers/interface';
+import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IBar } from './IBar';
 
@@ -14,7 +14,7 @@ class Bar implements IBar {
   constructor(
     private anchor: HTMLElement,
     private isVertical: boolean,
-    private type: typeData
+    private type: TypeSlider
   ) {
     this.init();
   }
