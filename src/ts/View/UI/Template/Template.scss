@@ -42,9 +42,11 @@
     max-height: 25px;
 
     &_vertical {
+      position: absolute;
       max-height: 710px;
       height: 710px;
       height: 100%;
+      width: 100%;
     }
   }
 
@@ -75,7 +77,6 @@
   &__bar {
     position: absolute;
     height: 10px;
-    margin-left: 10px;
     border: none;
     border-radius: 5px;
     background-color: $color-primary;
@@ -85,11 +86,6 @@
       width: 10px;
       right: 0.8px;
       margin-left: 0;
-      margin-top: 10px;
-    }
-
-    &_single {
-      margin-left: 0;
     }
   }
 
@@ -98,6 +94,7 @@
     top: -6px;
     width: 25px;
     height: 25px;
+    margin-left: -15px;
     background-color: $color-primary;
     border-radius: 3px;
     border-radius: 50%;
@@ -121,21 +118,10 @@
 
     &_to {
       top: -31px;
-
-      &_vertical {
-        margin-top: -25px;
-      }
-    }
-
-    &_single {
-      margin-left: -15px;
-
-      &_vertical {
-        margin-top: -20px;
-      }
     }
 
     &_vertical {
+      margin-top: -20px;
       margin-left: -8.5083px;
     }
   }
@@ -173,7 +159,7 @@
 
   &__scale {
     position: relative;
-    left: -10px;
+    left: -15px;
     display: flex;
     pointer-events: none;
     user-select: none;
@@ -181,7 +167,7 @@
 
     &_vertical {
       position: absolute;
-      top: -15px;
+      top: -13px;
       left: 25px;
       height: 100%;
       padding: 0;
