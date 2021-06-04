@@ -21,27 +21,13 @@ describe('IntervalInput', () => {
     slider.innerHTML = '';
   });
 
-  test('change value', () => {
+  test('should change value', () => {
     const inputFrom = document.querySelector(
       '.input__from'
     ) as HTMLInputElement;
     const inputTo = document.querySelector('.input__to') as HTMLInputElement;
 
-    if (!inputFrom) throw new Error('.input__from - не найдено');
-    if (!inputTo) throw new Error('.input__to - не найдено');
-
     expect(inputFrom.value).toMatch(/10/);
     expect(inputTo.value).toMatch(/20/);
-  });
-});
-
-describe('Input undefined', () => {
-  beforeEach(() => {
-    const input = new IntervalInput(anchor);
-    input.changeValue('10', '20');
-  });
-
-  afterEach(() => {
-    slider.innerHTML = '';
   });
 });

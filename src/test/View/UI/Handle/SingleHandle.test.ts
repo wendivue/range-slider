@@ -9,9 +9,7 @@ const sliderTemplate = `<div class="slider__wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const slider = document.querySelector('.slider__wrapper');
-
-if (!slider) throw new Error('.slider__wrapper - не найдено');
+const slider = document.querySelector('.slider__wrapper') as HTMLElement;
 
 describe('SingleHandle', () => {
   beforeEach(() => {
@@ -23,12 +21,10 @@ describe('SingleHandle', () => {
     slider.innerHTML = '';
   });
 
-  test('change left', () => {
+  test('should change left', () => {
     const element = document.querySelector(
       '.slider__handle_single'
     ) as HTMLElement;
-
-    if (!element) throw new Error('.slider__handle_single - не найдено');
 
     expect(element.style.left).toMatch(/10%/);
   });
@@ -44,12 +40,10 @@ describe('SingleHandleVertical', () => {
     slider.innerHTML = '';
   });
 
-  test('change top', () => {
+  test('should change top', () => {
     const element = document.querySelector(
       '.slider__handle_single'
     ) as HTMLElement;
-
-    if (!element) throw new Error('..slider__handle_single - не найдено');
 
     expect(element.style.top).toMatch(/10%/);
   });

@@ -9,10 +9,10 @@ const handleTemplate = `<div class="slider__handle slider__handle_single"></div>
 
 anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
-const handleSingle = anchor.querySelector('.slider__handle_single');
+const handleSingle = anchor.querySelector(
+  '.slider__handle_single'
+) as HTMLElement;
 const isLabel = true;
-
-if (!handleSingle) throw new Error('.slider__handle_single - не найдено');
 
 describe('SingleLabel', () => {
   beforeEach(() => {
@@ -28,9 +28,6 @@ describe('SingleLabel', () => {
     const labelSingle = document.querySelector(
       '.slider__label-text_single'
     ) as HTMLInputElement;
-
-    if (!labelSingle)
-      throw new Error('.slider__label-text_single - не найдено');
 
     expect(labelSingle.textContent).toMatch(/10/);
   });

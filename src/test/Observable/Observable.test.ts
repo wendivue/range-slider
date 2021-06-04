@@ -3,7 +3,7 @@ import Observable from 'Ts/Observable/Observable';
 describe('Observable', () => {
   const observable = new Observable();
 
-  test('add callback', () => {
+  test('should add callback', () => {
     const callback = jest.fn();
 
     observable.subscribe(callback);
@@ -12,7 +12,7 @@ describe('Observable', () => {
     expect(callback).toHaveBeenCalledWith({ date: 'notify' });
   });
 
-  test('delete callback', () => {
+  test('should delete callback', () => {
     const callback = jest.fn();
 
     observable.subscribe(callback);

@@ -16,7 +16,7 @@ describe('Template', () => {
     anchor.innerHTML = '';
   });
 
-  test('create modifier vertical', () => {
+  test('should create modifier vertical', () => {
     const element = document.querySelector(
       '.slider__main-wrapper_vertical'
     ) as HTMLElement;

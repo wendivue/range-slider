@@ -8,6 +8,7 @@
     "noImplicitThis": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
+    "moduleResolution": "node",
     "strictPropertyInitialization": true,
     "strict": true,
     "esModuleInterop": true,

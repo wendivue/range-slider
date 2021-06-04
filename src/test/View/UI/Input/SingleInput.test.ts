@@ -21,7 +21,7 @@ describe('SingleInput', () => {
     slider.innerHTML = '';
   });
 
-  test('change value', () => {
+  test('should change value', () => {
     const inputSingle = document.querySelector(
       '.input__single'
     ) as HTMLInputElement;

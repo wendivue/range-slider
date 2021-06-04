@@ -17,7 +17,7 @@ describe('Range', () => {
     slider.innerHTML = '';
   });
 
-  test('min=30 & max=110', () => {
+  test('should return min=30 & max=110', () => {
     const rangeMin = anchor.querySelector(
       '.slider__range-min'
     ) as HTMLInputElement;

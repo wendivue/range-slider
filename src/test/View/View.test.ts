@@ -54,7 +54,7 @@ describe('Check type single', () => {
     anchor.innerHTML = '';
   });
 
-  test('get single', () => {
+  test('when handle_single should return single', () => {
     const view = new View(singleConfig, anchor);
 
     const handle = document.querySelector(
@@ -69,7 +69,7 @@ describe('Check type single', () => {
       anchor.innerHTML = '';
     });
 
-    test('get from & to', () => {
+    test('when element handle_from || handle_to should return from || to ', () => {
       const view = new View(intervalConfig, anchor);
 
       const handleFrom = document.querySelector(
@@ -90,7 +90,7 @@ describe('getElement', () => {
     anchor.innerHTML = '';
   });
 
-  test('get element', () => {
+  test('when min || max should return element range-min & range-max', () => {
     const view = new View(intervalConfig, anchor);
     const rangeMin = anchor.querySelector(
       '.slider__range-min'
@@ -109,7 +109,7 @@ describe('Create element', () => {
     anchor.innerHTML = '';
   });
 
-  test('create handle', () => {
+  test('should create handle', () => {
     const view = new View(singleConfig, anchor);
     const { handle } = view.UI as IUI;
 
@@ -122,7 +122,7 @@ describe('Create element', () => {
     expect(element).toBeTruthy();
   });
 
-  test('create bar', () => {
+  test('should create bar', () => {
     const view = new View(singleConfig, anchor);
     const { bar } = view.UI as IUI;
 
@@ -132,7 +132,7 @@ describe('Create element', () => {
     expect(element).toBeTruthy();
   });
 
-  test('create label', () => {
+  test('should create label', () => {
     const view = new View(singleConfig, anchor);
     const { label } = view.UI as IUI;
 
@@ -143,7 +143,7 @@ describe('Create element', () => {
     expect(element).toBeTruthy();
   });
 
-  test('create input', () => {
+  test('should create input', () => {
     const view = new View(singleConfig, anchor);
     const { input } = view.UI as IUI;
 
@@ -155,7 +155,7 @@ describe('Create element', () => {
     expect(element).toBeTruthy();
   });
 
-  test('create scale single', () => {
+  test('should create scale single', () => {
     const view = new View(singleConfig, anchor);
     const { scale } = view.UI as IUI;
 
@@ -169,7 +169,7 @@ describe('Create element', () => {
     expect(scaleSingle).toBeTruthy();
   });
 
-  test('create scale double', () => {
+  test('should create scale double', () => {
     const view = new View(intervalConfig, anchor);
     const { scale } = view.UI as IUI;
 
@@ -189,11 +189,37 @@ describe('Config', () => {
     anchor.innerHTML = '';
   });
 
-  test('set config from', () => {
+  test('when set from=10 should return 10', () => {
     const view = new View(intervalConfig, anchor);
 
     view.setConfig({ from: 10 });
 
     expect(view.config.from).toBe(10);
+  });
+});
+
+describe('calcPercentage', () => {
+  afterEach(() => {
+    anchor.innerHTML = '';
+    intervalConfig.isVertical = false;
+  });
+
+  test('when left=100 should return calculate percentage', () => {
+    const view = new View(intervalConfig, anchor);
+    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+
+    Object.defineProperty(slider, 'offsetWidth', { value: 580 });
+
+    expect(view.calcPercentage(100)).toBe(17.54385964912281);
+  });
+
+  test('when left=100 & isVertical = true should return calculate percentage', () => {
+    intervalConfig.isVertical = true;
+    const view = new View(intervalConfig, anchor);
+    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+
+    Object.defineProperty(slider, 'offsetHeight', { value: 710 });
+
+    expect(view.calcPercentage(100)).toBe(14.084507042253522);
   });
 });

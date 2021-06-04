@@ -12,9 +12,7 @@ const sliderTemplate = `<div class="slider__wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const slider = document.querySelector('.slider__wrapper');
-
-if (!slider) throw new Error('.slider__wrapper - не найдено');
+const slider = document.querySelector('.slider__wrapper') as HTMLElement;
 
 describe('doubleBar', () => {
   beforeEach(() => {
@@ -26,7 +24,7 @@ describe('doubleBar', () => {
     slider.innerHTML = '';
   });
 
-  test('change width & left', () => {
+  test('should change width & left to double bar', () => {
     const element = document.querySelector('.slider__bar') as HTMLElement;
 
     expect(element.style.width).toMatch(/20%/);
@@ -44,7 +42,7 @@ describe('SingleBar', () => {
     slider.innerHTML = '';
   });
 
-  test('change width', () => {
+  test('should change width to single bar', () => {
     const element = document.querySelector('.slider__bar') as HTMLElement;
     expect(element.style.width).toMatch(/15%/);
   });
@@ -60,10 +58,8 @@ describe('singleBarVertical', () => {
     slider.innerHTML = '';
   });
 
-  test('change height', () => {
+  test('should change height to single bar', () => {
     const element = document.querySelector('.slider__bar') as HTMLElement;
-
-    if (!element) throw new Error('.slider__bar - не найдено');
 
     expect(element.style.height).toMatch(/15%/);
   });
@@ -79,10 +75,8 @@ describe('doubleBarVertical', () => {
     slider.innerHTML = '';
   });
 
-  test('change height & top', () => {
+  test('should change height & top to double bar', () => {
     const element = document.querySelector('.slider__bar') as HTMLElement;
-
-    if (!element) throw new Error('.slider__bar - не найдено');
 
     expect(element.style.height).toMatch(/20%/);
     expect(element.style.top).toMatch(/10%/);
@@ -99,7 +93,7 @@ describe('Bar undefined', () => {
     slider.innerHTML = '';
   });
 
-  test('to undefined', () => {
+  test('when to=undefined should return Error', () => {
     const doubleBar = new Bar(anchor, false, DOUBLE);
     const bar = () => doubleBar.changeBar(10, undefined);
 

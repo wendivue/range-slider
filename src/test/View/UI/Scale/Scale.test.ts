@@ -19,7 +19,7 @@ describe('Scale', () => {
     slider.innerHTML = '';
   });
 
-  test('change scale', () => {
+  test('should change scale', () => {
     const scale = new Scale(anchor, false, SINGLE);
     scale.changeScale([0, 40, 80, 100], 0, 100, 40);
 
@@ -31,7 +31,7 @@ describe('Scale', () => {
     expect(element[2].style.left).toMatch(/100%/);
   });
 
-  test('change vertical scale', () => {
+  test('should change vertical scale', () => {
     const scale = new Scale(anchor, true, SINGLE);
     scale.changeScale([0, 40, 80, 100], 0, 100, 40);
 
@@ -43,7 +43,7 @@ describe('Scale', () => {
     expect(element[2].style.top).toMatch(/100%/);
   });
 
-  test('step fractional', () => {
+  test('when step fractional should return fractional percent', () => {
     const scale = new Scale(anchor, false, SINGLE);
     scale.changeScale([0, 40.5, 81, 100], 0, 100, 40.5);
 
@@ -52,10 +52,10 @@ describe('Scale', () => {
     ) as NodeListOf<HTMLElement>;
 
     expect(element[0].style.left).toMatch(/0%/);
-    expect(element[2].style.left).toMatch(/100%/);
+    expect(element[1].style.left).toMatch(/40.5%/);
   });
 
-  test('newPercentage.length > maxLength', () => {
+  test('when newPercentage.length > maxLength should remove unnecessary values', () => {
     const scale = new Scale(anchor, false, SINGLE);
     scale.changeScale(
       [0, 5, 10, 15, 20, 25, 30, 40, 50, 55, 60, 70, 80, 85, 90, 100],

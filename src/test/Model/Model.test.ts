@@ -62,6 +62,7 @@ let model = new Model(config);
 
 describe('Get value', () => {
   afterEach(() => {
+    config.step = 1;
     model = new Model(config);
   });
 
@@ -70,44 +71,45 @@ describe('Get value', () => {
     expect(model.getValue(65)).toBe(650);
   });
 
-  test('negative number', () => {
+  test('should validate negative number', () => {
     expect(model.getValue(-2)).toBe(0);
   });
 
-  test('value > max ', () => {
+  test('when value > max should return max', () => {
     expect(model.getValue(99999)).toBe(1000);
   });
 
-  test('fractional step', () => {
+  test('when fractional step should return fractional value', () => {
     model.add(1.5, STEP);
 
-    expect(model.getValue(30)).toBe(300);
+    expect(model.getValue(30.55)).toBe(305.5);
   });
 });
 
 describe('Get percentage', () => {
-  test('should adjust the value', () => {
+  afterEach(() => {
+    config.percentFrom = 0;
+    config.percentTo = 0;
+    model = new Model(config);
+  });
+
+  test('when from=33 should return 33', () => {
     config.percentTo = 70;
 
     expect(model.getPercentage(33, FROM)).toBe(33);
-    expect(model.getPercentage(38, FROM)).toBe(38);
   });
 
-  test('negative number', () => {
-    expect(model.getPercentage(-20, FROM)).toBe(0);
-  });
-
-  test('percentage > max', () => {
+  test('when percentage > max should return 100', () => {
     expect(model.getPercentage(999, TO)).toBe(100);
   });
 
-  test('percentage(from) > to', () => {
+  test('when from > to should return to - stepPercent', () => {
     config.percentTo = 69.9;
 
     expect(model.getPercentage(80, FROM)).toBe(69.80000000000001);
   });
 
-  test('percentage(to) < from', () => {
+  test('when to < from should return from + stepPercent', () => {
     config.percentFrom = 30.1;
 
     expect(model.getPercentage(20, TO)).toBe(30.200000000000003);
@@ -150,26 +152,26 @@ describe('Validate step', () => {
     model = new Model(config);
   });
 
-  test('value > 0.5', () => {
+  test('when value > 0.5 should return 0.5', () => {
     expect(model.validateStep(0.3)).toBe(0.5);
   });
 
-  test('value > max', () => {
+  test('when step > max should return step <= max - min', () => {
     model.add(990, MIN);
     expect(model.validateStep(600)).toBe(10);
   });
 });
 
-describe('IConfig', () => {
+describe('Config', () => {
   afterEach(() => {
     model = new Model(config);
   });
 
-  test('get config', () => {
+  test('should get config', () => {
     expect(model.getConfig()).toBe(config);
   });
 
-  test('set config', () => {
+  test('when not validate config should fix config', () => {
     model.setConfig(configBroke);
 
     expect(model.getConfig()).toStrictEqual(configFix);
@@ -177,7 +179,7 @@ describe('IConfig', () => {
 });
 
 describe('Validate range', () => {
-  test('validate', () => {
+  test('should validate range', () => {
     expect(model.validateRange(22, MIN)).toBe(22);
     expect(model.validateRange(2000, MIN)).toBe(999);
     expect(model.validateRange(10, MAX)).toBe(10);
@@ -190,13 +192,13 @@ describe('validate Two Handle Value', () => {
     model = new Model(config);
   });
 
-  test('from > to', () => {
+  test('when from > to should return to - step', () => {
     expect(model.validateTwoHandleValue(60, FROM)).toBe(49);
     model.add(1000, TO);
     expect(model.validateTwoHandleValue(1100, FROM)).toBe(999);
   });
 
-  test('to < from', () => {
+  test('when to < from should return from + step', () => {
     expect(model.validateTwoHandleValue(4, TO)).toBe(21);
     model.add(0, FROM);
     expect(model.validateTwoHandleValue(-4, TO)).toBe(1);
@@ -208,7 +210,7 @@ describe('Counting', () => {
     model = new Model(config);
   });
 
-  test('get value 3, set percentage 30', () => {
+  test('when value 3 should return percentage 30', () => {
     const callback = jest.fn();
 
     model.subscribe(callback);
@@ -220,7 +222,7 @@ describe('Counting', () => {
     expect(newConfig.single).toBe(30);
   });
 
-  test('get value 3, set value 3 & isInput = true', () => {
+  test('when isInput=true set should set isInput=true', () => {
     const callback = jest.fn();
 
     model.subscribe(callback);
@@ -232,7 +234,7 @@ describe('Counting', () => {
     expect(newConfig.isInput).toBe(true);
   });
 
-  test('set min & max', () => {
+  test('should set min & max', () => {
     const callback = jest.fn();
 
     model.subscribe(callback);
