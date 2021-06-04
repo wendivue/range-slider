@@ -1,6 +1,7 @@
 import { getUniqueID } from 'Helpers/helpersFunctions';
+import { IRange } from './IRange';
 
-class Range {
+class Range implements IRange {
   constructor(private anchor: HTMLElement, min: number, max: number) {
     this.init(anchor, min, max);
   }

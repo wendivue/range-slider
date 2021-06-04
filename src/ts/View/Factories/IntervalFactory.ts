@@ -12,6 +12,7 @@ import { IIntervalHandle } from 'UI/Handle/IIntervalHandle';
 import { IIntervalInput } from 'UI/Input/IIntervalInput';
 import { IIntervalLabel } from 'UI/Label/IIntervalLabel';
 import { IScale } from 'UI/Scale/IScale';
+import { IRange } from 'UI/Range/IRange';
 
 export interface IIntervalFactory {
   createTemplate(
@@ -22,7 +23,7 @@ export interface IIntervalFactory {
   createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
   createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel;
-  createRange(anchor: HTMLElement, min: number, max: number): Range;
+  createRange(anchor: HTMLElement, min: number, max: number): IRange;
   createInput(anchor: HTMLElement): IIntervalInput;
   createScale(
     anchor: HTMLElement,
@@ -59,7 +60,7 @@ class IntervalFactory implements IIntervalFactory {
     return new IntervalLabel(anchor, isVertical);
   }
 
-  public createRange(anchor: HTMLElement, min: number, max: number): Range {
+  public createRange(anchor: HTMLElement, min: number, max: number): IRange {
     return new Range(anchor, min, max);
   }
 

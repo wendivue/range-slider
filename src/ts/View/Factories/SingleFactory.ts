@@ -12,6 +12,7 @@ import { ISingleHandle } from 'UI/Handle/ISingleHandle';
 import { ISingleInput } from 'UI/Input/ISingleInput';
 import { ISingleLabel } from 'UI/Label/ISingleLabel';
 import { IScale } from 'UI/Scale/IScale';
+import { IRange } from 'UI/Range/IRange';
 
 export interface ISingleFactory {
   createTemplate(
@@ -22,7 +23,7 @@ export interface ISingleFactory {
   createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
   createHandle(anchor: HTMLElement, isVertical: boolean): ISingleHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): ISingleLabel;
-  createRange(anchor: HTMLElement, min: number, max: number): Range;
+  createRange(anchor: HTMLElement, min: number, max: number): IRange;
   createInput(anchor: HTMLElement): ISingleInput;
   createScale(
     anchor: HTMLElement,
@@ -56,7 +57,7 @@ class SingleFactory implements ISingleFactory {
     return new SingleLabel(anchor, isVertical);
   }
 
-  public createRange(anchor: HTMLElement, min: number, max: number): Range {
+  public createRange(anchor: HTMLElement, min: number, max: number): IRange {
     return new Range(anchor, min, max);
   }
 
