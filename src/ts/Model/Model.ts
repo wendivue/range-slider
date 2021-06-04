@@ -1,4 +1,4 @@
-import { IConfig } from 'Helpers/interface';
+import { IConfig, PartialConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
 import { IModel, ConstantsExcludeDouble } from './IModel';
@@ -159,7 +159,7 @@ class Model extends Observable implements IModel {
     return step;
   }
 
-  public counting(options: IConfig): void {
+  public counting(options: PartialConfig): void {
     let data = { ...options };
     const elementType = data.type as ConstantsExcludeDouble;
     let percentage = data[elementType] as number;
@@ -182,7 +182,7 @@ class Model extends Observable implements IModel {
     percentage: number,
     value: number,
     elementType: Constants,
-    data: IConfig
+    data: PartialConfig
   ) {
     if (elementType === FROM) {
       this.add(percentage, PERCENT_FROM);

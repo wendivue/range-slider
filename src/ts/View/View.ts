@@ -1,4 +1,10 @@
-import { IConfig, ICoords, IShift, IForMouse } from 'Helpers/interface';
+import {
+  IConfig,
+  ICoords,
+  IShift,
+  IForMouse,
+  PartialConfig,
+} from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
 import { PartialUI, IView } from './IView';
@@ -10,7 +16,7 @@ const { SINGLE, FROM, TO, DOUBLE, MIN, MAX, TYPE, INPUT } = Constants;
 class View extends Observable implements IView {
   public UI: PartialUI = {};
 
-  private factory?: SingleFactory | IntervalFactory;
+  private factory!: SingleFactory | IntervalFactory;
 
   private slider!: HTMLElement;
 
@@ -52,7 +58,7 @@ class View extends Observable implements IView {
     this.init();
   }
 
-  public setConfig(option: IConfig): void {
+  public setConfig(option: PartialConfig): void {
     this.config = { ...this.config, ...option };
   }
 
@@ -414,10 +420,6 @@ class View extends Observable implements IView {
   }
 
   private getHtml(): void {
-    if (this.factory === undefined) {
-      throw new Error('factory не передан');
-    }
-
     this.factory.createTemplate(
       this.app,
       this.config.isVertical,

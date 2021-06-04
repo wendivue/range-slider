@@ -40,6 +40,24 @@ const configBroke: IConfig = {
   isScale: false,
 };
 
+const configFix: IConfig = {
+  single: 20,
+  from: 49,
+  to: 50,
+  step: 1,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
+  min: 0,
+  max: 1000,
+  type: 'double',
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
+  isScale: false,
+};
+
 let model = new Model(config);
 
 describe('Get value', () => {
@@ -154,7 +172,7 @@ describe('IConfig', () => {
   test('set config', () => {
     model.setConfig(configBroke);
 
-    expect(model.getConfig()).toStrictEqual(configBroke);
+    expect(model.getConfig()).toStrictEqual(configFix);
   });
 });
 
@@ -163,7 +181,7 @@ describe('Validate range', () => {
     expect(model.validateRange(22, MIN)).toBe(22);
     expect(model.validateRange(2000, MIN)).toBe(999);
     expect(model.validateRange(10, MAX)).toBe(10);
-    expect(model.validateRange(0, MAX)).toBe(2);
+    expect(model.validateRange(0, MAX)).toBe(1);
   });
 });
 
@@ -182,5 +200,48 @@ describe('validate Two Handle Value', () => {
     expect(model.validateTwoHandleValue(4, TO)).toBe(21);
     model.add(0, FROM);
     expect(model.validateTwoHandleValue(-4, TO)).toBe(1);
+  });
+});
+
+describe('Counting', () => {
+  afterEach(() => {
+    model = new Model(config);
+  });
+
+  test('get value 3, set percentage 30', () => {
+    const callback = jest.fn();
+
+    model.subscribe(callback);
+
+    model.counting({ single: 3, type: 'single' });
+    const newConfig = model.getConfig();
+
+    expect(callback).toHaveBeenCalled();
+    expect(newConfig.single).toBe(30);
+  });
+
+  test('get value 3, set value 3 & isInput = true', () => {
+    const callback = jest.fn();
+
+    model.subscribe(callback);
+
+    model.counting({ single: 3, type: 'single', isInput: true });
+    const newConfig = model.getConfig();
+
+    expect(callback).toHaveBeenCalled();
+    expect(newConfig.isInput).toBe(true);
+  });
+
+  test('set min & max', () => {
+    const callback = jest.fn();
+
+    model.subscribe(callback);
+
+    model.counting({ min: 10, max: 20 });
+    const newConfig = model.getConfig();
+
+    expect(callback).toHaveBeenCalled();
+    expect(newConfig.min).toBe(10);
+    expect(newConfig.max).toBe(20);
   });
 });

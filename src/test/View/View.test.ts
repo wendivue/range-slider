@@ -46,7 +46,7 @@ const intervalConfig: IConfig = {
   isRange: true,
   isLabel: true,
   isVertical: false,
-  isScale: false,
+  isScale: true,
 };
 
 describe('Check type single', () => {
@@ -181,5 +181,19 @@ describe('Create element', () => {
 
     expect(element).toBeTruthy();
     expect(scaleDouble).toBeTruthy();
+  });
+});
+
+describe('Config', () => {
+  afterEach(() => {
+    anchor.innerHTML = '';
+  });
+
+  test('set config from', () => {
+    const view = new View(intervalConfig, anchor);
+
+    view.setConfig({ from: 10 });
+
+    expect(view.config.from).toBe(10);
   });
 });
