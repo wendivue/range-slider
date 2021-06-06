@@ -31,12 +31,7 @@ class Setting {
     const labelId = `label-${getUniqueID()}`;
     const stepId = `step-${getUniqueID()}`;
     const scaleId = `scale-${getUniqueID()}`;
-    const [
-      checkedVertical,
-      checkedDouble,
-      checkedLabel,
-      checkedScale,
-    ] = this.addChecked();
+    const [checkedVertical, checkedDouble, checkedLabel, checkedScale] = this.addChecked();
 
     const settingTemplate = `
     <div id=${settingId} class="setting">
@@ -96,9 +91,7 @@ class Setting {
   }
 
   private bindEventInput(): void {
-    const input = this.setting.querySelector(
-      '.setting__input'
-    ) as HTMLInputElement;
+    const input = this.setting.querySelector('.setting__input') as HTMLInputElement;
 
     input.addEventListener('change', this.changeStep.bind(this));
   }
@@ -108,17 +101,9 @@ class Setting {
     const name = element.getAttribute('name');
     const check = element.checked;
 
-    if (name === VERTICAL) {
-      this.model.add(check, VERTICAL);
-    }
-
-    if (name === LABEL) {
-      this.model.add(check, LABEL);
-    }
-
-    if (name === SCALE) {
-      this.model.add(check, SCALE);
-    }
+    if (name === VERTICAL) this.model.add(check, VERTICAL);
+    if (name === LABEL) this.model.add(check, LABEL);
+    if (name === SCALE) this.model.add(check, SCALE);
 
     if (name === TYPE) {
       if (element.checked) {

@@ -39,12 +39,4 @@ interface IForMouse {
 
 type PartialConfig = Partial<IConfig>;
 
-export {
-  IConfig,
-  ICoords,
-  IShift,
-  IForMouse,
-  PartialConfig,
-  TypeSlider,
-  IConfigWithArrayStep,
-};
+export { IConfig, ICoords, IShift, IForMouse, PartialConfig, TypeSlider, IConfigWithArrayStep };

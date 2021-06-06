@@ -26,9 +26,7 @@ class Presenter implements IPresenter {
 
     this.view.subscribe((data: IConfig) => this.model.counting(data));
     this.model.subscribe((data: IConfig) => this.view.setConfig(data));
-    this.model.subscribe((data: IConfigWithArrayStep) =>
-      this.view.updateView(data)
-    );
+    this.model.subscribe((data: IConfigWithArrayStep) => this.view.updateView(data));
   }
 }
 

@@ -14,21 +14,15 @@ class IntervalHandle implements IIntervalHandle {
   }
 
   public moveElement(percentage: number, elementType: Constants): void {
-    const from = this.anchor.querySelector(
-      '.slider__handle_from'
-    ) as HTMLElement;
+    const from = this.anchor.querySelector('.slider__handle_from') as HTMLElement;
     const to = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
 
     if (this.isVertical) {
-      if (elementType === FROM) {
-        from.style.top = `${percentage}%`;
-      } else if (elementType === TO) {
-        to.style.top = `${percentage}%`;
-      }
-    } else if (elementType === FROM) {
-      from.style.left = `${percentage}%`;
-    } else if (elementType === TO) {
-      to.style.left = `${percentage}%`;
+      if (elementType === FROM) from.style.top = `${percentage}%`;
+      if (elementType === TO) to.style.top = `${percentage}%`;
+    } else {
+      if (elementType === FROM) from.style.left = `${percentage}%`;
+      if (elementType === TO) to.style.left = `${percentage}%`;
     }
   }
 

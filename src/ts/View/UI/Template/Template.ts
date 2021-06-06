@@ -12,11 +12,7 @@ class Template {
 
   private classWrapperDouble?: string;
 
-  constructor(
-    private anchor: HTMLElement,
-    private isVertical: boolean,
-    private type: TypeSlider
-  ) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private type: TypeSlider) {
     this.init();
   }
 
@@ -32,9 +28,7 @@ class Template {
   }
 
   private createClass(isVertical: boolean, type: TypeSlider): void {
-    this.classWrapperMainVertical = isVertical
-      ? 'slider__main-wrapper_vertical'
-      : '';
+    this.classWrapperMainVertical = isVertical ? 'slider__main-wrapper_vertical' : '';
     this.classWrapperVertical = isVertical ? 'slider__wrapper_vertical' : '';
     this.classWrapperSingle = type === SINGLE ? 'slider__wrapper_single' : '';
     this.classWrapperDouble = type === DOUBLE ? 'slider__wrapper_double' : '';

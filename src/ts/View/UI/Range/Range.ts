@@ -7,12 +7,8 @@ class Range implements IRange {
   }
 
   public changeValue(min: string, max: string): void {
-    const rangeMin = this.anchor.querySelector(
-      '.slider__range-min'
-    ) as HTMLInputElement;
-    const rangeMax = this.anchor.querySelector(
-      '.slider__range-max'
-    ) as HTMLInputElement;
+    const rangeMin = this.anchor.querySelector('.slider__range-min') as HTMLInputElement;
+    const rangeMax = this.anchor.querySelector('.slider__range-max') as HTMLInputElement;
 
     rangeMin.value = min;
     rangeMax.value = max;

@@ -10,9 +10,7 @@ class SingleLabel implements ISingleLabel {
   }
 
   public changeLabelValue(fromValue: string): void {
-    const labelSingle = this.anchor.querySelector(
-      '.slider__label-text_single'
-    ) as HTMLElement;
+    const labelSingle = this.anchor.querySelector('.slider__label-text_single') as HTMLElement;
 
     labelSingle.innerHTML = fromValue;
   }
@@ -28,18 +26,14 @@ class SingleLabel implements ISingleLabel {
       `<div class="slider__label-text ${this.classLabelTextVertical} slider__label-text_single"></div>` +
       '</div>';
 
-    const handle = anchor.querySelector(
-      '.slider__handle_single'
-    ) as HTMLElement;
+    const handle = anchor.querySelector('.slider__handle_single') as HTMLElement;
 
     handle.insertAdjacentHTML('afterbegin', label);
   }
 
   private createClass(isVertical: boolean): void {
     this.classLabelVertical = isVertical ? 'slider__label_vertical' : '';
-    this.classLabelTextVertical = isVertical
-      ? 'slider__label-text_vertical'
-      : '';
+    this.classLabelTextVertical = isVertical ? 'slider__label-text_vertical' : '';
   }
 }
 

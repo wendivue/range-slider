@@ -7,9 +7,7 @@ class SingleInput implements ISingleInput {
   }
 
   public changeValue(fromValue: string): void {
-    const inputSingle = this.anchor.querySelector(
-      '.input__single'
-    ) as HTMLInputElement;
+    const inputSingle = this.anchor.querySelector('.input__single') as HTMLInputElement;
 
     inputSingle.value = fromValue;
   }

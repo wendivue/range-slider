@@ -1,8 +1,4 @@
-import {
-  IConfig,
-  IConfigWithArrayStep,
-  PartialConfig,
-} from 'Helpers/interface';
+import { IConfig, IConfigWithArrayStep, PartialConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
 import { IModel, ConstantsExcludeDouble } from './IModel';
@@ -18,6 +14,7 @@ const {
   SINGLE,
   PERCENT_SINGLE,
   TYPE,
+  DOUBLE,
 } = Constants;
 
 class Model extends Observable implements IModel {
@@ -100,9 +97,7 @@ class Model extends Observable implements IModel {
       array = [...array, ...[nextValue]];
     }
 
-    array = array.map(
-      (item: number) => (100 * item) / (this.get(MAX) - this.get(MIN))
-    );
+    array = array.map((item: number) => (100 * item) / (this.get(MAX) - this.get(MIN)));
 
     array = [0, ...array, 100];
 
@@ -129,10 +124,7 @@ class Model extends Observable implements IModel {
     return newValue;
   }
 
-  public validateTwoHandleValue(
-    percentage: number,
-    element: Constants
-  ): number {
+  public validateTwoHandleValue(percentage: number, element: Constants): number {
     const from = this.get(FROM);
     const to = this.get(TO);
     const step = this.get(STEP);
@@ -175,7 +167,9 @@ class Model extends Observable implements IModel {
   public checkInitConfigValue(): void {
     if (this.get(TYPE) === SINGLE) {
       this.initConfigValue(this.get(SINGLE), SINGLE);
-    } else {
+    }
+
+    if (this.get(TYPE) === DOUBLE) {
       this.initConfigValue(this.get(FROM), FROM);
       this.initConfigValue(this.get(TO), TO);
     }
@@ -203,19 +197,18 @@ class Model extends Observable implements IModel {
     this.notify(newData);
   }
 
-  private adds(
-    percentage: number,
-    value: number,
-    elementType: Constants,
-    data: PartialConfig
-  ) {
+  private adds(percentage: number, value: number, elementType: Constants, data: PartialConfig) {
     if (elementType === FROM) {
       this.add(percentage, PERCENT_FROM);
       this.add(value, FROM);
-    } else if (elementType === TO) {
+    }
+
+    if (elementType === TO) {
       this.add(percentage, PERCENT_TO);
       this.add(value, TO);
-    } else if (elementType === SINGLE) {
+    }
+
+    if (elementType === SINGLE) {
       this.add(percentage, PERCENT_SINGLE);
       this.add(value, SINGLE);
     }
@@ -236,13 +229,9 @@ class Model extends Observable implements IModel {
   private initConfigValue(value: number, elementType: Constants): void {
     const percentage: number = this.getPercentageInput(value);
 
-    if (elementType === FROM) {
-      this.add(percentage, PERCENT_FROM);
-    } else if (elementType === TO) {
-      this.add(percentage, PERCENT_TO);
-    } else if (elementType === SINGLE) {
-      this.add(percentage, PERCENT_SINGLE);
-    }
+    if (elementType === FROM) this.add(percentage, PERCENT_FROM);
+    if (elementType === TO) this.add(percentage, PERCENT_TO);
+    if (elementType === SINGLE) this.add(percentage, PERCENT_SINGLE);
   }
 
   private checkConfig(options: IConfig): IConfig {
@@ -279,10 +268,7 @@ class Model extends Observable implements IModel {
     return config;
   }
 
-  private calcPercentageFromStep(
-    array: Array<number>,
-    percentage: number
-  ): number {
+  private calcPercentageFromStep(array: Array<number>, percentage: number): number {
     let newPercentage = percentage;
     const step = this.get(STEP);
 
@@ -291,13 +277,8 @@ class Model extends Observable implements IModel {
       const halfItemGreater = item + stepPercentage / 2;
       const halfItemLess = item - stepPercentage / 2;
 
-      if (item === 0) {
-        newPercentage = item;
-      }
-
-      if (percentage >= 100) {
-        newPercentage = item;
-      }
+      if (item === 0) newPercentage = item;
+      if (percentage >= 100) newPercentage = item;
 
       if (percentage <= halfItemGreater && percentage >= halfItemLess) {
         newPercentage = item;
@@ -312,12 +293,9 @@ class Model extends Observable implements IModel {
   private calcValue(percentage: number): number {
     let value;
     if (Number.isInteger(this.get(STEP))) {
-      value = Math.round(
-        ((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN)
-      );
+      value = Math.round(((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN));
     } else {
-      value =
-        ((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN);
+      value = ((this.get(MAX) - this.get(MIN)) / 100) * percentage + this.get(MIN);
     }
 
     return value;

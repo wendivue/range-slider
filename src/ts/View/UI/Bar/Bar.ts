@@ -2,7 +2,7 @@ import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IBar } from './IBar';
 
-const { SINGLE } = Constants;
+const { SINGLE, DOUBLE } = Constants;
 
 class Bar implements IBar {
   private classBarVertical?: string;
@@ -11,11 +11,7 @@ class Bar implements IBar {
 
   private classBarSingleVertical?: string;
 
-  constructor(
-    private anchor: HTMLElement,
-    private isVertical: boolean,
-    private type: TypeSlider
-  ) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private type: TypeSlider) {
     this.init();
   }
 
@@ -23,21 +19,21 @@ class Bar implements IBar {
     const bar = this.anchor.querySelector('.slider__bar') as HTMLElement;
 
     if (this.isVertical) {
-      if (this.type === SINGLE) {
-        bar.style.height = `${from}%`;
-      } else {
+      if (this.type === SINGLE) bar.style.height = `${from}%`;
+      if (this.type === DOUBLE) {
         if (to === undefined) throw new Error('to не передан');
 
         bar.style.height = `${to - from}%`;
         bar.style.top = `${from}%`;
       }
-    } else if (this.type === SINGLE) {
-      bar.style.width = `${from}%`;
     } else {
-      if (to === undefined) throw new Error('to не передан');
+      if (this.type === SINGLE) bar.style.width = `${from}%`;
+      if (this.type === DOUBLE) {
+        if (to === undefined) throw new Error('to не передан');
 
-      bar.style.width = `${to - from}%`;
-      bar.style.left = `${from}%`;
+        bar.style.width = `${to - from}%`;
+        bar.style.left = `${from}%`;
+      }
     }
   }
 

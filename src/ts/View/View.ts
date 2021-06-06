@@ -71,10 +71,7 @@ class View extends Observable implements IView {
       element === this.sliderDouble ||
       element === this.scaleDouble ||
       element === this.labelFrom;
-    const conditionTo =
-      element === this.to ||
-      element === this.inputTo ||
-      element === this.labelTo;
+    const conditionTo = element === this.to || element === this.inputTo || element === this.labelTo;
     const conditionSingle =
       element === this.single ||
       element === this.inputSingle ||
@@ -82,13 +79,9 @@ class View extends Observable implements IView {
       element === this.scaleSingle ||
       element === this.labelSingle;
 
-    if (conditionFrom) {
-      elementType = FROM;
-    } else if (conditionTo) {
-      elementType = TO;
-    } else if (conditionSingle) {
-      elementType = SINGLE;
-    }
+    if (conditionFrom) elementType = FROM;
+    if (conditionTo) elementType = TO;
+    if (conditionSingle) elementType = SINGLE;
 
     if (!elementType) throw new Error('elementType - не найдено');
 
@@ -107,10 +100,7 @@ class View extends Observable implements IView {
     return (100 * left) / slider;
   }
 
-  public getShift(
-    event: MouseEvent | TouchEvent,
-    element: HTMLElement
-  ): IShift {
+  public getShift(event: MouseEvent | TouchEvent, element: HTMLElement): IShift {
     const elemCoords = this.getCoords(element);
     let pageX;
     let pageY;
@@ -149,11 +139,8 @@ class View extends Observable implements IView {
   public getElement(elementType: Constants): HTMLInputElement {
     let element;
 
-    if (elementType === MAX) {
-      element = this.rangeMax;
-    } else if (elementType === MIN) {
-      element = this.rangeMin;
-    }
+    if (elementType === MAX) element = this.rangeMax;
+    if (elementType === MIN) element = this.rangeMin;
 
     if (!element) throw new Error('element - не найдено');
 
@@ -183,39 +170,26 @@ class View extends Observable implements IView {
     if (type === DOUBLE) {
       handle.moveElement(percentFrom, FROM);
       handle.moveElement(percentTo, TO);
-    } else if (type === SINGLE) {
-      handle.moveElement(percentSingle, type);
-    }
-
-    if (type === SINGLE) {
-      bar.changeBar(percentSingle);
-    } else {
       bar.changeBar(percentFrom, percentTo);
     }
 
+    if (type === SINGLE) {
+      handle.moveElement(percentSingle, type);
+      bar.changeBar(percentSingle);
+    }
+
     if (isLabel) {
-      if (type === SINGLE) {
-        label.changeLabelValue(single.toString());
-      } else {
-        label.changeLabelValue(from.toString(), to.toString());
-      }
+      if (type === SINGLE) label.changeLabelValue(single.toString());
+      if (type === DOUBLE) label.changeLabelValue(from.toString(), to.toString());
     }
 
     if (isInput) {
-      if (type === SINGLE) {
-        input.changeValue(percentSingle.toString());
-      } else {
-        input.changeValue(from.toString(), to.toString());
-      }
+      if (type === SINGLE) input.changeValue(single.toString());
+      if (type === DOUBLE) input.changeValue(from.toString(), to.toString());
     }
 
-    if (isRange) {
-      range.changeValue(min.toString(), max.toString());
-    }
-
-    if (isScale) {
-      scale.changeScale(arrayStep, min, max, step);
-    }
+    if (isRange) range.changeValue(min.toString(), max.toString());
+    if (isScale) scale.changeScale(arrayStep, min, max, step);
   }
 
   private init(): void {
@@ -237,13 +211,9 @@ class View extends Observable implements IView {
   private bindHandleEvents(elementType: Constants): void {
     let element;
 
-    if (elementType === SINGLE) {
-      element = this.single;
-    } else if (elementType === FROM) {
-      element = this.from;
-    } else if (elementType === TO) {
-      element = this.to;
-    }
+    if (elementType === SINGLE) element = this.single;
+    if (elementType === FROM) element = this.from;
+    if (elementType === TO) element = this.to;
 
     if (element === undefined) throw new Error('element не передан');
 
@@ -256,11 +226,8 @@ class View extends Observable implements IView {
   private bindWrapperEvents(): void {
     let element;
 
-    if (this.config.type === SINGLE) {
-      element = this.sliderSingle;
-    } else if (this.config.type === DOUBLE) {
-      element = this.sliderDouble;
-    }
+    if (this.config.type === SINGLE) element = this.sliderSingle;
+    if (this.config.type === DOUBLE) element = this.sliderDouble;
 
     if (element === undefined) throw new Error('element не передан');
 
@@ -276,13 +243,9 @@ class View extends Observable implements IView {
   private bindInputEvents(elementType: Constants): void {
     let element;
 
-    if (elementType === SINGLE) {
-      element = this.inputSingle;
-    } else if (elementType === FROM) {
-      element = this.inputFrom;
-    } else if (elementType === TO) {
-      element = this.inputTo;
-    }
+    if (elementType === SINGLE) element = this.inputSingle;
+    if (elementType === FROM) element = this.inputFrom;
+    if (elementType === TO) element = this.inputTo;
 
     if (element === undefined) throw new Error('element не передан');
 
@@ -292,11 +255,8 @@ class View extends Observable implements IView {
   private bindRangeEvents(elementType: Constants): void {
     let element;
 
-    if (elementType === MIN) {
-      element = this.rangeMin;
-    } else if (elementType === MAX) {
-      element = this.rangeMax;
-    }
+    if (elementType === MIN) element = this.rangeMin;
+    if (elementType === MAX) element = this.rangeMax;
 
     if (element === undefined) throw new Error('element не передан');
 
@@ -327,10 +287,7 @@ class View extends Observable implements IView {
     document.addEventListener('touchend', onMouseUp);
   }
 
-  private handleMouseMove(
-    forMouseMove: IForMouse,
-    event: MouseEvent | TouchEvent
-  ): void {
+  private handleMouseMove(forMouseMove: IForMouse, event: MouseEvent | TouchEvent): void {
     let percentage;
     const elementType = this.checkElementType(forMouseMove.element);
     const newShift = this.getNewShift(event, forMouseMove.shift);
@@ -403,20 +360,15 @@ class View extends Observable implements IView {
     if (Number.isNaN(min)) min = this.config.min;
     if (Number.isNaN(max)) max = this.config.max;
 
-    if (element === this.getElement(MIN)) {
-      data = { min };
-    } else if (element === this.getElement(MAX)) {
-      data = { max };
-    }
+    if (element === this.getElement(MIN)) data = { min };
+    if (element === this.getElement(MAX)) data = { max };
 
     this.notify(data);
   }
 
   private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
-    const elementType = this.checkElementType(element) as
-      | typeof FROM
-      | typeof TO;
+    const elementType = this.checkElementType(element) as typeof FROM | typeof TO;
     const data: { [k: string]: number | boolean | Constants } = {};
     let value = parseFloat(element.value);
     if (Number.isNaN(value)) value = this.config[elementType];
@@ -432,16 +384,17 @@ class View extends Observable implements IView {
     if (this.config.type === SINGLE) {
       this.bindWrapperEvents();
       this.bindHandleEvents(SINGLE);
-    } else {
+    }
+
+    if (this.config.type === DOUBLE) {
       this.bindWrapperEvents();
       this.bindHandleEvents(FROM);
       this.bindHandleEvents(TO);
     }
 
     if (this.config.isInput) {
-      if (this.config.type === SINGLE) {
-        this.bindInputEvents(SINGLE);
-      } else {
+      if (this.config.type === SINGLE) this.bindInputEvents(SINGLE);
+      if (this.config.type === DOUBLE) {
         this.bindInputEvents(FROM);
         this.bindInputEvents(TO);
       }
@@ -471,47 +424,22 @@ class View extends Observable implements IView {
   }
 
   private createFactory() {
-    if (this.config.type === SINGLE) {
-      this.factory = new SingleFactory();
-    } else {
-      this.factory = new IntervalFactory();
-    }
+    if (this.config.type === SINGLE) this.factory = new SingleFactory();
+    if (this.config.type === DOUBLE) this.factory = new IntervalFactory();
   }
 
   private getHtml(): void {
-    this.factory.createTemplate(
-      this.app,
-      this.config.isVertical,
-      this.config.type
-    );
-    this.UI.bar = this.factory.createBar(
-      this.app,
-      this.config.isVertical,
-      this.config.type
-    );
-    this.UI.handle = this.factory.createHandle(
-      this.app,
-      this.config.isVertical
-    );
-    this.UI.scale = this.factory.createScale(
-      this.app,
-      this.config.isVertical,
-      this.config.type
-    );
+    this.factory.createTemplate(this.app, this.config.isVertical, this.config.type);
+    this.UI.bar = this.factory.createBar(this.app, this.config.isVertical, this.config.type);
+    this.UI.handle = this.factory.createHandle(this.app, this.config.isVertical);
+    this.UI.scale = this.factory.createScale(this.app, this.config.isVertical, this.config.type);
 
     if (this.config.isLabel) {
-      this.UI.label = this.factory.createLabel(
-        this.app,
-        this.config.isVertical
-      );
+      this.UI.label = this.factory.createLabel(this.app, this.config.isVertical);
     }
 
     if (this.config.isRange) {
-      this.UI.range = this.factory.createRange(
-        this.app,
-        this.config.min,
-        this.config.max
-      );
+      this.UI.range = this.factory.createRange(this.app, this.config.min, this.config.max);
     }
 
     if (this.config.isInput) {
@@ -520,16 +448,12 @@ class View extends Observable implements IView {
   }
 
   private createElement(): void {
-    const slider = this.app.querySelector(
-      '.slider__main-wrapper'
-    ) as HTMLElement;
+    const slider = this.app.querySelector('.slider__main-wrapper') as HTMLElement;
 
     this.slider = slider;
 
     if (this.config.type === SINGLE) {
-      const single = this.app.querySelector(
-        '.slider__handle_single'
-      ) as HTMLElement;
+      const single = this.app.querySelector('.slider__handle_single') as HTMLElement;
 
       if (this.config.isLabel) {
         const labelSingle = this.app.querySelector(
@@ -540,66 +464,45 @@ class View extends Observable implements IView {
       }
 
       if (this.config.isScale) {
-        const scale = this.app.querySelector(
-          '.slider__scale'
-        ) as HTMLInputElement;
-        const scaleSingle = this.app.querySelector(
-          '.slider__scale_single'
-        ) as HTMLInputElement;
+        const scale = this.app.querySelector('.slider__scale') as HTMLInputElement;
+        const scaleSingle = this.app.querySelector('.slider__scale_single') as HTMLInputElement;
 
         this.scale = scale;
         this.scaleSingle = scaleSingle;
       }
 
-      const inputSingle = this.app.querySelector(
-        '.input__single'
-      ) as HTMLInputElement;
-
-      const sliderSingle = this.app.querySelector(
-        '.slider__wrapper_single'
-      ) as HTMLElement;
+      const inputSingle = this.app.querySelector('.input__single') as HTMLInputElement;
+      const sliderSingle = this.app.querySelector('.slider__wrapper_single') as HTMLElement;
 
       this.inputSingle = inputSingle;
       this.single = single;
       this.sliderSingle = sliderSingle;
-    } else if (this.config.type === DOUBLE) {
-      const from = this.app.querySelector(
-        '.slider__handle_from'
-      ) as HTMLElement;
+    }
+
+    if (this.config.type === DOUBLE) {
+      const from = this.app.querySelector('.slider__handle_from') as HTMLElement;
       const to = this.app.querySelector('.slider__handle_to') as HTMLElement;
 
-      const inputFrom = this.app.querySelector(
-        '.input__from'
-      ) as HTMLInputElement;
+      const inputFrom = this.app.querySelector('.input__from') as HTMLInputElement;
       const inputTo = this.app.querySelector('.input__to') as HTMLInputElement;
 
       if (this.config.isLabel) {
-        const labelFrom = this.app.querySelector(
-          '.slider__label-text_from'
-        ) as HTMLInputElement;
-        const labelTo = this.app.querySelector(
-          '.slider__label-text_to'
-        ) as HTMLInputElement;
+        const labelFrom = this.app.querySelector('.slider__label-text_from') as HTMLInputElement;
+        const labelTo = this.app.querySelector('.slider__label-text_to') as HTMLInputElement;
 
         this.labelFrom = labelFrom;
         this.labelTo = labelTo;
       }
 
       if (this.config.isScale) {
-        const scale = this.app.querySelector(
-          '.slider__scale'
-        ) as HTMLInputElement;
-        const scaleDouble = this.app.querySelector(
-          '.slider__scale_double'
-        ) as HTMLInputElement;
+        const scale = this.app.querySelector('.slider__scale') as HTMLInputElement;
+        const scaleDouble = this.app.querySelector('.slider__scale_double') as HTMLInputElement;
 
         this.scale = scale;
         this.scaleDouble = scaleDouble;
       }
 
-      const sliderDouble = this.app.querySelector(
-        '.slider__wrapper_double'
-      ) as HTMLElement;
+      const sliderDouble = this.app.querySelector('.slider__wrapper_double') as HTMLElement;
 
       this.sliderDouble = sliderDouble;
       this.inputFrom = inputFrom;
@@ -609,12 +512,8 @@ class View extends Observable implements IView {
     }
 
     if (this.config.isRange) {
-      const rangeMin = this.app.querySelector(
-        '.slider__range-min'
-      ) as HTMLInputElement;
-      const rangeMax = this.app.querySelector(
-        '.slider__range-max'
-      ) as HTMLInputElement;
+      const rangeMin = this.app.querySelector('.slider__range-min') as HTMLInputElement;
+      const rangeMax = this.app.querySelector('.slider__range-max') as HTMLInputElement;
 
       this.rangeMin = rangeMin;
       this.rangeMax = rangeMax;

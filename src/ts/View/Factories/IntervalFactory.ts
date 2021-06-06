@@ -15,44 +15,25 @@ import { IScale } from 'UI/Scale/IScale';
 import { IRange } from 'UI/Range/IRange';
 
 export interface IIntervalFactory {
-  createTemplate(
-    anchor: HTMLElement,
-    isVertical: boolean,
-    type: TypeSlider
-  ): Template;
+  createTemplate(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): Template;
   createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
   createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel;
   createRange(anchor: HTMLElement, min: number, max: number): IRange;
   createInput(anchor: HTMLElement): IIntervalInput;
-  createScale(
-    anchor: HTMLElement,
-    isVertical: boolean,
-    type: TypeSlider
-  ): IScale;
+  createScale(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IScale;
 }
 
 class IntervalFactory implements IIntervalFactory {
-  public createTemplate(
-    anchor: HTMLElement,
-    isVertical: boolean,
-    type: TypeSlider
-  ): Template {
+  public createTemplate(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): Template {
     return new Template(anchor, isVertical, type);
   }
 
-  public createBar(
-    anchor: HTMLElement,
-    isVertical: boolean,
-    type: TypeSlider
-  ): IBar {
+  public createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar {
     return new Bar(anchor, isVertical, type);
   }
 
-  public createHandle(
-    anchor: HTMLElement,
-    isVertical: boolean
-  ): IIntervalHandle {
+  public createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle {
     return new IntervalHandle(anchor, isVertical);
   }
 
@@ -68,11 +49,7 @@ class IntervalFactory implements IIntervalFactory {
     return new IntervalInput(anchor);
   }
 
-  public createScale(
-    anchor: HTMLElement,
-    isVertical: boolean,
-    type: TypeSlider
-  ): IScale {
+  public createScale(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IScale {
     return new Scale(anchor, isVertical, type);
   }
 }

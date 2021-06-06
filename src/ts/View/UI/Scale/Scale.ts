@@ -11,20 +11,11 @@ class Scale implements IScale {
 
   private classScaleItemVertical?: string;
 
-  constructor(
-    private anchor: HTMLElement,
-    private isVertical: boolean,
-    private type: TypeSlider
-  ) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private type: TypeSlider) {
     this.init();
   }
 
-  public changeScale(
-    ArrayPercentage: Array<number>,
-    min: number,
-    max: number,
-    step: number
-  ): void {
+  public changeScale(ArrayPercentage: Array<number>, min: number, max: number, step: number): void {
     let newPercentage = ArrayPercentage;
     let maxLength = 12;
 
@@ -49,9 +40,7 @@ class Scale implements IScale {
     }
 
     newPercentage = [0, ...newPercentage, 100];
-    newPercentage = newPercentage.filter(
-      (item, index, array) => array.indexOf(item) === index
-    );
+    newPercentage = newPercentage.filter((item, index, array) => array.indexOf(item) === index);
 
     const scale = this.anchor.querySelector('.slider__scale') as HTMLElement;
     scale.innerHTML = '';
@@ -61,9 +50,9 @@ class Scale implements IScale {
       const scaleItemTemplate = `<div class="slider__scale-item ${this.classScaleItemVertical}">${value}</div>`;
       scale.insertAdjacentHTML('beforeend', scaleItemTemplate);
 
-      const scaleItem = this.anchor.querySelectorAll(
-        '.slider__scale-item'
-      ) as NodeListOf<HTMLElement>;
+      const scaleItem = this.anchor.querySelectorAll('.slider__scale-item') as NodeListOf<
+        HTMLElement
+      >;
 
       if (this.isVertical) {
         scaleItem[parseFloat(key)].style.top = `${percentage}%`;
@@ -87,20 +76,12 @@ class Scale implements IScale {
   }
 
   private createClass(isVertical: boolean): void {
-    this.classType =
-      this.type === DOUBLE ? 'slider__scale_double' : 'slider__scale_single';
+    this.classType = this.type === DOUBLE ? 'slider__scale_double' : 'slider__scale_single';
     this.classScaleVertical = isVertical ? 'slider__scale_vertical' : '';
-    this.classScaleItemVertical = isVertical
-      ? 'slider__scale-item_vertical'
-      : '';
+    this.classScaleItemVertical = isVertical ? 'slider__scale-item_vertical' : '';
   }
 
-  private calculateValue(
-    percentage: number,
-    min: number,
-    max: number,
-    step: number
-  ): number {
+  private calculateValue(percentage: number, min: number, max: number, step: number): number {
     let newValue = percentage;
     if (Number.isInteger(step)) {
       newValue = Math.round(((max - min) / 100) * percentage + min);

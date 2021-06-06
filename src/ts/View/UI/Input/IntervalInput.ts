@@ -7,9 +7,7 @@ class IntervalInput implements IIntervalInput {
   }
 
   public changeValue(fromValue: string, toValue: string): void {
-    const inputFrom = this.anchor.querySelector(
-      '.input__from'
-    ) as HTMLInputElement;
+    const inputFrom = this.anchor.querySelector('.input__from') as HTMLInputElement;
     const inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
 
     inputFrom.value = fromValue;
