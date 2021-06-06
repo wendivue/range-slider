@@ -1,9 +1,13 @@
+import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
+import { IView } from 'Ts/View/IView';
 import { ISingleInput } from './ISingleInput';
 
+const { SINGLE, TYPE, INPUT } = Constants;
+
 class SingleInput implements ISingleInput {
-  constructor(private anchor: HTMLElement) {
-    this.init(anchor);
+  constructor(private anchor: HTMLElement, private view: IView) {
+    this.init();
   }
 
   public changeValue(fromValue: string): void {
@@ -12,7 +16,7 @@ class SingleInput implements ISingleInput {
     inputSingle.value = fromValue;
   }
 
-  private init(anchor: HTMLElement): void {
+  private createHtml(): void {
     const singleId = `single-${getUniqueID()}`;
 
     const inputTemplate = `
@@ -22,9 +26,34 @@ class SingleInput implements ISingleInput {
     </div>
     `;
 
-    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = this.anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
+  }
+
+  private init() {
+    this.createHtml();
+    this.bindInputEvents();
+  }
+
+  private bindInputEvents(): void {
+    const element = this.anchor.querySelector('.input__single') as HTMLInputElement;
+
+    element.addEventListener('change', this.inputOnChange.bind(this));
+  }
+
+  private inputOnChange(event: Event): void {
+    const element = event.target as HTMLInputElement;
+    const elementType = SINGLE;
+    const data: { [k: string]: number | boolean | Constants } = {};
+    let value = parseFloat(element.value);
+    if (Number.isNaN(value)) value = this.view.config[elementType];
+
+    data[elementType] = value;
+    data[TYPE] = elementType;
+    data[INPUT] = true;
+
+    this.view.notify(data);
   }
 }
 

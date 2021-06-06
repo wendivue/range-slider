@@ -1,8 +1,9 @@
 import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { IView } from 'Ts/View/IView';
 import { IScale } from './IScale';
 
-const { DOUBLE } = Constants;
+const { DOUBLE, SINGLE, FROM, TYPE } = Constants;
 
 class Scale implements IScale {
   private classType?: string;
@@ -11,7 +12,16 @@ class Scale implements IScale {
 
   private classScaleItemVertical?: string;
 
-  constructor(private anchor: HTMLElement, private isVertical: boolean, private type: TypeSlider) {
+  private scaleDouble!: HTMLElement;
+
+  private scaleSingle!: HTMLElement;
+
+  constructor(
+    private anchor: HTMLElement,
+    private isVertical: boolean,
+    private type: TypeSlider,
+    private view: IView
+  ) {
     this.init();
   }
 
@@ -65,6 +75,7 @@ class Scale implements IScale {
   private init(): void {
     this.createClass(this.isVertical);
     this.createHtml(this.anchor);
+    this.bindScaleEvents();
   }
 
   private createHtml(anchor: HTMLElement): void {
@@ -73,6 +84,14 @@ class Scale implements IScale {
     const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
 
     slider.insertAdjacentHTML('beforeend', scaleTemplate);
+
+    if (this.type === SINGLE) {
+      this.scaleSingle = anchor.querySelector('.slider__scale_single') as HTMLInputElement;
+    }
+
+    if (this.type === DOUBLE) {
+      this.scaleDouble = anchor.querySelector('.slider__scale_double') as HTMLInputElement;
+    }
   }
 
   private createClass(isVertical: boolean): void {
@@ -92,6 +111,47 @@ class Scale implements IScale {
     newValue = parseFloat(newValue.toFixed(2));
 
     return newValue;
+  }
+
+  private bindScaleEvents(): void {
+    const scale = this.anchor.querySelector('.slider__scale') as HTMLInputElement;
+
+    scale.addEventListener('click', this.scaleClick.bind(this));
+  }
+
+  private scaleClick(event: MouseEvent): void {
+    const target = event.currentTarget as HTMLElement;
+    let element = event.target as HTMLElement;
+    element = element.closest('.slider__scale-item') as HTMLElement;
+
+    let percentage;
+    let elementType = this.checkElementType(target);
+    const data: { [k: string]: number | Constants } = {};
+
+    if (this.view.config.isVertical) {
+      percentage = element.offsetTop;
+    } else {
+      percentage = element.offsetLeft;
+    }
+
+    percentage = this.view.calcPercentage(percentage);
+    elementType = this.view.checkRangeType(percentage, elementType);
+
+    data[elementType] = percentage;
+    data[TYPE] = elementType;
+
+    this.view.notify(data);
+  }
+
+  private checkElementType(element: HTMLElement): Constants {
+    let elementType;
+
+    if (element === this.scaleSingle) elementType = SINGLE;
+    if (element === this.scaleDouble) elementType = FROM;
+
+    if (!elementType) throw new Error('elementType - не найдено');
+
+    return elementType;
   }
 }
 

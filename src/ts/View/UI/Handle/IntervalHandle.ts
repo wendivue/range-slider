@@ -1,15 +1,16 @@
 import Constants from 'Helpers/enums';
+import { IView } from 'Ts/View/IView';
+import EventsHandle from './EventsHandle';
 import { IIntervalHandle } from './IIntervalHandle';
 
-const { FROM, TO } = Constants;
+const { FROM, TO, DOUBLE } = Constants;
 
 class IntervalHandle implements IIntervalHandle {
   private classHandleVertical?: string;
 
   private classHandleToVertical?: string;
 
-  constructor(private anchor: HTMLElement, private isVertical: boolean) {
-    this.anchor = anchor;
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private view: IView) {
     this.init();
   }
 
@@ -29,6 +30,8 @@ class IntervalHandle implements IIntervalHandle {
   private init(): void {
     this.createClass(this.isVertical);
     this.createHtml(this.anchor);
+    const events = new EventsHandle(this.anchor, this.isVertical, this.view);
+    events.init(DOUBLE);
   }
 
   private createHtml(anchor: HTMLElement): void {

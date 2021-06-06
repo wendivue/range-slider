@@ -1,19 +1,21 @@
+import { IView } from 'Ts/View/IView';
+import Constants from 'Helpers/enums';
 import { ISingleHandle } from './ISingleHandle';
+import EventsHandle from './EventsHandle';
+
+const { SINGLE } = Constants;
 
 class SingleHandle implements ISingleHandle {
   private classHandleSingleVertical?: string;
 
   private classHandleVertical?: string;
 
-  constructor(private anchor: HTMLElement, private isVertical: boolean) {
-    this.anchor = anchor;
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private view: IView) {
     this.init();
   }
 
   public moveElement(percentage: number): void {
-    const single = this.anchor.querySelector(
-      '.slider__handle_single'
-    ) as HTMLElement;
+    const single = this.anchor.querySelector('.slider__handle_single') as HTMLElement;
 
     if (this.isVertical) {
       single.style.top = `${percentage}%`;
@@ -25,6 +27,8 @@ class SingleHandle implements ISingleHandle {
   private init(): void {
     this.createClass(this.isVertical);
     this.createHtml(this.anchor);
+    const events = new EventsHandle(this.anchor, this.isVertical, this.view);
+    events.init(SINGLE);
   }
 
   private createHtml(anchor: HTMLElement): void {
@@ -36,9 +40,7 @@ class SingleHandle implements ISingleHandle {
   }
 
   private createClass(isVertical: boolean): void {
-    this.classHandleSingleVertical = isVertical
-      ? 'slider__handle_single_vertical'
-      : '';
+    this.classHandleSingleVertical = isVertical ? 'slider__handle_single_vertical' : '';
     this.classHandleVertical = isVertical ? 'slider__handle_vertical' : '';
   }
 }

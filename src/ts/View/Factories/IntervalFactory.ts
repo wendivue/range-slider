@@ -13,44 +13,55 @@ import { IIntervalInput } from 'UI/Input/IIntervalInput';
 import { IIntervalLabel } from 'UI/Label/IIntervalLabel';
 import { IScale } from 'UI/Scale/IScale';
 import { IRange } from 'UI/Range/IRange';
+import { IView } from '../IView';
 
 export interface IIntervalFactory {
-  createTemplate(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): Template;
+  createTemplate(anchor: HTMLElement, isVertical: boolean, type: TypeSlider, view: IView): Template;
   createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar;
-  createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle;
+  createHandle(anchor: HTMLElement, isVertical: boolean, view: IView): IIntervalHandle;
   createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel;
-  createRange(anchor: HTMLElement, min: number, max: number): IRange;
-  createInput(anchor: HTMLElement): IIntervalInput;
-  createScale(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IScale;
+  createRange(anchor: HTMLElement, min: number, max: number, view: IView): IRange;
+  createInput(anchor: HTMLElement, view: IView): IIntervalInput;
+  createScale(anchor: HTMLElement, isVertical: boolean, type: TypeSlider, view: IView): IScale;
 }
 
 class IntervalFactory implements IIntervalFactory {
-  public createTemplate(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): Template {
-    return new Template(anchor, isVertical, type);
+  public createTemplate(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: TypeSlider,
+    view: IView
+  ): Template {
+    return new Template(anchor, isVertical, type, view);
   }
 
   public createBar(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IBar {
     return new Bar(anchor, isVertical, type);
   }
 
-  public createHandle(anchor: HTMLElement, isVertical: boolean): IIntervalHandle {
-    return new IntervalHandle(anchor, isVertical);
+  public createHandle(anchor: HTMLElement, isVertical: boolean, view: IView): IIntervalHandle {
+    return new IntervalHandle(anchor, isVertical, view);
   }
 
   public createLabel(anchor: HTMLElement, isVertical: boolean): IIntervalLabel {
     return new IntervalLabel(anchor, isVertical);
   }
 
-  public createRange(anchor: HTMLElement, min: number, max: number): IRange {
-    return new Range(anchor, min, max);
+  public createRange(anchor: HTMLElement, min: number, max: number, view: IView): IRange {
+    return new Range(anchor, min, max, view);
   }
 
-  public createInput(anchor: HTMLElement): IIntervalInput {
-    return new IntervalInput(anchor);
+  public createInput(anchor: HTMLElement, view: IView): IIntervalInput {
+    return new IntervalInput(anchor, view);
   }
 
-  public createScale(anchor: HTMLElement, isVertical: boolean, type: TypeSlider): IScale {
-    return new Scale(anchor, isVertical, type);
+  public createScale(
+    anchor: HTMLElement,
+    isVertical: boolean,
+    type: TypeSlider,
+    view: IView
+  ): IScale {
+    return new Scale(anchor, isVertical, type, view);
   }
 }
 

@@ -8,12 +8,7 @@ interface IUI {
   label: { changeLabelValue(fromValue: string, toValue?: string): void };
   input: { changeValue(fromValue: string, toValue?: string): void };
   scale: {
-    changeScale(
-      percentage: Array<number>,
-      min: number,
-      max: number,
-      step: number
-    ): void;
+    changeScale(percentage: Array<number>, min: number, max: number, step: number): void;
   };
   range: { changeValue(min: string, max: string): void };
 }
@@ -25,12 +20,11 @@ interface IView extends IObservable {
   UI: PartialUI;
 
   setConfig(option: IConfig): void;
-  checkElementType(element: HTMLElement): Constants;
   calcPercentage(left: number): number;
-  getShift(event: MouseEvent, element: HTMLElement): IShift;
-  getNewShift(event: MouseEvent, shift: IShift): IShift;
-  getElement(elementType: Constants): HTMLInputElement;
+  getShift(event: MouseEvent | TouchEvent, element: HTMLElement): IShift;
+  getNewShift(event: MouseEvent | TouchEvent, shift: IShift): IShift;
   updateView(data: IConfig): void;
+  checkRangeType(percentage: number, type: Constants): Constants;
 }
 
 export { IView, IUI, PartialUI };
