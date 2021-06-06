@@ -4,10 +4,11 @@ import {
   IShift,
   IForMouse,
   PartialConfig,
+  IConfigWithArrayStep,
 } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
-import { PartialUI, IView } from './IView';
+import { PartialUI, IView, IUI } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
@@ -157,6 +158,64 @@ class View extends Observable implements IView {
     if (!element) throw new Error('element - не найдено');
 
     return element;
+  }
+
+  public updateView(data: IConfigWithArrayStep): void {
+    const { handle, bar, scale, label, input, range } = this.UI as IUI;
+    const {
+      min,
+      max,
+      single,
+      from,
+      to,
+      step,
+      percentFrom,
+      percentTo,
+      percentSingle,
+      type,
+      isInput,
+      isRange,
+      isLabel,
+      isScale,
+      arrayStep,
+    } = data;
+
+    if (type === DOUBLE) {
+      handle.moveElement(percentFrom, FROM);
+      handle.moveElement(percentTo, TO);
+    } else if (type === SINGLE) {
+      handle.moveElement(percentSingle, type);
+    }
+
+    if (type === SINGLE) {
+      bar.changeBar(percentSingle);
+    } else {
+      bar.changeBar(percentFrom, percentTo);
+    }
+
+    if (isLabel) {
+      if (type === SINGLE) {
+        label.changeLabelValue(single.toString());
+      } else {
+        label.changeLabelValue(from.toString(), to.toString());
+      }
+    }
+
+    if (isInput) {
+      if (type === SINGLE) {
+        input.changeValue(percentSingle.toString());
+      } else {
+        input.changeValue(from.toString(), to.toString());
+      }
+    }
+
+    if (isRange) {
+      range.changeValue(min.toString(), max.toString());
+    }
+
+    if (isScale) {
+      scale.changeScale(arrayStep, min, max, step);
+    }
   }
 
   private init(): void {

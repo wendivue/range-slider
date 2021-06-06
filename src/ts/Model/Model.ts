@@ -1,4 +1,8 @@
-import { IConfig, PartialConfig } from 'Helpers/interface';
+import {
+  IConfig,
+  IConfigWithArrayStep,
+  PartialConfig,
+} from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
 import { IModel, ConstantsExcludeDouble } from './IModel';
@@ -13,6 +17,7 @@ const {
   PERCENT_TO,
   SINGLE,
   PERCENT_SINGLE,
+  TYPE,
 } = Constants;
 
 class Model extends Observable implements IModel {
@@ -159,6 +164,23 @@ class Model extends Observable implements IModel {
     return step;
   }
 
+  public getConfigWithArrayStep(): IConfigWithArrayStep {
+    const arrayStep = this.createStep();
+    const config = this.getConfig();
+    const newData = { ...config, arrayStep };
+
+    return newData;
+  }
+
+  public checkInitConfigValue(): void {
+    if (this.get(TYPE) === SINGLE) {
+      this.initConfigValue(this.get(SINGLE), SINGLE);
+    } else {
+      this.initConfigValue(this.get(FROM), FROM);
+      this.initConfigValue(this.get(TO), TO);
+    }
+  }
+
   public counting(options: PartialConfig): void {
     let data = { ...options };
     const elementType = data.type as ConstantsExcludeDouble;
@@ -175,7 +197,10 @@ class Model extends Observable implements IModel {
 
     this.adds(percentage, value, elementType, data);
     data = this.getConfig();
-    this.notify(data);
+    const arrayStep = this.createStep();
+    const newData = { ...data, arrayStep };
+
+    this.notify(newData);
   }
 
   private adds(
@@ -205,6 +230,18 @@ class Model extends Observable implements IModel {
       let { max } = data;
       max = this.validateRange(max, MAX);
       this.add(max, MAX);
+    }
+  }
+
+  private initConfigValue(value: number, elementType: Constants): void {
+    const percentage: number = this.getPercentageInput(value);
+
+    if (elementType === FROM) {
+      this.add(percentage, PERCENT_FROM);
+    } else if (elementType === TO) {
+      this.add(percentage, PERCENT_TO);
+    } else if (elementType === SINGLE) {
+      this.add(percentage, PERCENT_SINGLE);
     }
   }
 

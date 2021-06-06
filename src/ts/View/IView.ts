@@ -30,6 +30,7 @@ interface IView extends IObservable {
   getShift(event: MouseEvent, element: HTMLElement): IShift;
   getNewShift(event: MouseEvent, shift: IShift): IShift;
   getElement(elementType: Constants): HTMLInputElement;
+  updateView(data: IConfig): void;
 }
 
 export { IView, IUI, PartialUI };

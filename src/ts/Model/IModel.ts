@@ -1,10 +1,12 @@
-import { IConfig } from 'Helpers/interface';
+import { IConfig, IConfigWithArrayStep } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IObservable } from '../Observable/Observable';
 
 type ConstantsExcludeDouble = Exclude<Constants, Constants.DOUBLE>;
 
 interface IModel extends IObservable {
+  checkInitConfigValue(): void;
+  getConfigWithArrayStep(): IConfigWithArrayStep;
   getConfig(): IConfig;
   setConfig(option: IConfig): void;
   add<T extends keyof IConfig>(value: IConfig[T], prop: T): void;

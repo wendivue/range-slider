@@ -18,6 +18,10 @@ interface IConfig {
   isScale: boolean;
 }
 
+interface IConfigWithArrayStep extends IConfig {
+  arrayStep: Array<number>;
+}
+
 interface ICoords {
   top: number;
   left: number;
@@ -35,4 +39,12 @@ interface IForMouse {
 
 type PartialConfig = Partial<IConfig>;
 
-export { IConfig, ICoords, IShift, IForMouse, PartialConfig, TypeSlider };
+export {
+  IConfig,
+  ICoords,
+  IShift,
+  IForMouse,
+  PartialConfig,
+  TypeSlider,
+  IConfigWithArrayStep,
+};
