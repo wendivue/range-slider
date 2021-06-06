@@ -17,5 +17,9 @@
 
   &__slider {
     margin: 100px 0;
+
+    @media (max-width: $breakpoint-xxs) {
+      margin: 100px 5px;
+    }
   }
 }

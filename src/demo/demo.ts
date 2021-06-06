@@ -1,13 +1,13 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { IConfig, PartialConfig } from 'Helpers/interface';
+import { EventCallback, IConfig, PartialConfig } from 'Helpers/interface';
 
 declare global {
   interface JQuery {
     rangeSlider(options: PartialConfig): void;
     update(data: PartialConfig): void;
-    subscribe(fn: Function): void;
-    unsubscribe(fn: Function): void;
+    subscribe(fn: EventCallback): void;
+    unsubscribe(fn: EventCallback): void;
     getConfig(): IConfig;
     destroy(): void;
     reset(): void;

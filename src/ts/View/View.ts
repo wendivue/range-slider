@@ -94,7 +94,7 @@ class View extends Observable implements IView {
     if (this.config.isVertical) {
       slider = this.slider.offsetHeight;
     } else {
-      slider = this.slider.offsetWidth - 10;
+      slider = this.slider.offsetWidth;
     }
 
     return (100 * left) / slider;
@@ -410,10 +410,11 @@ class View extends Observable implements IView {
 
   private checkRangeType(percentage: number, type: Constants): Constants {
     const range = this.config.percentTo - this.config.percentFrom;
+    const halfRange = range / 2;
     let elementType = type;
 
     if (elementType !== SINGLE) {
-      if (percentage > this.config.percentFrom + range / 2) {
+      if (percentage > this.config.percentFrom + halfRange) {
         elementType = TO;
       } else {
         elementType = FROM;

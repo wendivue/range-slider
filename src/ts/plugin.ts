@@ -1,4 +1,4 @@
-import { PartialConfig } from 'Helpers/interface';
+import { EventCallback, PartialConfig } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
@@ -9,10 +9,7 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
 
   return this.each(function initApp(this: HTMLElement) {
     $(this).data('rangeSlider');
-    $(this).data().rangeSlider = new Presenter(
-      model,
-      new View(model.getConfig(), anchor)
-    );
+    $(this).data().rangeSlider = new Presenter(model, new View(model.getConfig(), anchor));
   });
 }
 
@@ -44,12 +41,12 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
       $(this)[0].innerHTML = '';
     };
 
-    this.subscribe = (callback: Function) => {
+    this.subscribe = (callback) => {
       const slider = $(this).data('rangeSlider');
       slider.subscribe(callback);
     };
 
-    this.unsubscribe = (callback: Function) => {
+    this.unsubscribe = (callback: EventCallback) => {
       const slider = $(this).data('rangeSlider');
       slider.unsubscribe(callback);
     };

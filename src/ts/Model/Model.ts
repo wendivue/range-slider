@@ -38,7 +38,7 @@ class Model extends Observable implements IModel {
     let userObj: Record<string, IConfig[T]> = { value };
 
     Object.keys(obj).forEach((key) => {
-      if (key === prop) userObj = { [<keyof IConfig>key]: value };
+      if (key === prop) userObj = { [key]: value };
     });
 
     this.config = { ...this.config, ...userObj };
@@ -86,9 +86,9 @@ class Model extends Observable implements IModel {
 
     step = this.validateStep(step);
 
-    const amount = min / step + 1;
-
-    const length = max / step - amount;
+    const amount = min / step;
+    const lastNumber = 1;
+    const length = max / step - amount - lastNumber;
     let array: Array<number> = [];
     let nextValue = 0;
 
@@ -97,7 +97,7 @@ class Model extends Observable implements IModel {
       array = [...array, ...[nextValue]];
     }
 
-    array = array.map((item: number) => (100 * item) / (this.get(MAX) - this.get(MIN)));
+    array = array.map((item) => (100 * item) / (this.get(MAX) - this.get(MIN)));
 
     array = [0, ...array, 100];
 
@@ -115,11 +115,12 @@ class Model extends Observable implements IModel {
     const max = this.get(MAX);
     const min = this.get(MIN);
     const step = this.get(STEP);
+    const stepTwice = step * 2;
     let newValue = value;
 
     if (type === MAX && newValue < min + step) newValue = min + step;
     if (type === MIN && newValue > max - step) newValue = max - step;
-    if (type === MAX && newValue < step) newValue = step * 2;
+    if (type === MAX && newValue < step) newValue = stepTwice;
 
     return newValue;
   }
@@ -148,11 +149,12 @@ class Model extends Observable implements IModel {
     const max = this.get(MAX);
     const min = this.get(MIN);
     const halfMax = max / 2;
+    const minStep = 0.5;
     let step = value;
 
     if (step > halfMax) step = halfMax;
     if (step > max - min) step = max - min;
-    if (step < 0.5) step = 0.5;
+    if (step < minStep) step = minStep;
     return step;
   }
 
@@ -227,7 +229,7 @@ class Model extends Observable implements IModel {
   }
 
   private initConfigValue(value: number, elementType: Constants): void {
-    const percentage: number = this.getPercentageInput(value);
+    const percentage = this.getPercentageInput(value);
 
     if (elementType === FROM) this.add(percentage, PERCENT_FROM);
     if (elementType === TO) this.add(percentage, PERCENT_TO);
@@ -237,6 +239,8 @@ class Model extends Observable implements IModel {
   private checkConfig(options: IConfig): IConfig {
     let { min, max, step, from, to, single } = options;
     const config = options;
+    const minStep = 0.5;
+    const stepTwice = step * 2;
     const halfMax = max / 2;
 
     min = Math.abs(min);
@@ -246,15 +250,15 @@ class Model extends Observable implements IModel {
     to = Math.abs(to);
     single = Math.abs(single);
 
-    if (step < 0.5) step = 0.5;
+    if (step < minStep) step = minStep;
     if (min > max - step) min = max - step;
     if (max < min + step) max = min + step;
-    if (max < step) max = step * 2;
+    if (max < step) max = stepTwice;
     if (step > halfMax) step = halfMax;
     if (step > max - min) step = max - min;
     if (from > to) from = to - step;
     if (to < from) to = from + step;
-    if (from > max) from = max - step * 2;
+    if (from > max) from = max - stepTwice;
     if (to > max) to = max - step;
     if (single > max) single = max - step;
 
@@ -272,7 +276,7 @@ class Model extends Observable implements IModel {
     let newPercentage = percentage;
     const step = this.get(STEP);
 
-    array.map((item: number) => {
+    array.map((item) => {
       const stepPercentage = (100 * step) / (this.get(MAX) - this.get(MIN));
       const halfItemGreater = item + stepPercentage / 2;
       const halfItemLess = item - stepPercentage / 2;
@@ -306,7 +310,7 @@ class Model extends Observable implements IModel {
   }
 
   private validateEdgePercentage(percentage: number): number {
-    let value: number = percentage;
+    let value = percentage;
     if (percentage < 0) value = 0;
     const rightEdge = 100;
     if (percentage > rightEdge) value = rightEdge;

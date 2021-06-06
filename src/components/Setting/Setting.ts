@@ -119,8 +119,9 @@ class Setting {
   private changeStep(event: Event) {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);
+    const minStep = 0.5;
 
-    if (!step) step = 0.5;
+    if (!step) step = minStep;
 
     step = this.model.validateStep(step);
     element.value = step.toString();

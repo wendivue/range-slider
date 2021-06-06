@@ -1,9 +1,9 @@
-import { IConfig } from 'Helpers/interface';
+import { EventCallback, IConfig } from 'Helpers/interface';
 
 interface IPresenter {
   getConfig(): IConfig;
-  subscribe(callback: Function): void;
-  unsubscribe(callback: Function): void;
+  subscribe(callback: EventCallback): void;
+  unsubscribe(callback: EventCallback): void;
 }
 
 export { IPresenter };

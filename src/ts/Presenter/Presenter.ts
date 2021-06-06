@@ -1,4 +1,4 @@
-import { IConfig, IConfigWithArrayStep } from 'Helpers/interface';
+import { EventCallback, IConfig, IConfigWithArrayStep } from 'Helpers/interface';
 import { IModel } from 'Ts/Model/IModel';
 import { IView } from 'Ts/View/IView';
 import { IPresenter } from './IPresenter';
@@ -12,11 +12,11 @@ class Presenter implements IPresenter {
     return this.model.getConfig();
   }
 
-  public subscribe(callback: Function): void {
+  public subscribe(callback: EventCallback): void {
     this.model.subscribe(callback);
   }
 
-  public unsubscribe(callback: Function): void {
+  public unsubscribe(callback: EventCallback): void {
     this.model.unsubscribe(callback);
   }
 
