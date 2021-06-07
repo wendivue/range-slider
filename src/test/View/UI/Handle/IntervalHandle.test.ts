@@ -1,22 +1,48 @@
 import { JSDOM } from 'jsdom';
 import Constants from 'Helpers/enums';
 import IntervalHandle from 'Ts/View/UI/Handle/IntervalHandle';
+import View from 'Ts/View/View';
+import { IConfig } from 'Helpers/interface';
 
 const { FROM, TO } = Constants;
+
+const intervalConfig: IConfig = {
+  single: 20,
+  from: 20,
+  to: 50,
+  step: 100,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 0,
+  min: 30,
+  max: 1000,
+  type: 'double',
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
+  isScale: true,
+};
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');
 const { document } = dom.window;
 
-const anchor = document.querySelector('.anchor') as HTMLElement;
+const anchor = document.querySelector<HTMLElement>('.anchor');
+
+if (!anchor) throw new Error('anchor - не найдено');
+
 const sliderTemplate = `<div class="slider__wrapper">`;
 
 anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-const slider = document.querySelector('.slider__wrapper') as HTMLElement;
+const slider = document.querySelector<HTMLElement>('.slider__wrapper');
+const view = new View(intervalConfig, anchor);
+
+if (!slider) throw new Error('slider - не найдено');
 
 describe('handleFrom', () => {
   beforeEach(() => {
-    const handleFrom = new IntervalHandle(anchor, false);
+    const handleFrom = new IntervalHandle(anchor, false, view);
     handleFrom.moveElement(10, FROM);
   });
 
@@ -25,16 +51,17 @@ describe('handleFrom', () => {
   });
 
   test('should change left', () => {
-    const element = document.querySelector(
-      '.slider__handle_from'
-    ) as HTMLElement;
+    const element = document.querySelector<HTMLElement>('.slider__handle_from');
+
+    if (!element) throw new Error('element - не найдено');
+
     expect(element.style.left).toMatch(/10%/);
   });
 });
 
 describe('handleTo', () => {
   beforeEach(() => {
-    const handleTo = new IntervalHandle(anchor, false);
+    const handleTo = new IntervalHandle(anchor, false, view);
     handleTo.moveElement(10, TO);
   });
 
@@ -43,14 +70,17 @@ describe('handleTo', () => {
   });
 
   test('should change left', () => {
-    const element = document.querySelector('.slider__handle_to') as HTMLElement;
+    const element = document.querySelector<HTMLElement>('.slider__handle_to');
+
+    if (!element) throw new Error('element - не найдено');
+
     expect(element.style.left).toMatch(/10%/);
   });
 });
 
 describe('handleFromVertical', () => {
   beforeEach(() => {
-    const handleFromVertical = new IntervalHandle(anchor, true);
+    const handleFromVertical = new IntervalHandle(anchor, true, view);
     handleFromVertical.moveElement(10, FROM);
   });
 
@@ -59,16 +89,17 @@ describe('handleFromVertical', () => {
   });
 
   test('should change top', () => {
-    const element = document.querySelector(
-      '.slider__handle_from'
-    ) as HTMLElement;
+    const element = document.querySelector<HTMLElement>('.slider__handle_from');
+
+    if (!element) throw new Error('element - не найдено');
+
     expect(element.style.top).toMatch(/10%/);
   });
 });
 
 describe('handleToVertical', () => {
   beforeEach(() => {
-    const handleToVertical = new IntervalHandle(anchor, true);
+    const handleToVertical = new IntervalHandle(anchor, true, view);
     handleToVertical.moveElement(10, TO);
   });
 
@@ -77,7 +108,9 @@ describe('handleToVertical', () => {
   });
 
   test('should change top', () => {
-    const element = document.querySelector('.slider__handle_to') as HTMLElement;
+    const element = document.querySelector<HTMLElement>('.slider__handle_to');
+
+    if (!element) throw new Error('element - не найдено');
 
     expect(element.style.top).toMatch(/10%/);
   });
