@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
@@ -58,9 +60,10 @@ class IntervalInput implements IIntervalInput {
 
     if (element === undefined) throw new Error('element не передан');
 
-    element.addEventListener('change', this.inputOnChange.bind(this));
+    element.addEventListener('change', this.inputOnChange);
   }
 
+  @boundMethod
   private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     const elementType = this.checkElementType(element) as typeof FROM | typeof TO;

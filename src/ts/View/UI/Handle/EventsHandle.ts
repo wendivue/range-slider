@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import Constants from 'Helpers/enums';
 import { IForMouse, IShift, TypeSlider } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
@@ -6,7 +8,7 @@ import { IEventsHandle } from './IEventsHandle';
 const { FROM, TO, DOUBLE, SINGLE, TYPE } = Constants;
 
 class EventsHandle implements IEventsHandle {
-  constructor(public anchor: HTMLElement, public isVertical: boolean, public view: IView) {
+  constructor(private anchor: HTMLElement, private isVertical: boolean, private view: IView) {
     this.anchor = anchor;
   }
 
@@ -30,12 +32,13 @@ class EventsHandle implements IEventsHandle {
 
     if (element === undefined) throw new Error('element не передан');
 
-    element.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    element.addEventListener('touchstart', this.handleMouseDown.bind(this), {
+    element.addEventListener('mousedown', this.handleMouseDown);
+    element.addEventListener('touchstart', this.handleMouseDown, {
       passive: false,
     });
   }
 
+  @boundMethod
   private handleMouseDown(event: MouseEvent | TouchEvent): void {
     event.preventDefault();
     const element = event.target as HTMLElement;
@@ -46,7 +49,8 @@ class EventsHandle implements IEventsHandle {
       element,
     };
 
-    const handleMouseMove = this.handleMouseMove.bind(this, forMouseMove);
+    const handleMouseMove = (eventMove: MouseEvent | TouchEvent) =>
+      this.handleMouseMove(forMouseMove, eventMove);
 
     const onMouseUp = () => {
       document.removeEventListener('mousemove', handleMouseMove);

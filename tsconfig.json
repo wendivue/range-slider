@@ -12,6 +12,7 @@
     "strictPropertyInitialization": true,
     "strict": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "module": "es6",
     "target": "es5",
     "paths": {

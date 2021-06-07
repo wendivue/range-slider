@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
@@ -116,9 +118,10 @@ class Scale implements IScale {
   private bindScaleEvents(): void {
     const scale = this.anchor.querySelector('.slider__scale') as HTMLInputElement;
 
-    scale.addEventListener('click', this.scaleClick.bind(this));
+    scale.addEventListener('click', this.scaleClick);
   }
 
+  @boundMethod
   private scaleClick(event: MouseEvent): void {
     const target = event.currentTarget as HTMLElement;
     let element = event.target as HTMLElement;

@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
@@ -62,9 +64,10 @@ class Range implements IRange {
 
     if (element === undefined) throw new Error('element не передан');
 
-    element.addEventListener('change', this.rangeOnChange.bind(this));
+    element.addEventListener('change', this.rangeOnChange);
   }
 
+  @boundMethod
   private rangeOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     let min = Math.abs(parseFloat(this.getElement(MIN).value));

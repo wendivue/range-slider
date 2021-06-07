@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
@@ -39,9 +41,10 @@ class SingleInput implements ISingleInput {
   private bindInputEvents(): void {
     const element = this.anchor.querySelector('.input__single') as HTMLInputElement;
 
-    element.addEventListener('change', this.inputOnChange.bind(this));
+    element.addEventListener('change', this.inputOnChange);
   }
 
+  @boundMethod
   private inputOnChange(event: Event): void {
     const element = event.target as HTMLInputElement;
     const elementType = SINGLE;

@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
@@ -86,16 +88,17 @@ class Setting {
     );
 
     checkbox.forEach((element: HTMLInputElement) => {
-      element.addEventListener('change', this.changePresenter.bind(this));
+      element.addEventListener('change', this.changePresenter);
     });
   }
 
   private bindEventInput(): void {
     const input = this.setting.querySelector('.setting__input') as HTMLInputElement;
 
-    input.addEventListener('change', this.changeStep.bind(this));
+    input.addEventListener('change', this.changeStep);
   }
 
+  @boundMethod
   private changePresenter(event: Event) {
     const element = event.target as HTMLInputElement;
     const name = element.getAttribute('name');
@@ -116,6 +119,7 @@ class Setting {
     this.createPresenter();
   }
 
+  @boundMethod
   private changeStep(event: Event) {
     const element = event.target as HTMLInputElement;
     let step = parseFloat(element.value);

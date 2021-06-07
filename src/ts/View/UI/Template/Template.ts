@@ -1,3 +1,5 @@
+import { boundMethod } from 'autobind-decorator';
+
 import { IShift, TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
@@ -63,9 +65,10 @@ class Template {
 
     if (slider === undefined) throw new Error('element не передан');
 
-    slider.addEventListener('click', this.wrapperClick.bind(this));
+    slider.addEventListener('click', this.wrapperClick);
   }
 
+  @boundMethod
   private wrapperClick(event: MouseEvent): void {
     const element = event.currentTarget as HTMLElement;
     const newShift: IShift = this.view.getShift(event, element);
