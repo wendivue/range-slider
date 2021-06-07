@@ -36,39 +36,21 @@ class View extends Observable implements IView {
     return (100 * left) / slider;
   }
 
-  public getShift(event: MouseEvent | TouchEvent, element: HTMLElement): IShift {
+  public getShift(event: MouseEvent | PointerEvent, element: HTMLElement): IShift {
     const elemCoords = this.getCoords(element);
-    let pageX;
-    let pageY;
-    if ('clientX' in event) {
-      pageX = event.pageX;
-      pageY = event.pageY;
-    } else {
-      pageX = event.touches[0].pageX;
-      pageY = event.touches[0].pageY;
-    }
 
     return {
-      x: pageX - elemCoords.left,
-      y: pageY - elemCoords.top,
+      x: event.pageX - elemCoords.left,
+      y: event.pageY - elemCoords.top,
     };
   }
 
-  public getNewShift(event: MouseEvent | TouchEvent, shift: IShift): IShift {
+  public getNewShift(event: MouseEvent | PointerEvent, shift: IShift): IShift {
     const sliderCoords = this.getCoords(this.slider);
-    let pageX;
-    let pageY;
-    if ('clientX' in event) {
-      pageX = event.pageX;
-      pageY = event.pageY;
-    } else {
-      pageX = event.touches[0].pageX;
-      pageY = event.touches[0].pageY;
-    }
 
     return {
-      x: pageX - shift.x - sliderCoords.left,
-      y: pageY - shift.y - sliderCoords.top,
+      x: event.pageX - shift.x - sliderCoords.left,
+      y: event.pageY - shift.y - sliderCoords.top,
     };
   }
 

@@ -3,6 +3,7 @@
 .slider {
   display: flex;
   align-items: center;
+  touch-action: none;
 
   @media (max-width: $breakpoint-md) {
     align-items: center;

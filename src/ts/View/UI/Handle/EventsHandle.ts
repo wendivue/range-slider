@@ -31,14 +31,11 @@ class EventsHandle implements IEventsHandle {
 
     if (!element) throw new Error('element не передан');
 
-    element.addEventListener('mousedown', this.handleMouseDown);
-    element.addEventListener('touchstart', this.handleMouseDown, {
-      passive: false,
-    });
+    element.addEventListener('pointerdown', this.handleMouseDown);
   }
 
   @boundMethod
-  private handleMouseDown(event: MouseEvent | TouchEvent): void {
+  private handleMouseDown(event: PointerEvent): void {
     event.preventDefault();
     const element = <HTMLElement>event.target;
     const shift: IShift = this.view.getShift(event, element);
@@ -48,22 +45,18 @@ class EventsHandle implements IEventsHandle {
       element,
     };
 
-    const handleMouseMove = (eventMove: MouseEvent | TouchEvent) =>
+    const handleMouseMove = (eventMove: PointerEvent) =>
       this.handleMouseMove(forMouseMove, eventMove);
 
     const onMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('touchmove', handleMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('touchend', onMouseUp);
+      document.removeEventListener('pointermove', handleMouseMove);
+      document.removeEventListener('pointerup', onMouseUp);
     };
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('touchmove', handleMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-    document.addEventListener('touchend', onMouseUp);
+    document.addEventListener('pointermove', handleMouseMove);
+    document.addEventListener('pointerup', onMouseUp);
   }
 
-  private handleMouseMove(forMouseMove: IForMouse, event: MouseEvent | TouchEvent): void {
+  private handleMouseMove(forMouseMove: IForMouse, event: PointerEvent): void {
     let percentage;
     const elementType = this.checkElementType(forMouseMove.element);
     const newShift = this.view.getNewShift(event, forMouseMove.shift);

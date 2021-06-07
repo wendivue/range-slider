@@ -21,8 +21,8 @@ interface IView extends IObservable {
 
   setConfig(option: IConfig): void;
   calcPercentage(left: number): number;
-  getShift(event: MouseEvent | TouchEvent, element: HTMLElement): IShift;
-  getNewShift(event: MouseEvent | TouchEvent, shift: IShift): IShift;
+  getShift(event: MouseEvent | PointerEvent, element: HTMLElement): IShift;
+  getNewShift(event: MouseEvent | PointerEvent, shift: IShift): IShift;
   updateView(data: IConfig): void;
   checkRangeType(percentage: number, type: Constants): Constants;
 }
