@@ -15,8 +15,11 @@ class IntervalHandle implements IIntervalHandle {
   }
 
   public moveElement(percentage: number, elementType: Constants): void {
-    const from = this.anchor.querySelector('.slider__handle_from') as HTMLElement;
-    const to = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
+    const from = this.anchor.querySelector<HTMLElement>('.slider__handle_from');
+    const to = this.anchor.querySelector<HTMLElement>('.slider__handle_to');
+
+    if (!from) throw new Error('from - не найдено');
+    if (!to) throw new Error('to - не найдено');
 
     if (this.isVertical) {
       if (elementType === FROM) from.style.top = `${percentage}%`;
@@ -38,7 +41,9 @@ class IntervalHandle implements IIntervalHandle {
     const handleTemplate =
       `<div class="slider__handle ${this.classHandleVertical} slider__handle_from"></div>` +
       `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = anchor.querySelector<HTMLElement>('.slider__wrapper');
+
+    if (!slider) throw new Error('to - не найдено');
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }

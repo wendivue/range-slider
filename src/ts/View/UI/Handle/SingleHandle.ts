@@ -15,7 +15,9 @@ class SingleHandle implements ISingleHandle {
   }
 
   public moveElement(percentage: number): void {
-    const single = this.anchor.querySelector('.slider__handle_single') as HTMLElement;
+    const single = this.anchor.querySelector<HTMLElement>('.slider__handle_single');
+
+    if (!single) throw new Error('single - не найдено');
 
     if (this.isVertical) {
       single.style.top = `${percentage}%`;
@@ -34,7 +36,9 @@ class SingleHandle implements ISingleHandle {
   private createHtml(anchor: HTMLElement): void {
     const handleTemplate = `<div class="slider__handle slider__handle_single ${this.classHandleVertical} 
     ${this.classHandleSingleVertical}"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = anchor.querySelector<HTMLElement>('.slider__wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }

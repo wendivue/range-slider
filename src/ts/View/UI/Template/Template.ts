@@ -43,11 +43,21 @@ class Template {
 
     anchor.insertAdjacentHTML('afterbegin', sliderTemplate);
 
-    if (this.type === SINGLE)
-      this.sliderSingle = this.anchor.querySelector('.slider__wrapper_single') as HTMLElement;
+    if (this.type === SINGLE) {
+      const sliderSingle = this.anchor.querySelector<HTMLElement>('.slider__wrapper_single');
 
-    if (this.type === DOUBLE)
-      this.sliderDouble = this.anchor.querySelector('.slider__wrapper_double') as HTMLElement;
+      if (!sliderSingle) throw new Error('sliderSingle - не найдено');
+
+      this.sliderSingle = sliderSingle;
+    }
+
+    if (this.type === DOUBLE) {
+      const sliderDouble = this.anchor.querySelector<HTMLElement>('.slider__wrapper_double');
+
+      if (!sliderDouble) throw new Error('sliderDouble - не найдено');
+
+      this.sliderDouble = sliderDouble;
+    }
   }
 
   private createClass(isVertical: boolean, type: TypeSlider): void {
@@ -70,7 +80,7 @@ class Template {
 
   @boundMethod
   private wrapperClick(event: MouseEvent): void {
-    const element = event.currentTarget as HTMLElement;
+    const element = <HTMLElement>event.currentTarget;
     const newShift: IShift = this.view.getShift(event, element);
 
     let percentage: number;

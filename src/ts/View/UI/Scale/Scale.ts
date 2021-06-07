@@ -54,7 +54,10 @@ class Scale implements IScale {
     newPercentage = [0, ...newPercentage, 100];
     newPercentage = newPercentage.filter((item, index, array) => array.indexOf(item) === index);
 
-    const scale = this.anchor.querySelector('.slider__scale') as HTMLElement;
+    const scale = this.anchor.querySelector<HTMLElement>('.slider__scale');
+
+    if (!scale) throw new Error('scale - не найдено');
+
     scale.innerHTML = '';
 
     Object.entries(newPercentage).forEach(([key, percentage]) => {
@@ -62,9 +65,9 @@ class Scale implements IScale {
       const scaleItemTemplate = `<div class="slider__scale-item ${this.classScaleItemVertical}">${value}</div>`;
       scale.insertAdjacentHTML('beforeend', scaleItemTemplate);
 
-      const scaleItem = this.anchor.querySelectorAll('.slider__scale-item') as NodeListOf<
-        HTMLElement
-      >;
+      const scaleItem: NodeListOf<HTMLElement> = this.anchor.querySelectorAll(
+        '.slider__scale-item'
+      );
 
       if (this.isVertical) {
         scaleItem[parseFloat(key)].style.top = `${percentage}%`;
@@ -83,16 +86,26 @@ class Scale implements IScale {
   private createHtml(anchor: HTMLElement): void {
     const scaleTemplate = `<div class="slider__scale ${this.classScaleVertical} ${this.classType}"></div>`;
 
-    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = anchor.querySelector<HTMLElement>('.slider__main-wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('beforeend', scaleTemplate);
 
     if (this.type === SINGLE) {
-      this.scaleSingle = anchor.querySelector('.slider__scale_single') as HTMLInputElement;
+      const scaleSingle = anchor.querySelector<HTMLInputElement>('.slider__scale_single');
+
+      if (!scaleSingle) throw new Error('scaleSingle - не найдено');
+
+      this.scaleSingle = scaleSingle;
     }
 
     if (this.type === DOUBLE) {
-      this.scaleDouble = anchor.querySelector('.slider__scale_double') as HTMLInputElement;
+      const scaleDouble = anchor.querySelector<HTMLInputElement>('.slider__scale_double');
+
+      if (!scaleDouble) throw new Error('scaleDouble - не найдено');
+
+      this.scaleDouble = scaleDouble;
     }
   }
 
@@ -116,16 +129,21 @@ class Scale implements IScale {
   }
 
   private bindScaleEvents(): void {
-    const scale = this.anchor.querySelector('.slider__scale') as HTMLInputElement;
+    const scale = this.anchor.querySelector<HTMLInputElement>('.slider__scale');
+
+    if (!scale) throw new Error('scaleDouble - не найдено');
 
     scale.addEventListener('click', this.scaleClick);
   }
 
   @boundMethod
   private scaleClick(event: MouseEvent): void {
-    const target = event.currentTarget as HTMLElement;
-    let element = event.target as HTMLElement;
-    element = element.closest('.slider__scale-item') as HTMLElement;
+    const target = <HTMLElement>event.currentTarget;
+    let element = <HTMLElement>event.target;
+
+    if (!element) throw new Error('element - не найдено');
+
+    element = <HTMLElement>element.closest('.slider__scale-item');
 
     let percentage;
     let elementType = this.checkElementType(target);

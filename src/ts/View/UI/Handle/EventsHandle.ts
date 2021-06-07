@@ -24,13 +24,12 @@ class EventsHandle implements IEventsHandle {
     let element;
 
     if (elementType === SINGLE)
-      element = this.anchor.querySelector('.slider__handle_single') as HTMLElement;
+      element = this.anchor.querySelector<HTMLElement>('.slider__handle_single');
     if (elementType === FROM)
-      element = this.anchor.querySelector('.slider__handle_from') as HTMLElement;
-    if (elementType === TO)
-      element = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
+      element = this.anchor.querySelector<HTMLElement>('.slider__handle_from');
+    if (elementType === TO) element = this.anchor.querySelector<HTMLElement>('.slider__handle_to');
 
-    if (element === undefined) throw new Error('element не передан');
+    if (!element) throw new Error('element не передан');
 
     element.addEventListener('mousedown', this.handleMouseDown);
     element.addEventListener('touchstart', this.handleMouseDown, {
@@ -41,7 +40,7 @@ class EventsHandle implements IEventsHandle {
   @boundMethod
   private handleMouseDown(event: MouseEvent | TouchEvent): void {
     event.preventDefault();
-    const element = event.target as HTMLElement;
+    const element = <HTMLElement>event.target;
     const shift: IShift = this.view.getShift(event, element);
 
     const forMouseMove: IForMouse = {
@@ -83,12 +82,12 @@ class EventsHandle implements IEventsHandle {
   }
 
   private checkElementType(element: HTMLElement): Constants {
-    const from = this.anchor.querySelector('.slider__handle_from') as HTMLElement;
-    const to = this.anchor.querySelector('.slider__handle_to') as HTMLElement;
-    const single = this.anchor.querySelector('.slider__handle_single') as HTMLElement;
-    const labelFrom = this.anchor.querySelector('.slider__label-text_from') as HTMLInputElement;
-    const labelTo = this.anchor.querySelector('.slider__label-text_to') as HTMLInputElement;
-    const labelSingle = this.anchor.querySelector('.slider__label-text_single') as HTMLInputElement;
+    const from = this.anchor.querySelector<HTMLElement>('.slider__handle_from');
+    const to = this.anchor.querySelector<HTMLElement>('.slider__handle_to');
+    const single = this.anchor.querySelector<HTMLElement>('.slider__handle_single');
+    const labelFrom = this.anchor.querySelector<HTMLInputElement>('.slider__label-text_from');
+    const labelTo = this.anchor.querySelector<HTMLInputElement>('.slider__label-text_to');
+    const labelSingle = this.anchor.querySelector<HTMLInputElement>('.slider__label-text_single');
     let elementType;
 
     if (element === from || element === labelFrom) elementType = FROM;

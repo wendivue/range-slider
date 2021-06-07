@@ -178,7 +178,9 @@ class View extends Observable implements IView {
   }
 
   private createElement(): void {
-    const slider = this.app.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = this.app.querySelector<HTMLElement>('.slider__main-wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     this.slider = slider;
   }

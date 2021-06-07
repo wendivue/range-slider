@@ -10,7 +10,9 @@ class SingleLabel implements ISingleLabel {
   }
 
   public changeLabelValue(fromValue: string): void {
-    const labelSingle = this.anchor.querySelector('.slider__label-text_single') as HTMLElement;
+    const labelSingle = this.anchor.querySelector<HTMLElement>('.slider__label-text_single');
+
+    if (!labelSingle) throw new Error('labelSingle - не найдено');
 
     labelSingle.innerHTML = fromValue;
   }
@@ -26,7 +28,9 @@ class SingleLabel implements ISingleLabel {
       `<div class="slider__label-text ${this.classLabelTextVertical} slider__label-text_single"></div>` +
       '</div>';
 
-    const handle = anchor.querySelector('.slider__handle_single') as HTMLElement;
+    const handle = anchor.querySelector<HTMLElement>('.slider__handle_single');
+
+    if (!handle) throw new Error('handle - не найдено');
 
     handle.insertAdjacentHTML('afterbegin', label);
   }

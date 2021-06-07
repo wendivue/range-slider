@@ -68,9 +68,9 @@ const config3: IConfig = {
   isScale: false,
 };
 
-const anchor1 = document.getElementById('slider1') as HTMLElement;
-const anchor2 = document.getElementById('slider2') as HTMLElement;
-const anchor3 = document.getElementById('slider3') as HTMLElement;
+const anchor1 = document.getElementById('slider1');
+const anchor2 = document.getElementById('slider2');
+const anchor3 = document.getElementById('slider3');
 
 if (!anchor1) throw new Error('#slider1 - не найдено');
 if (!anchor2) throw new Error('#slider2 - не найдено');

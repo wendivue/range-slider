@@ -10,8 +10,11 @@ class IntervalLabel implements IIntervalLabel {
   }
 
   public changeLabelValue(fromValue: string, toValue: string): void {
-    const labelFrom = this.anchor.querySelector('.slider__label-text_from') as HTMLElement;
-    const labelTo = this.anchor.querySelector('.slider__label-text_to') as HTMLElement;
+    const labelFrom = this.anchor.querySelector<HTMLElement>('.slider__label-text_from');
+    const labelTo = this.anchor.querySelector<HTMLElement>('.slider__label-text_to');
+
+    if (!labelFrom) throw new Error('labelFrom - не найдено');
+    if (!labelTo) throw new Error('labelTo - не найдено');
 
     labelFrom.innerHTML = fromValue;
     labelTo.innerHTML = toValue;
@@ -33,8 +36,11 @@ class IntervalLabel implements IIntervalLabel {
       `<div class="slider__label-text ${this.classLabelTextVertical} slider__label-text_to"></div>` +
       '</div>';
 
-    const handleFrom = anchor.querySelector('.slider__handle_from') as HTMLElement;
-    const handleTo = anchor.querySelector('.slider__handle_to') as HTMLElement;
+    const handleFrom = anchor.querySelector<HTMLElement>('.slider__handle_from');
+    const handleTo = anchor.querySelector<HTMLElement>('.slider__handle_to');
+
+    if (!handleFrom) throw new Error('handleFrom - не найдено');
+    if (!handleTo) throw new Error('handleTo - не найдено');
 
     handleFrom.insertAdjacentHTML('afterbegin', labelFrom);
     handleTo.insertAdjacentHTML('afterbegin', labelTo);

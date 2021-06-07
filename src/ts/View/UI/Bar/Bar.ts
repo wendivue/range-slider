@@ -16,7 +16,9 @@ class Bar implements IBar {
   }
 
   public changeBar(from: number, to?: number): void {
-    const bar = this.anchor.querySelector('.slider__bar') as HTMLElement;
+    const bar = this.anchor.querySelector<HTMLElement>('.slider__bar');
+
+    if (!bar) throw new Error('bar - не найдено');
 
     if (this.isVertical) {
       if (this.type === SINGLE) bar.style.height = `${from}%`;
@@ -45,7 +47,9 @@ class Bar implements IBar {
   private createHtml(anchor: HTMLElement): void {
     const barTemplate = `<div class="slider__bar ${this.classBarVertical}
     ${this.classBarSingle} ${this.classBarSingleVertical}"></div>`;
-    const slider = anchor.querySelector('.slider__wrapper') as HTMLElement;
+    const slider = anchor.querySelector<HTMLElement>('.slider__wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('afterbegin', barTemplate);
   }

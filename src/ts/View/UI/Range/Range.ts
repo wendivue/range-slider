@@ -48,12 +48,20 @@ class Range implements IRange {
     </div>
     `;
 
-    const slider = anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = anchor.querySelector<HTMLElement>('.slider__main-wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('afterend', rangeTemplate);
 
-    this.rangeMin = this.anchor.querySelector('.slider__range-min') as HTMLInputElement;
-    this.rangeMax = this.anchor.querySelector('.slider__range-max') as HTMLInputElement;
+    const rangeMin = this.anchor.querySelector<HTMLInputElement>('.slider__range-min');
+    const rangeMax = this.anchor.querySelector<HTMLInputElement>('.slider__range-max');
+
+    if (!rangeMin) throw new Error('rangeMin - не найдено');
+    if (!rangeMax) throw new Error('rangeMax - не найдено');
+
+    this.rangeMin = rangeMin;
+    this.rangeMax = rangeMax;
   }
 
   private bindRangeEvents(elementType: Constants): void {
@@ -69,7 +77,7 @@ class Range implements IRange {
 
   @boundMethod
   private rangeOnChange(event: Event): void {
-    const element = event.target as HTMLInputElement;
+    const element = <HTMLInputElement>event.target;
     let min = Math.abs(parseFloat(this.getElement(MIN).value));
     let max = Math.abs(parseFloat(this.getElement(MAX).value));
     let data: { [k: string]: number } = {};

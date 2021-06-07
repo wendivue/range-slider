@@ -43,29 +43,36 @@ class IntervalInput implements IIntervalInput {
       </div>
       `;
 
-    const slider = this.anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = this.anchor.querySelector<HTMLElement>('.slider__main-wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
 
-    this.inputFrom = this.anchor.querySelector('.input__from') as HTMLInputElement;
-    this.inputTo = this.anchor.querySelector('.input__to') as HTMLInputElement;
+    const inputFrom = this.anchor.querySelector<HTMLInputElement>('.input__from');
+    const inputTo = this.anchor.querySelector<HTMLInputElement>('.input__to');
+
+    if (!inputFrom) throw new Error('inputFrom - не найдено');
+    if (!inputTo) throw new Error('inputTo - не найдено');
+
+    this.inputFrom = inputFrom;
+    this.inputTo = inputTo;
   }
 
   private bindInputEvents(elementType: Constants): void {
     let element;
 
-    if (elementType === FROM)
-      element = this.anchor.querySelector('.input__from') as HTMLInputElement;
-    if (elementType === TO) element = this.anchor.querySelector('.input__to') as HTMLInputElement;
+    if (elementType === FROM) element = this.anchor.querySelector<HTMLInputElement>('.input__from');
+    if (elementType === TO) element = this.anchor.querySelector<HTMLInputElement>('.input__to');
 
-    if (element === undefined) throw new Error('element не передан');
+    if (!element) throw new Error('element не передан');
 
     element.addEventListener('change', this.inputOnChange);
   }
 
   @boundMethod
   private inputOnChange(event: Event): void {
-    const element = event.target as HTMLInputElement;
+    const element = <HTMLInputElement>event.target;
     const elementType = this.checkElementType(element) as typeof FROM | typeof TO;
     const data: { [k: string]: number | boolean | Constants } = {};
     let value = parseFloat(element.value);

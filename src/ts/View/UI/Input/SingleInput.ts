@@ -13,7 +13,9 @@ class SingleInput implements ISingleInput {
   }
 
   public changeValue(fromValue: string): void {
-    const inputSingle = this.anchor.querySelector('.input__single') as HTMLInputElement;
+    const inputSingle = this.anchor.querySelector<HTMLInputElement>('.input__single');
+
+    if (!inputSingle) throw new Error('inputSingle - не найдено');
 
     inputSingle.value = fromValue;
   }
@@ -28,7 +30,9 @@ class SingleInput implements ISingleInput {
     </div>
     `;
 
-    const slider = this.anchor.querySelector('.slider__main-wrapper') as HTMLElement;
+    const slider = this.anchor.querySelector<HTMLElement>('.slider__main-wrapper');
+
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('afterend', inputTemplate);
   }
@@ -39,14 +43,16 @@ class SingleInput implements ISingleInput {
   }
 
   private bindInputEvents(): void {
-    const element = this.anchor.querySelector('.input__single') as HTMLInputElement;
+    const element = this.anchor.querySelector<HTMLElement>('.input__single');
+
+    if (!element) throw new Error('element - не найдено');
 
     element.addEventListener('change', this.inputOnChange);
   }
 
   @boundMethod
   private inputOnChange(event: Event): void {
-    const element = event.target as HTMLInputElement;
+    const element = <HTMLInputElement>event.target;
     const elementType = SINGLE;
     const data: { [k: string]: number | boolean | Constants } = {};
     let value = parseFloat(element.value);
