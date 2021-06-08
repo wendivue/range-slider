@@ -58,6 +58,24 @@ const configFix: IConfig = {
   isScale: false,
 };
 
+const configInit: IConfig = {
+  single: 20,
+  from: 20,
+  to: 50,
+  step: 1,
+  percentFrom: 2,
+  percentTo: 5,
+  percentSingle: 0,
+  min: 0,
+  max: 1000,
+  type: 'double',
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
+  isScale: false,
+};
+
 let model = new Model(config);
 
 describe('Get value', () => {
@@ -245,5 +263,32 @@ describe('Counting', () => {
     expect(callback).toHaveBeenCalled();
     expect(newConfig.min).toBe(10);
     expect(newConfig.max).toBe(20);
+  });
+});
+
+describe('getConfigWithArrayStep', () => {
+  afterEach(() => {
+    model = new Model(config);
+  });
+
+  test('should get configStep', () => {
+    model.add(50, STEP);
+    model.add(100, MAX);
+    const arrayStep = [0, 50, 100];
+    const configStep = { ...model.getConfig(), arrayStep };
+
+    expect(model.getConfigWithArrayStep()).toStrictEqual(configStep);
+  });
+});
+
+describe('checkInitConfigValue', () => {
+  afterEach(() => {
+    model = new Model(config);
+  });
+
+  test('should set initConfig', () => {
+    model.checkInitConfigValue();
+
+    expect(model.getConfig()).toStrictEqual(configInit);
   });
 });
