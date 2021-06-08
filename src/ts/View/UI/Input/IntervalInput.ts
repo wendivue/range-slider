@@ -72,7 +72,8 @@ class IntervalInput implements IIntervalInput {
 
   @boundMethod
   private inputOnChange(event: Event): void {
-    const element = <HTMLInputElement>event.target;
+    const element = event.target;
+    if (!(element instanceof HTMLInputElement)) return;
     const elementType = this.checkElementType(element) as typeof FROM | typeof TO;
     const data: { [k: string]: number | boolean | Constants } = {};
     let value = parseFloat(element.value);

@@ -80,7 +80,8 @@ class Template {
 
   @boundMethod
   private wrapperClick(event: MouseEvent): void {
-    const element = <HTMLElement>event.currentTarget;
+    const element = event.currentTarget;
+    if (!(element instanceof HTMLElement)) return;
     const newShift: IShift = this.view.getShift(event, element);
 
     let percentage: number;

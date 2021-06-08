@@ -77,7 +77,8 @@ class Range implements IRange {
 
   @boundMethod
   private rangeOnChange(event: Event): void {
-    const element = <HTMLInputElement>event.target;
+    const element = event.target;
+    if (!(element instanceof HTMLInputElement)) return;
     let min = Math.abs(parseFloat(this.getElement(MIN).value));
     let max = Math.abs(parseFloat(this.getElement(MAX).value));
     let data: { [k: string]: number } = {};

@@ -138,12 +138,12 @@ class Scale implements IScale {
 
   @boundMethod
   private scaleClick(event: MouseEvent): void {
-    const target = <HTMLElement>event.currentTarget;
-    let element = <HTMLElement>event.target;
-
-    if (!element) throw new Error('element - не найдено');
-
-    element = <HTMLElement>element.closest('.slider__scale-item');
+    const target = event.currentTarget;
+    let element = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (!(element instanceof HTMLElement)) return;
+    element = element.closest('.slider__scale-item');
+    if (!(element instanceof HTMLElement)) return;
 
     let percentage;
     let elementType = this.checkElementType(target);

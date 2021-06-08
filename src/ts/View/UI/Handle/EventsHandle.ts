@@ -37,7 +37,8 @@ class EventsHandle implements IEventsHandle {
   @boundMethod
   private handleMouseDown(event: PointerEvent): void {
     event.preventDefault();
-    const element = <HTMLElement>event.target;
+    const element = event.target;
+    if (!(element instanceof HTMLElement)) return;
     const shift: IShift = this.view.getShift(event, element);
 
     const forMouseMove: IForMouse = {

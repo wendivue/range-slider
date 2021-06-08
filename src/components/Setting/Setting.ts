@@ -64,7 +64,7 @@ class Setting {
     this.anchor.insertAdjacentHTML('afterend', settingTemplate);
     const setting = document.getElementById(settingId);
 
-    if (!setting) throw new Error('#slider3 - не найдено');
+    if (!setting) throw new Error('setting - не найдено');
 
     this.setting = setting;
   }
@@ -90,7 +90,7 @@ class Setting {
       '.setting__checkbox'
     );
 
-    checkbox.forEach((element: HTMLInputElement) => {
+    checkbox.forEach((element) => {
       element.addEventListener('change', this.changePresenter);
     });
   }
@@ -98,15 +98,15 @@ class Setting {
   private bindEventInput(): void {
     const input = this.setting.querySelector<HTMLInputElement>('.setting__input');
 
-    if (!input) throw new Error('#slider3 - не найдено');
+    if (!input) throw new Error('input- не найдено');
 
     input.addEventListener('change', this.changeStep);
   }
 
   @boundMethod
   private changePresenter(event: Event) {
-    const element = <HTMLInputElement>event.target;
-
+    const element = event.target;
+    if (!(element instanceof HTMLInputElement)) return;
     const name = element.getAttribute('name');
     const check = element.checked;
 
@@ -127,7 +127,8 @@ class Setting {
 
   @boundMethod
   private changeStep(event: Event) {
-    const element = <HTMLInputElement>event.target;
+    const element = event.target;
+    if (!(element instanceof HTMLInputElement)) return;
     let step = parseFloat(element.value);
     const minStep = 0.5;
 

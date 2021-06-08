@@ -43,7 +43,7 @@ class IntervalHandle implements IIntervalHandle {
       `<div class="slider__handle ${this.classHandleVertical} ${this.classHandleToVertical} slider__handle_to"></div>`;
     const slider = anchor.querySelector<HTMLElement>('.slider__wrapper');
 
-    if (!slider) throw new Error('to - не найдено');
+    if (!slider) throw new Error('slider - не найдено');
 
     slider.insertAdjacentHTML('beforeend', handleTemplate);
   }
