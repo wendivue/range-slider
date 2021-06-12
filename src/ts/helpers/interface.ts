@@ -1,4 +1,7 @@
+import Constants from './enums';
+
 type TypeSlider = 'single' | 'double';
+type ElementType = Constants.FROM | Constants.TO | Constants.SINGLE;
 
 interface IConfig {
   min: number;
@@ -22,6 +25,10 @@ interface IConfigWithArrayStep extends IConfig {
   arrayStep: Array<number>;
 }
 
+interface IConfigWithElementType extends IConfig {
+  elementType: ElementType;
+}
+
 interface ICoords {
   top: number;
   left: number;
@@ -39,6 +46,7 @@ interface IForMouse {
 
 type PartialConfig = Partial<IConfig>;
 type PartialConfigWithArrayStep = Partial<IConfigWithArrayStep>;
+type PartialConfigWithElementType = Partial<IConfigWithElementType>;
 
 type EventCallback = (data: PartialConfigWithArrayStep) => void;
 
@@ -51,4 +59,7 @@ export {
   TypeSlider,
   IConfigWithArrayStep,
   EventCallback,
+  IConfigWithElementType,
+  PartialConfigWithElementType,
+  ElementType,
 };

@@ -1,7 +1,12 @@
-import { IConfig, IConfigWithArrayStep, PartialConfig } from 'Helpers/interface';
+import {
+  IConfig,
+  IConfigWithArrayStep,
+  PartialConfig,
+  PartialConfigWithElementType,
+} from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
-import { IModel, ConstantsExcludeDouble } from './IModel';
+import { IModel } from './IModel';
 
 const {
   FROM,
@@ -177,21 +182,30 @@ class Model extends Observable implements IModel {
     }
   }
 
-  public counting(options: PartialConfig): void {
+  public counting(options: PartialConfigWithElementType): void {
     let data = { ...options };
-    const elementType = data.type as ConstantsExcludeDouble;
-    let percentage = data[elementType] as number;
 
-    if (data.isInput) {
-      percentage = this.validateEdgeValue(percentage);
-      percentage = this.validateTwoHandleValue(percentage, elementType);
-      percentage = this.getPercentageInput(percentage);
+    if (data.min || data.max) {
+      this.addsRange(data);
+    } else {
+      const { elementType } = data;
+      if (!elementType) throw new Error('elementType - не найдено');
+
+      let percentage = data[elementType];
+      if (!percentage) throw new Error('percentage - не найдено');
+
+      if (data.isInput) {
+        percentage = this.validateEdgeValue(percentage);
+        percentage = this.validateTwoHandleValue(percentage, elementType);
+        percentage = this.getPercentageInput(percentage);
+      }
+
+      percentage = this.getPercentage(percentage, elementType);
+      const value = this.getValue(percentage);
+
+      this.adds(percentage, value, elementType);
     }
 
-    percentage = this.getPercentage(percentage, elementType);
-    const value = this.getValue(percentage);
-
-    this.adds(percentage, value, elementType, data);
     data = this.getConfig();
     const arrayStep = this.createStep();
     const newData = { ...data, arrayStep };
@@ -199,7 +213,7 @@ class Model extends Observable implements IModel {
     this.notify(newData);
   }
 
-  private adds(percentage: number, value: number, elementType: Constants, data: PartialConfig) {
+  private adds(percentage: number, value: number, elementType: Constants) {
     if (elementType === FROM) {
       this.add(percentage, PERCENT_FROM);
       this.add(value, FROM);
@@ -214,7 +228,9 @@ class Model extends Observable implements IModel {
       this.add(percentage, PERCENT_SINGLE);
       this.add(value, SINGLE);
     }
+  }
 
+  private addsRange(data: PartialConfig): void {
     if (data.min) {
       let { min } = data;
       min = this.validateRange(min, MIN);

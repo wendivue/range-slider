@@ -5,7 +5,7 @@ import { IForMouse, IShift, TypeSlider } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
 import { IEventsHandle } from './IEventsHandle';
 
-const { FROM, TO, DOUBLE, SINGLE, TYPE } = Constants;
+const { FROM, TO, DOUBLE, SINGLE, ELEMENTTYPE } = Constants;
 
 class EventsHandle implements IEventsHandle {
   constructor(private anchor: HTMLElement, private isVertical: boolean, private view: IView) {
@@ -70,7 +70,7 @@ class EventsHandle implements IEventsHandle {
     }
 
     data[elementType] = percentage;
-    data[TYPE] = elementType;
+    data[ELEMENTTYPE] = elementType;
 
     this.view.notify(data);
   }

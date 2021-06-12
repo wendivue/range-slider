@@ -5,7 +5,7 @@ import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
 import { ISingleInput } from './ISingleInput';
 
-const { SINGLE, TYPE, INPUT } = Constants;
+const { SINGLE, ELEMENTTYPE, INPUT } = Constants;
 
 class SingleInput implements ISingleInput {
   constructor(private anchor: HTMLElement, private view: IView) {
@@ -59,7 +59,7 @@ class SingleInput implements ISingleInput {
     if (Number.isNaN(value)) value = this.view.config[elementType];
 
     data[elementType] = value;
-    data[TYPE] = elementType;
+    data[ELEMENTTYPE] = elementType;
     data[INPUT] = true;
 
     this.view.notify(data);

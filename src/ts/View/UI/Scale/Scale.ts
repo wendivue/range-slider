@@ -5,7 +5,7 @@ import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
 import { IScale } from './IScale';
 
-const { DOUBLE, SINGLE, FROM, TYPE } = Constants;
+const { DOUBLE, SINGLE, FROM, ELEMENTTYPE } = Constants;
 
 class Scale implements IScale {
   private classType?: string;
@@ -40,11 +40,14 @@ class Scale implements IScale {
       }
     }
 
-    let lastNumberArray = newPercentage.pop() as number;
+    let lastNumberArray = newPercentage.pop();
     const stepPercentage = (100 * step) / (max - min);
 
+    if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
+
     if (lastNumberArray >= 100) {
-      lastNumberArray = newPercentage.pop() as number;
+      lastNumberArray = newPercentage.pop();
+      if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
     }
 
     if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
@@ -159,7 +162,7 @@ class Scale implements IScale {
     elementType = this.view.checkRangeType(percentage, elementType);
 
     data[elementType] = percentage;
-    data[TYPE] = elementType;
+    data[ELEMENTTYPE] = elementType;
 
     this.view.notify(data);
   }

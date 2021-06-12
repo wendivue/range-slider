@@ -1,8 +1,6 @@
-import { IConfig, IConfigWithArrayStep } from 'Helpers/interface';
+import { IConfig, IConfigWithArrayStep, PartialConfigWithElementType } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IObservable } from '../Observable/Observable';
-
-type ConstantsExcludeDouble = Exclude<Constants, Constants.DOUBLE>;
 
 interface IModel extends IObservable {
   checkInitConfigValue(): void;
@@ -14,11 +12,11 @@ interface IModel extends IObservable {
   getPercentage(percentage: number, elementType: Constants): number;
   getValue(percentage: number): number;
   getPercentageInput(value: number): number;
-  counting(options: IConfig): void;
+  counting(options: PartialConfigWithElementType): void;
   createStep(): Array<number>;
   validateEdgeValue(value: number): number;
   validateRange(value: number, type: Constants): number;
   validateTwoHandleValue(percentage: number, element: Constants): number;
 }
 
-export { IModel, ConstantsExcludeDouble };
+export { IModel };

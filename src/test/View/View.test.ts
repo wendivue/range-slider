@@ -2,7 +2,6 @@ import { JSDOM } from 'jsdom';
 import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';
-import { IUI } from 'Ts/View/IView';
 
 const { FROM, SINGLE, TO } = Constants;
 
@@ -94,7 +93,8 @@ describe('Create element', () => {
 
   test('should create handle', () => {
     const view = new View(singleConfig, anchor);
-    const { handle } = view.UI as IUI;
+    const { handle } = view.UI;
+    if (!handle) throw new Error('handle - не найдено');
 
     handle.moveElement(23, SINGLE);
     const element = anchor.querySelector<HTMLElement>('.slider__handle_single');
@@ -104,7 +104,8 @@ describe('Create element', () => {
 
   test('should create bar', () => {
     const view = new View(singleConfig, anchor);
-    const { bar } = view.UI as IUI;
+    const { bar } = view.UI;
+    if (!bar) throw new Error('bar - не найдено');
 
     bar.changeBar(23);
     const element = anchor.querySelector<HTMLElement>('.slider__bar');
@@ -114,7 +115,8 @@ describe('Create element', () => {
 
   test('should create label', () => {
     const view = new View(singleConfig, anchor);
-    const { label } = view.UI as IUI;
+    const { label } = view.UI;
+    if (!label) throw new Error('label - не найдено');
 
     label.changeLabelValue('23');
     const element = anchor.querySelector<HTMLElement>('.slider__label');
@@ -124,7 +126,8 @@ describe('Create element', () => {
 
   test('should create input', () => {
     const view = new View(singleConfig, anchor);
-    const { input } = view.UI as IUI;
+    const { input } = view.UI;
+    if (!input) throw new Error('input - не найдено');
 
     input.changeValue('23');
     const element = anchor.querySelector<HTMLElement>('.slider__wrapper-input');
@@ -134,7 +137,8 @@ describe('Create element', () => {
 
   test('should create scale single', () => {
     const view = new View(singleConfig, anchor);
-    const { scale } = view.UI as IUI;
+    const { scale } = view.UI;
+    if (!scale) throw new Error('scale - не найдено');
 
     scale.changeScale([0, 50, 100], 0, 100, 50);
     const element = anchor.querySelector<HTMLElement>('.slider__scale');
@@ -146,7 +150,8 @@ describe('Create element', () => {
 
   test('should create scale double', () => {
     const view = new View(intervalConfig, anchor);
-    const { scale } = view.UI as IUI;
+    const { scale } = view.UI;
+    if (!scale) throw new Error('scale - не найдено');
 
     scale.changeScale([0, 50, 100], 0, 100, 50);
     const element = anchor.querySelector<HTMLElement>('.slider__scale');

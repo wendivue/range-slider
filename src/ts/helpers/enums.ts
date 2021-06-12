@@ -15,6 +15,7 @@ enum Constants {
   VERTICAL = 'isVertical',
   SCALE = 'isScale',
   DOUBLE = 'double',
+  ELEMENTTYPE = 'elementType',
 }
 
 export default Constants;

@@ -233,7 +233,7 @@ describe('Counting', () => {
 
     model.subscribe(callback);
 
-    model.counting({ single: 3, type: 'single' });
+    model.counting({ single: 3, elementType: SINGLE });
     const newConfig = model.getConfig();
 
     expect(callback).toHaveBeenCalled();
@@ -245,7 +245,7 @@ describe('Counting', () => {
 
     model.subscribe(callback);
 
-    model.counting({ single: 3, type: 'single', isInput: true });
+    model.counting({ single: 3, elementType: SINGLE, isInput: true });
     const newConfig = model.getConfig();
 
     expect(callback).toHaveBeenCalled();

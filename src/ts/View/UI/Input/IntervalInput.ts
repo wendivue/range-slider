@@ -2,10 +2,11 @@ import { boundMethod } from 'autobind-decorator';
 
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
+import { ElementType } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
 import { IIntervalInput } from './IIntervalInput';
 
-const { FROM, TO, TYPE, INPUT } = Constants;
+const { FROM, TO, ELEMENTTYPE, INPUT } = Constants;
 
 class IntervalInput implements IIntervalInput {
   private inputFrom!: HTMLInputElement;
@@ -74,20 +75,20 @@ class IntervalInput implements IIntervalInput {
   private inputOnChange(event: Event): void {
     const element = event.target;
     if (!(element instanceof HTMLInputElement)) return;
-    const elementType = this.checkElementType(element) as typeof FROM | typeof TO;
-    const data: { [k: string]: number | boolean | Constants } = {};
+    const elementType = this.checkElementType(element);
+    const data: { [k: string]: number | boolean | ElementType } = {};
     let value = parseFloat(element.value);
     if (Number.isNaN(value)) value = this.view.config[elementType];
 
     data[elementType] = value;
-    data[TYPE] = elementType;
+    data[ELEMENTTYPE] = elementType;
     data[INPUT] = true;
 
     this.view.notify(data);
   }
 
-  private checkElementType(element: HTMLElement): Constants {
-    let elementType;
+  private checkElementType(element: HTMLElement): ElementType {
+    let elementType: ElementType | undefined;
 
     if (element === this.inputFrom) elementType = FROM;
     if (element === this.inputTo) elementType = TO;

@@ -1,7 +1,7 @@
 import { IConfig, ICoords, IShift, PartialConfig, IConfigWithArrayStep } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
-import { PartialUI, IView, IUI } from './IView';
+import { PartialUI, IView } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';
 
@@ -55,7 +55,11 @@ class View extends Observable implements IView {
   }
 
   public updateView(data: IConfigWithArrayStep): void {
-    const { handle, bar, scale, label, input, range } = this.UI as IUI;
+    const { handle, bar, scale, label, input, range } = this.UI;
+
+    if (!handle) throw new Error('handle - не найдено');
+    if (!bar) throw new Error('bar - не найдено');
+
     const {
       min,
       max,
@@ -86,17 +90,26 @@ class View extends Observable implements IView {
     }
 
     if (isLabel) {
+      if (!label) throw new Error('label - не найдено');
       if (type === SINGLE) label.changeLabelValue(single.toString());
       if (type === DOUBLE) label.changeLabelValue(from.toString(), to.toString());
     }
 
     if (isInput) {
+      if (!input) throw new Error('input - не найдено');
       if (type === SINGLE) input.changeValue(single.toString());
       if (type === DOUBLE) input.changeValue(from.toString(), to.toString());
     }
 
-    if (isRange) range.changeValue(min.toString(), max.toString());
-    if (isScale) scale.changeScale(arrayStep, min, max, step);
+    if (isRange) {
+      if (!range) throw new Error('range - не найдено');
+      range.changeValue(min.toString(), max.toString());
+    }
+
+    if (isScale) {
+      if (!scale) throw new Error('scale - не найдено');
+      scale.changeScale(arrayStep, min, max, step);
+    }
   }
 
   public checkRangeType(percentage: number, type: Constants): Constants {

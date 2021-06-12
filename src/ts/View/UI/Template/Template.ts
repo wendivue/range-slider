@@ -4,7 +4,7 @@ import { IShift, TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
 
-const { SINGLE, DOUBLE, FROM, TYPE } = Constants;
+const { SINGLE, DOUBLE, FROM, ELEMENTTYPE } = Constants;
 
 class Template {
   private classWrapperMainVertical?: string;
@@ -97,7 +97,7 @@ class Template {
     elementType = this.view.checkRangeType(percentage, elementType);
 
     data[elementType] = percentage;
-    data[TYPE] = elementType;
+    data[ELEMENTTYPE] = elementType;
 
     this.view.notify(data);
   }
