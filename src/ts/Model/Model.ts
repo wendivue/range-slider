@@ -93,13 +93,20 @@ class Model extends Observable implements IModel {
 
     const amount = min / step;
     const lastNumber = 1;
-    const length = max / step - amount - lastNumber;
+    const maxLength = 1000;
+    let length = max / step - amount - lastNumber;
     let array: Array<number> = [];
     let nextValue = 0;
 
+    if (length > maxLength) {
+      const countRelativeLength = Math.round(length / maxLength);
+      length = maxLength;
+      step = step * countRelativeLength + step;
+    }
+
     for (let aStep = 0; aStep < length; aStep += 1) {
       nextValue += step;
-      array = [...array, ...[nextValue]];
+      array.push(nextValue);
     }
 
     array = array.map((item) => (100 * item) / (this.get(MAX) - this.get(MIN)));
@@ -192,7 +199,7 @@ class Model extends Observable implements IModel {
       if (!elementType) throw new Error('elementType - не найдено');
 
       let percentage = data[elementType];
-      if (!percentage) throw new Error('percentage - не найдено');
+      if (percentage === undefined) throw new Error('percentage - не найдено');
 
       if (data.isInput) {
         percentage = this.validateEdgeValue(percentage);
@@ -299,6 +306,10 @@ class Model extends Observable implements IModel {
 
       if (item === 0) newPercentage = item;
       if (percentage >= 100) newPercentage = item;
+
+      if (percentage >= item) {
+        newPercentage = item;
+      }
 
       if (percentage <= halfItemGreater && percentage >= halfItemLess) {
         newPercentage = item;
