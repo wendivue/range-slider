@@ -349,11 +349,12 @@ class Model extends Observable implements IModel {
     const to = this.get(PERCENT_TO);
     const step = this.get(STEP);
     const max = this.get(MAX);
-    const stepPercentage = (100 * step) / max;
+    const min = this.get(MIN);
+    const stepPercentage = (100 * step) / (max - min);
     let value = percentage;
 
     if (element === FROM) {
-      if (percentage >= to) value = to - stepPercentage;
+      if (percentage >= to - stepPercentage) value = to - stepPercentage;
     }
 
     if (element === TO) {

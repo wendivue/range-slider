@@ -40,18 +40,20 @@ class Scale implements IScale {
       }
     }
 
-    let lastNumberArray = newPercentage.pop();
-    const stepPercentage = (100 * step) / (max - min);
+    if (newPercentage.length > 2) {
+      let lastNumberArray = newPercentage.pop();
+      const stepPercentage = (100 * step) / (max - min);
 
-    if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
-
-    if (lastNumberArray >= 100) {
-      lastNumberArray = newPercentage.pop();
       if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
-    }
 
-    if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
-      newPercentage = [...newPercentage, lastNumberArray];
+      if (lastNumberArray >= 100) {
+        lastNumberArray = newPercentage.pop();
+        if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
+      }
+
+      if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
+        newPercentage = [...newPercentage, lastNumberArray];
+      }
     }
 
     newPercentage = [0, ...newPercentage, 100];
