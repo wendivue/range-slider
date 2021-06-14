@@ -85,7 +85,7 @@ class View extends Observable implements IView {
     }
 
     if (type === SINGLE) {
-      handle.moveElement(percentSingle, type);
+      handle.moveElement(percentSingle, SINGLE);
       bar.changeBar(percentSingle);
     }
 
