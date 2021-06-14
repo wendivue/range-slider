@@ -21,7 +21,7 @@ class Presenter implements IPresenter {
   }
 
   private init(): void {
-    this.model.checkInitConfigValue();
+    this.model.initConfigValue();
     this.view.updateView(this.model.getConfigWithArrayStep());
 
     this.view.subscribe((data: IConfig) => this.model.counting(data));

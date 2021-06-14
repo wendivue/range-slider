@@ -31,7 +31,7 @@ interface IView extends IObservable {
   getShift(event: MouseEvent | PointerEvent, element: HTMLElement): IShift;
   getNewShift(event: MouseEvent | PointerEvent, shift: IShift): IShift;
   updateView(data: IConfig): void;
-  checkRangeType(percentage: number, type: Constants): Constants;
+  validateRangeType(percentage: number, type: Constants): Constants;
 }
 
 export { IView, IUI, PartialUI };

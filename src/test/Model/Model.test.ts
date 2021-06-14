@@ -281,13 +281,13 @@ describe('getConfigWithArrayStep', () => {
   });
 });
 
-describe('checkInitConfigValue', () => {
+describe('initConfigValue', () => {
   afterEach(() => {
     model = new Model(config);
   });
 
   test('should set initConfig', () => {
-    model.checkInitConfigValue();
+    model.initConfigValue();
 
     expect(model.getConfig()).toStrictEqual(configInit);
   });

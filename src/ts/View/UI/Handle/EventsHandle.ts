@@ -59,7 +59,7 @@ class EventsHandle implements IEventsHandle {
 
   private handleMouseMove(forMouseMove: IForMouse, event: PointerEvent): void {
     let percentage;
-    const elementType = this.checkElementType(forMouseMove.element);
+    const elementType = this.validateElementType(forMouseMove.element);
     const newShift = this.view.getNewShift(event, forMouseMove.shift);
     const data: { [k: string]: number | Constants } = {};
 
@@ -75,7 +75,7 @@ class EventsHandle implements IEventsHandle {
     this.view.notify(data);
   }
 
-  private checkElementType(element: HTMLElement): Constants {
+  private validateElementType(element: HTMLElement): Constants {
     const from = this.anchor.querySelector<HTMLElement>('.slider__handle_from');
     const to = this.anchor.querySelector<HTMLElement>('.slider__handle_to');
     const single = this.anchor.querySelector<HTMLElement>('.slider__handle_single');

@@ -149,7 +149,7 @@ class Scale implements IScale {
     if (!(element instanceof HTMLElement)) return;
 
     let percentage;
-    let elementType = this.checkElementType(target);
+    let elementType = this.validateElementType(target);
     const data: { [k: string]: number | Constants } = {};
 
     if (this.view.config.isVertical) {
@@ -159,7 +159,7 @@ class Scale implements IScale {
     }
 
     percentage = this.view.calcPercentage(percentage);
-    elementType = this.view.checkRangeType(percentage, elementType);
+    elementType = this.view.validateRangeType(percentage, elementType);
 
     data[elementType] = percentage;
     data[ELEMENTTYPE] = elementType;
@@ -167,7 +167,7 @@ class Scale implements IScale {
     this.view.notify(data);
   }
 
-  private checkElementType(element: HTMLElement): Constants {
+  private validateElementType(element: HTMLElement): Constants {
     let elementType;
 
     if (element === this.scaleSingle) elementType = SINGLE;

@@ -75,7 +75,7 @@ class IntervalInput implements IIntervalInput {
   private inputOnChange(event: Event): void {
     const element = event.target;
     if (!(element instanceof HTMLInputElement)) return;
-    const elementType = this.checkElementType(element);
+    const elementType = this.validateElementType(element);
     const data: { [k: string]: number | boolean | ElementType } = {};
     let value = parseFloat(element.value);
     if (Number.isNaN(value)) value = this.view.config[elementType];
@@ -87,7 +87,7 @@ class IntervalInput implements IIntervalInput {
     this.view.notify(data);
   }
 
-  private checkElementType(element: HTMLElement): ElementType {
+  private validateElementType(element: HTMLElement): ElementType {
     let elementType: ElementType | undefined;
 
     if (element === this.inputFrom) elementType = FROM;

@@ -26,7 +26,7 @@ class Model extends Observable implements IModel {
   constructor(private config: IConfig) {
     super();
 
-    this.config = this.checkConfig(config);
+    this.config = this.validateConfig(config);
   }
 
   public getConfig(): IConfig {
@@ -35,7 +35,7 @@ class Model extends Observable implements IModel {
 
   public setConfig(option: IConfig): void {
     this.config = { ...this.config, ...option };
-    this.config = this.checkConfig(this.config);
+    this.config = this.validateConfig(this.config);
   }
 
   public add<T extends keyof IConfig>(value: IConfig[T], prop: T): void {
@@ -178,14 +178,14 @@ class Model extends Observable implements IModel {
     return newData;
   }
 
-  public checkInitConfigValue(): void {
+  public initConfigValue(): void {
     if (this.get(TYPE) === SINGLE) {
-      this.initConfigValue(this.get(SINGLE), SINGLE);
+      this.addConfigValue(this.get(SINGLE), SINGLE);
     }
 
     if (this.get(TYPE) === DOUBLE) {
-      this.initConfigValue(this.get(FROM), FROM);
-      this.initConfigValue(this.get(TO), TO);
+      this.addConfigValue(this.get(FROM), FROM);
+      this.addConfigValue(this.get(TO), TO);
     }
   }
 
@@ -251,7 +251,7 @@ class Model extends Observable implements IModel {
     }
   }
 
-  private initConfigValue(value: number, elementType: Constants): void {
+  private addConfigValue(value: number, elementType: Constants): void {
     const percentage = this.getPercentageInput(value);
 
     if (elementType === FROM) this.add(percentage, PERCENT_FROM);
@@ -259,7 +259,7 @@ class Model extends Observable implements IModel {
     if (elementType === SINGLE) this.add(percentage, PERCENT_SINGLE);
   }
 
-  private checkConfig(options: IConfig): IConfig {
+  private validateConfig(options: IConfig): IConfig {
     let { min, max, step, from, to, single } = options;
     const config = options;
     const minStep = 0.5;

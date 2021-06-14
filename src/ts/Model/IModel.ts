@@ -3,7 +3,7 @@ import Constants from 'Helpers/enums';
 import { IObservable } from '../Observable/Observable';
 
 interface IModel extends IObservable {
-  checkInitConfigValue(): void;
+  initConfigValue(): void;
   getConfigWithArrayStep(): IConfigWithArrayStep;
   getConfig(): IConfig;
   setConfig(option: IConfig): void;

@@ -85,7 +85,7 @@ class Template {
     const newShift: IShift = this.view.getShift(event, element);
 
     let percentage: number;
-    let elementType = this.checkElementType(element);
+    let elementType = this.validateElementType(element);
     const data: { [k: string]: number | Constants } = {};
 
     if (this.isVertical) {
@@ -94,7 +94,7 @@ class Template {
       percentage = this.view.calcPercentage(newShift.x);
     }
 
-    elementType = this.view.checkRangeType(percentage, elementType);
+    elementType = this.view.validateRangeType(percentage, elementType);
 
     data[elementType] = percentage;
     data[ELEMENTTYPE] = elementType;
@@ -102,7 +102,7 @@ class Template {
     this.view.notify(data);
   }
 
-  private checkElementType(element: HTMLElement): Constants {
+  private validateElementType(element: HTMLElement): Constants {
     let elementType;
 
     if (element === this.sliderSingle) elementType = SINGLE;

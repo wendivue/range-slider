@@ -112,7 +112,7 @@ class View extends Observable implements IView {
     }
   }
 
-  public checkRangeType(percentage: number, type: Constants): Constants {
+  public validateRangeType(percentage: number, type: Constants): Constants {
     const range = this.config.percentTo - this.config.percentFrom;
     const halfRange = range / 2;
     let elementType = type;

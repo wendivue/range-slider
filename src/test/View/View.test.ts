@@ -210,15 +210,15 @@ describe('check range type', () => {
   });
 
   test('when percentage 2 should return FROM', () => {
-    expect(view.checkRangeType(2, FROM)).toBe(FROM);
+    expect(view.validateRangeType(2, FROM)).toBe(FROM);
   });
 
   test('when percentage 4 should return TO', () => {
-    expect(view.checkRangeType(4, FROM)).toBe(TO);
+    expect(view.validateRangeType(4, FROM)).toBe(TO);
   });
 
   test('when SINGLE  should always return SINGLE', () => {
-    expect(view.checkRangeType(2, SINGLE)).toBe(SINGLE);
+    expect(view.validateRangeType(2, SINGLE)).toBe(SINGLE);
   });
 });
 
