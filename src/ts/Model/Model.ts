@@ -192,7 +192,7 @@ class Model extends Observable implements IModel {
   public counting(options: PartialConfigWithElementType): void {
     let data = { ...options };
 
-    if (data.min || data.max) {
+    if (data.min !== undefined || data.max) {
       this.addsRange(data);
     } else {
       const { elementType } = data;
@@ -238,7 +238,7 @@ class Model extends Observable implements IModel {
   }
 
   private addsRange(data: PartialConfig): void {
-    if (data.min) {
+    if (data.min !== undefined) {
       let { min } = data;
       min = this.validateRange(min, MIN);
       this.add(min, MIN);
@@ -307,9 +307,7 @@ class Model extends Observable implements IModel {
       if (item === 0) newPercentage = item;
       if (percentage >= 100) newPercentage = item;
 
-      if (percentage >= item) {
-        newPercentage = item;
-      }
+      if (percentage >= item) newPercentage = item;
 
       if (percentage <= halfItemGreater && percentage >= halfItemLess) {
         newPercentage = item;
