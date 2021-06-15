@@ -160,7 +160,6 @@
 
   &__scale {
     position: relative;
-    left: -15px;
     display: flex;
     pointer-events: none;
     user-select: none;
@@ -168,7 +167,7 @@
     &_vertical {
       position: absolute;
       top: -13px;
-      left: 25px;
+      left: 35px;
       height: 100%;
       padding: 0;
     }
@@ -178,6 +177,7 @@
     position: absolute;
     font-size: 12px;
     pointer-events: all;
+    transform: translate(-53%, 50%);
 
     @media (max-width: $breakpoint-sm) {
       font-size: 10px;
