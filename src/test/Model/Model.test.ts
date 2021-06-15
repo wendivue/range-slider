@@ -76,6 +76,24 @@ const configInit: IConfig = {
   isScale: false,
 };
 
+const configInitSingle: IConfig = {
+  single: 20,
+  from: 20,
+  to: 50,
+  step: 1,
+  percentFrom: 0,
+  percentTo: 0,
+  percentSingle: 2,
+  min: 0,
+  max: 1000,
+  type: 'single',
+  isInput: true,
+  isRange: true,
+  isLabel: true,
+  isVertical: false,
+  isScale: false,
+};
+
 let model = new Model(config);
 
 describe('Get value', () => {
@@ -108,6 +126,7 @@ describe('Get percentage', () => {
   afterEach(() => {
     config.percentFrom = 0;
     config.percentTo = 0;
+    config.max = 1000;
     model = new Model(config);
   });
 
@@ -131,6 +150,12 @@ describe('Get percentage', () => {
     config.percentFrom = 30.1;
 
     expect(model.getPercentage(20, TO)).toBe(30.200000000000003);
+  });
+
+  test('when length > maxLength should return percent + countRelativeLength', () => {
+    config.max = 60000;
+
+    expect(model.getPercentage(20, TO)).toBe(19.926666666666666);
   });
 });
 
@@ -284,11 +309,19 @@ describe('getConfigWithArrayStep', () => {
 describe('initConfigValue', () => {
   afterEach(() => {
     model = new Model(config);
+    config.type = 'double';
   });
 
   test('should set initConfig', () => {
     model.initConfigValue();
 
     expect(model.getConfig()).toStrictEqual(configInit);
+  });
+
+  test('should set initConfigSingle', () => {
+    config.type = 'single';
+    model.initConfigValue();
+
+    expect(model.getConfig()).toStrictEqual(configInitSingle);
   });
 });
