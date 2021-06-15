@@ -17,14 +17,6 @@ const config = {
   },
   devtool: 'source-map',
   mode: 'production',
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        sourceMap: true,
-        extractComments: true,
-      }),
-    ],
-  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
