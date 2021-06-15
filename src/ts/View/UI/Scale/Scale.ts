@@ -5,7 +5,7 @@ import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
 import { IScale } from './IScale';
 
-const { DOUBLE, SINGLE, FROM, ELEMENTTYPE } = Constants;
+const { DOUBLE, SINGLE, FROM, ELEMENTTYPE, INPUT } = Constants;
 
 class Scale implements IScale {
   private classType?: string;
@@ -152,7 +152,7 @@ class Scale implements IScale {
 
     let percentage;
     let elementType = this.validateElementType(target);
-    const data: { [k: string]: number | Constants } = {};
+    const data: { [k: string]: number | boolean | Constants } = {};
 
     if (this.view.config.isVertical) {
       percentage = element.offsetTop;
@@ -163,8 +163,9 @@ class Scale implements IScale {
     percentage = this.view.calcPercentage(percentage);
     elementType = this.view.validateRangeType(percentage, elementType);
 
-    data[elementType] = percentage;
+    data[elementType] = Number(element.textContent);
     data[ELEMENTTYPE] = elementType;
+    data[INPUT] = true;
 
     this.view.notify(data);
   }
