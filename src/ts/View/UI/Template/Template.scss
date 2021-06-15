@@ -91,14 +91,15 @@
   }
 
   &__handle {
-    position: relative;
-    top: -6px;
+    position: absolute;
     width: 25px;
     height: 25px;
     margin-left: -15px;
     background-color: $color-primary;
     border-radius: 3px;
     border-radius: 50%;
+    text-align: center;
+    transform: translate(5%, -30%);
     box-shadow: 0 0 0 0 rgba(98, 0, 238, 0.1);
     transition: box-shadow 0.3s ease-in-out;
     cursor: pointer;
@@ -117,57 +118,49 @@
       }
     }
 
-    &_to {
-      top: -31px;
-    }
-
     &_vertical {
-      margin-top: -20px;
-      margin-left: -8.5083px;
+      transform: translate(25%, -45%);
     }
   }
 
   &__label {
     position: absolute;
-    top: -40px;
-    right: -3px;
-    width: 30px;
-    height: 30px;
-    margin: 0;
-    line-height: 30px;
-    border-radius: 50% 50% 0 50%;
+    bottom: 30px;
+    min-width: 20px;
+    width: auto;
+    height: 25px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-50%);
     background-color: $color-secondary;
-    text-align: center;
-    transform: rotate(45deg);
+    border-radius: 5px;
     user-select: none;
 
     &_vertical {
-      transform: rotate(-45deg);
       top: -4px;
       right: 40px;
+      transform: translateX(0%);
     }
   }
 
   &__label-text {
+    padding: 0 10px;
     font-size: 9px;
     color: $dark-shade-100;
-    transform: rotate(-45deg);
-
-    &_vertical {
-      transform: rotate(45deg);
-    }
   }
 
   &__scale {
     position: relative;
     display: flex;
+    margin-top: 20px;
     pointer-events: none;
     user-select: none;
 
     &_vertical {
       position: absolute;
-      top: -13px;
-      left: 35px;
+      top: -30px;
+      left: 65px;
       height: 100%;
       padding: 0;
     }
