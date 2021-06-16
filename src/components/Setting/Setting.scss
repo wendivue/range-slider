@@ -21,8 +21,16 @@
 
   &__list {
     display: flex;
-    align-items: center;
     margin: 20px 0;
+
+    @media (max-width: $breakpoint-xxs) {
+      flex-flow: column;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
   }
 
   &__input {

@@ -6,7 +6,8 @@
   min-width: 320px;
   display: flex;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
+  box-sizing: border-box;
 
   &__centerBlock {
     max-width: 1160px;
