@@ -40,17 +40,27 @@ class Setting {
       <h2 class="setting__title">Setting</h2>
       <div class="setting__wrapper">
         <div class="setting__list">
-        <input name="isVertical" id="${verticalId}" class="setting__checkbox" type="checkbox" ${checkedVertical}>
-        <label for="${verticalId}" class="setting__label">Vertical</label>
         
-        <input name="type" id="${typeId}" class="setting__checkbox" type="checkbox" ${checkedDouble}>
-        <label for="${typeId}" class="setting__label">Double handles</label>
+          <div class="setting__item">
+            <input name="isVertical" id="${verticalId}" class="setting__checkbox" type="checkbox" ${checkedVertical}>
+            <label for="${verticalId}" class="setting__label">Vertical</label>
+          </div>
 
-        <input name="isLabel" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
-        <label for="${labelId}" class="setting__label">Labels</label>
+          <div class="setting__item">
+            <input name="type" id="${typeId}" class="setting__checkbox" type="checkbox" ${checkedDouble}>
+            <label for="${typeId}" class="setting__label">Double handles</label>
+          </div>
 
-        <input name="isScale" id="${scaleId}" class="setting__checkbox" type="checkbox" ${checkedScale}>
-        <label for="${scaleId}" class="setting__label">Scale</label>
+          <div class="setting__item">
+            <input name="isLabel" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
+            <label for="${labelId}" class="setting__label">Labels</label>
+          </div>
+
+          <div class="setting__item">
+            <input name="isScale" id="${scaleId}" class="setting__checkbox" type="checkbox" ${checkedScale}>
+            <label for="${scaleId}" class="setting__label">Scale</label>
+          </div>
+
         </div>
 
         <div class="setting__wrapper-input">
