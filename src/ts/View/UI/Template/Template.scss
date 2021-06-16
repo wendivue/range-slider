@@ -138,14 +138,14 @@
     user-select: none;
 
     &_vertical {
-      top: -4px;
+      top: 0;
       right: 40px;
       transform: translateX(0%);
     }
   }
 
   &__label-text {
-    padding: 0 10px;
+    padding: 8px 10px;
     font-size: 9px;
     color: $dark-shade-100;
   }
@@ -158,10 +158,10 @@
     user-select: none;
 
     &_vertical {
-      position: absolute;
       top: -30px;
-      left: 65px;
+      left: 25px;
       height: 100%;
+      width: 100%;
       padding: 0;
     }
   }
@@ -178,6 +178,10 @@
 
     @media (max-width: $breakpoint-xxs) {
       font-size: 9px;
+    }
+
+    &_vertical {
+      transform: translate(0%, 50%);
     }
   }
 

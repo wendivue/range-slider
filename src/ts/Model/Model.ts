@@ -192,7 +192,7 @@ class Model extends Observable implements IModel {
   public counting(options: PartialConfigWithElementType): void {
     let data = { ...options };
 
-    if (data.min !== undefined || data.max) {
+    if (data.min !== undefined || data.max !== undefined) {
       this.addsRange(data);
     } else {
       const { elementType } = data;
@@ -244,7 +244,7 @@ class Model extends Observable implements IModel {
       this.add(min, MIN);
     }
 
-    if (data.max) {
+    if (data.max !== undefined) {
       let { max } = data;
       max = this.validateRange(max, MAX);
       this.add(max, MAX);
