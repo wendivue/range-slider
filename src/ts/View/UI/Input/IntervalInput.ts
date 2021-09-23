@@ -24,8 +24,8 @@ class IntervalInput implements IIntervalInput {
 
   private init() {
     this.createHtml();
-    this.bindInputEvents(FROM);
-    this.bindInputEvents(TO);
+    this.addEventHandlersInput(FROM);
+    this.addEventHandlersInput(TO);
   }
 
   private createHtml(): void {
@@ -33,13 +33,13 @@ class IntervalInput implements IIntervalInput {
     const toId = `to-${getUniqueID()}`;
 
     const inputTemplate = `
-      <div class="slider__wrapper-input">
-        <label class="slider__title-input" for="${fromId}">From</label>
+      <div class="slider__input-wrapper">
+        <label class="slider__input-title" for="${fromId}">From</label>
         <input id="${fromId}" type="number" class="input input__from">
       </div>
 
-      <div class="slider__wrapper-input">
-        <label class="slider__title-input" for="${toId}">To</label>
+      <div class="slider__input-wrapper">
+        <label class="slider__input-title" for="${toId}">To</label>
         <input id="${toId}" type="number" class="input input__to">
       </div>
       `;
@@ -60,7 +60,7 @@ class IntervalInput implements IIntervalInput {
     this.inputTo = inputTo;
   }
 
-  private bindInputEvents(elementType: Constants): void {
+  private addEventHandlersInput(elementType: Constants): void {
     let element;
 
     if (elementType === FROM) element = this.anchor.querySelector<HTMLInputElement>('.input__from');

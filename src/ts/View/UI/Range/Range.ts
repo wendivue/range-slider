@@ -28,8 +28,8 @@ class Range implements IRange {
 
   private init(anchor: HTMLElement, min: number, max: number) {
     this.createHtml(anchor, min, max);
-    this.bindRangeEvents(MIN);
-    this.bindRangeEvents(MAX);
+    this.addEventHandlersRange(MIN);
+    this.addEventHandlersRange(MAX);
   }
 
   private createHtml(anchor: HTMLElement, min: number, max: number): void {
@@ -37,13 +37,13 @@ class Range implements IRange {
     const maxId = `max-${getUniqueID()}`;
 
     const rangeTemplate = `
-    <div class="slider__wrapper-input">
-      <label class="slider__title-input" for="${minId}">Min</label>
+    <div class="slider__input-wrapper">
+      <label class="slider__input-title" for="${minId}">Min</label>
       <input id="${minId}" type="number" class="input slider__range slider__range-min" value=${min} >
     </div>
 
-    <div class="slider__wrapper-input">
-      <label class="slider__title-input" for="${maxId}">Max</label>
+    <div class="slider__input-wrapper">
+      <label class="slider__input-title" for="${maxId}">Max</label>
       <input id="${maxId}" type="number" class="input slider__range slider__range-max" value=${max} >
     </div>
     `;
@@ -64,7 +64,7 @@ class Range implements IRange {
     this.rangeMax = rangeMax;
   }
 
-  private bindRangeEvents(elementType: Constants): void {
+  private addEventHandlersRange(elementType: Constants): void {
     let element;
 
     if (elementType === MIN) element = this.rangeMin;

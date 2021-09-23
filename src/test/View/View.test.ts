@@ -130,7 +130,7 @@ describe('Create element', () => {
     if (!input) throw new Error('input - не найдено');
 
     input.changeValue('23');
-    const element = anchor.querySelector<HTMLElement>('.slider__wrapper-input');
+    const element = anchor.querySelector<HTMLElement>('.slider__input-wrapper');
 
     expect(element).toBeTruthy();
   });

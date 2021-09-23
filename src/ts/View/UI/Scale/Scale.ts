@@ -85,7 +85,7 @@ class Scale implements IScale {
   private init(): void {
     this.createClass(this.isVertical);
     this.createHtml(this.anchor);
-    this.bindScaleEvents();
+    this.addEventHandlersScale();
   }
 
   private createHtml(anchor: HTMLElement): void {
@@ -133,7 +133,7 @@ class Scale implements IScale {
     return newValue;
   }
 
-  private bindScaleEvents(): void {
+  private addEventHandlersScale(): void {
     const scale = this.anchor.querySelector<HTMLInputElement>('.slider__scale');
 
     if (!scale) throw new Error('scaleDouble - не найдено');

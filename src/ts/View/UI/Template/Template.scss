@@ -65,7 +65,7 @@
     }
   }
 
-  &__wrapper-input {
+  &__input-wrapper {
     display: flex;
     flex-direction: column;
 
@@ -74,7 +74,7 @@
     }
   }
 
-  &__title-input {
+  &__input-title {
     font-size: $font-size_h3;
     font-family: $font-family;
     margin-left: 7px;

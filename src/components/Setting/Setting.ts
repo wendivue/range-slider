@@ -22,8 +22,8 @@ class Setting {
 
   private init(): void {
     this.createHtml();
-    this.bindEventInput();
-    this.bindEvents();
+    this.addEventHandlersInput();
+    this.addEventHandlers();
   }
 
   private createHtml() {
@@ -63,8 +63,8 @@ class Setting {
 
         </div>
 
-        <div class="setting__wrapper-input">
-        <label class="setting__title-input" for="${stepId}">Step</label>
+        <div class="setting__input-wrapper">
+        <label class="setting__input-title" for="${stepId}">Step</label>
           <input id="${stepId}" type="number" class="input setting__input" value=${this.config.step}>
         </div>
       </div>
@@ -95,7 +95,7 @@ class Setting {
     return new Presenter(model, new View(model.getConfig(), this.anchor));
   }
 
-  private bindEvents(): void {
+  private addEventHandlers(): void {
     const checkbox: NodeListOf<HTMLInputElement> = this.setting.querySelectorAll(
       '.setting__checkbox'
     );
@@ -105,7 +105,7 @@ class Setting {
     });
   }
 
-  private bindEventInput(): void {
+  private addEventHandlersInput(): void {
     const input = this.setting.querySelector<HTMLInputElement>('.setting__input');
 
     if (!input) throw new Error('input- не найдено');

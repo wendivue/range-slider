@@ -31,7 +31,7 @@ class Template {
   private init() {
     this.createClass(this.isVertical, this.type);
     this.createHtml(this.anchor);
-    this.bindWrapperEvents();
+    this.addEventHandlersWrapper();
   }
 
   private createHtml(anchor: HTMLElement): void {
@@ -67,7 +67,7 @@ class Template {
     this.classWrapperDouble = type === DOUBLE ? 'slider__wrapper_double' : '';
   }
 
-  private bindWrapperEvents(): void {
+  private addEventHandlersWrapper(): void {
     let slider;
 
     if (this.type === SINGLE) slider = this.sliderSingle;

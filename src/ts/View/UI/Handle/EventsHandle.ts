@@ -13,14 +13,14 @@ class EventsHandle implements IEventsHandle {
   }
 
   public init(type: TypeSlider): void {
-    if (type === SINGLE) this.bindHandleEvents(SINGLE);
+    if (type === SINGLE) this.addEventHandlers(SINGLE);
     if (type === DOUBLE) {
-      this.bindHandleEvents(FROM);
-      this.bindHandleEvents(TO);
+      this.addEventHandlers(FROM);
+      this.addEventHandlers(TO);
     }
   }
 
-  private bindHandleEvents(elementType: Constants): void {
+  private addEventHandlers(elementType: Constants): void {
     let element;
 
     if (elementType === SINGLE)

@@ -24,8 +24,8 @@ class SingleInput implements ISingleInput {
     const singleId = `single-${getUniqueID()}`;
 
     const inputTemplate = `
-    <div class="slider__wrapper-input">
-      <label class="slider__title-input" for="${singleId}">From</label>
+    <div class="slider__input-wrapper">
+      <label class="slider__input-title" for="${singleId}">From</label>
       <input id="${singleId}" type="number" class="input input__single">
     </div>
     `;
@@ -39,10 +39,10 @@ class SingleInput implements ISingleInput {
 
   private init() {
     this.createHtml();
-    this.bindInputEvents();
+    this.addEventHandlersInput();
   }
 
-  private bindInputEvents(): void {
+  private addEventHandlersInput(): void {
     const element = this.anchor.querySelector<HTMLElement>('.input__single');
 
     if (!element) throw new Error('element - не найдено');
