@@ -1,23 +1,26 @@
 import { boundMethod } from 'autobind-decorator';
 
-import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { IConfig } from 'Helpers/interface';
 import { getUniqueID } from 'Helpers/helpersFunctions';
-import Presenter from 'Ts/Presenter/Presenter';
-import Model from 'Ts/Model/Model';
-import View from 'Ts/View/View';
+import Observable from 'Ts/Observable/Observable';
 
+import { ISetting } from './ISetting';
 import './Setting.scss';
 
-const { SINGLE, STEP, TYPE, VERTICAL, DOUBLE, LABEL, SCALE } = Constants;
+const { SINGLE, TYPE, VERTICAL, DOUBLE, LABEL, SCALE } = Constants;
 
-class Setting {
-  private model = new Model(this.config);
-
+class Setting extends Observable implements ISetting {
   private setting!: HTMLElement;
 
   constructor(private config: IConfig, private anchor: HTMLElement) {
+    super();
+
     this.init();
+  }
+
+  public update(config: IConfig): void {
+    this.config = config;
   }
 
   private init(): void {
@@ -80,19 +83,13 @@ class Setting {
   }
 
   private addChecked(): Array<string> {
-    const checkedVertical = this.config.isVertical ? 'checked' : '';
-    const checkedDouble = this.config.type === DOUBLE ? 'checked' : '';
-    const checkedLabel = this.config.isLabel ? 'checked' : '';
-    const checkedScale = this.config.isScale ? 'checked' : '';
+    const { isVertical, isLabel, isScale, type } = this.config;
+    const checkedVertical = isVertical ? 'checked' : '';
+    const checkedDouble = type === DOUBLE ? 'checked' : '';
+    const checkedLabel = isLabel ? 'checked' : '';
+    const checkedScale = isScale ? 'checked' : '';
 
     return [checkedVertical, checkedDouble, checkedLabel, checkedScale];
-  }
-
-  private createPresenter() {
-    this.anchor.innerHTML = '';
-    const newConfig = { ...this.model.getConfig() };
-    const model = new Model(newConfig);
-    return new Presenter(model, new View(model.getConfig(), this.anchor));
   }
 
   private addEventHandlers(): void {
@@ -119,20 +116,36 @@ class Setting {
     if (!(element instanceof HTMLInputElement)) return;
     const name = element.getAttribute('name');
     const check = element.checked;
+    let { isVertical, isLabel, isScale, type } = this.config;
 
-    if (name === VERTICAL) this.model.add(check, VERTICAL);
-    if (name === LABEL) this.model.add(check, LABEL);
-    if (name === SCALE) this.model.add(check, SCALE);
+    if (name === VERTICAL) isVertical = check;
+    if (name === LABEL) isLabel = check;
+    if (name === SCALE) isScale = check;
 
     if (name === TYPE) {
       if (element.checked) {
-        this.model.add(DOUBLE, TYPE);
+        type = DOUBLE;
       } else {
-        this.model.add(SINGLE, TYPE);
+        type = SINGLE;
       }
     }
 
-    this.createPresenter();
+    this.config = { ...this.config, isVertical, isLabel, isScale, type };
+    const config = { ...this.config };
+
+    this.notify(config);
+  }
+
+  private validateStep(value: number): number {
+    const { max, min } = this.config;
+    const halfMax = max / 2;
+    const minStep = 0.5;
+    let step = value;
+
+    if (step > halfMax) step = halfMax;
+    if (step > max - min) step = max - min;
+    if (step < minStep) step = minStep;
+    return step;
   }
 
   @boundMethod
@@ -144,11 +157,12 @@ class Setting {
 
     if (!step) step = minStep;
 
-    step = this.model.validateStep(step);
+    step = this.validateStep(step);
     element.value = step.toString();
-    this.model.add(step, STEP);
 
-    this.createPresenter();
+    const config = { ...this.config, step };
+
+    this.notify(config);
   }
 }
 

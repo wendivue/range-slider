@@ -1,8 +1,14 @@
-import { EventCallback, PartialConfig } from 'Helpers/interface';
+import { IAPI, PartialConfig } from 'Helpers/interface';
 import Model from './Model/Model';
 import View from './View/View';
 import Presenter from './Presenter/Presenter';
 import defaultConfig from './Model/defaultConfig';
+
+declare global {
+  interface JQuery extends IAPI {
+    rangeSlider(options: PartialConfig): IAPI;
+  }
+}
 
 function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
   const model = new Model(config);
@@ -33,8 +39,7 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
 
     this.reset = () => {
       $(this)[0].innerHTML = '';
-      const model = new Model(defaultConfig);
-      new Presenter(model, new View(defaultConfig, this[0]));
+      app.call(this, defaultConfig, anchor);
     };
 
     this.destroy = () => {
@@ -46,18 +51,14 @@ function app(this: JQuery, config = defaultConfig, anchor: HTMLElement) {
       slider.subscribe(callback);
     };
 
-    this.unsubscribe = (callback: EventCallback) => {
+    this.unsubscribe = (callback) => {
       const slider = $(this).data('rangeSlider');
       slider.unsubscribe(callback);
     };
 
-    this.update = (data: PartialConfig = defaultConfig) => {
+    this.update = (data = defaultConfig) => {
       $(this)[0].innerHTML = '';
-      const slider = $(this).data('rangeSlider');
-
-      const newConfig = { ...slider.getConfig(), ...data };
-      const model = new Model(newConfig);
-      new Presenter(model, new View(model.getConfig(), this[0]));
+      app.call(this, data, anchor);
     };
 
     return this;

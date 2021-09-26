@@ -1,72 +1,6 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { EventCallback, IConfig, PartialConfig } from 'Helpers/interface';
-
-declare global {
-  interface JQuery {
-    rangeSlider(options: PartialConfig): void;
-    update(data: PartialConfig): void;
-    subscribe(fn: EventCallback): void;
-    unsubscribe(fn: EventCallback): void;
-    getConfig(): IConfig;
-    destroy(): void;
-    reset(): void;
-  }
-}
-
-const config1: IConfig = {
-  single: 50,
-  from: 20,
-  to: 50,
-  step: 10,
-  percentFrom: 0,
-  percentTo: 0,
-  percentSingle: 0,
-  min: 0,
-  max: 1000,
-  type: 'single',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
-  isVertical: false,
-  isScale: true,
-};
-
-const config2: IConfig = {
-  single: 20,
-  from: 20,
-  to: 50,
-  step: 10,
-  percentFrom: 0,
-  percentTo: 0,
-  percentSingle: 0,
-  min: 0,
-  max: 1000,
-  type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
-  isVertical: false,
-  isScale: false,
-};
-
-const config3: IConfig = {
-  single: 20,
-  from: 20,
-  to: 50,
-  step: 1,
-  percentFrom: 0,
-  percentTo: 0,
-  percentSingle: 0,
-  min: 0,
-  max: 1000,
-  type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: false,
-  isVertical: true,
-  isScale: false,
-};
+import { IAPI, PartialConfigWithArrayStep } from 'Helpers/interface';
 
 const anchor1 = document.getElementById('slider1');
 const anchor2 = document.getElementById('slider2');
@@ -76,11 +10,7 @@ if (!anchor1) throw new Error('#slider1 - не найдено');
 if (!anchor2) throw new Error('#slider2 - не найдено');
 if (!anchor3) throw new Error('#slider3 - не найдено');
 
-function createSetting(config: IConfig, anchor: HTMLElement) {
-  return new Setting(config, anchor);
-}
-
-$('#slider1').rangeSlider({
+const slider1 = $('#slider1').rangeSlider({
   single: 50,
   max: 1000,
   min: 0,
@@ -89,14 +19,14 @@ $('#slider1').rangeSlider({
   isScale: true,
 });
 
-$('#slider2').rangeSlider({
+const slider2 = $('#slider2').rangeSlider({
   from: 200,
   to: 700,
   type: 'double',
   step: 10,
 });
 
-$('#slider3').rangeSlider({
+const slider3 = $('#slider3').rangeSlider({
   from: 60,
   to: 600,
   type: 'double',
@@ -105,6 +35,21 @@ $('#slider3').rangeSlider({
   isVertical: true,
 });
 
-createSetting(config1, anchor1);
-createSetting(config2, anchor2);
-createSetting(config3, anchor3);
+const createSetting = (anchor: HTMLElement, slider: IAPI): void => {
+  const config = slider.getConfig();
+  const setting = new Setting(config, anchor);
+
+  const callbackSettingUpdate = () => (changedConfig: PartialConfigWithArrayStep) =>
+    setting.update({ ...config, ...changedConfig });
+
+  slider.subscribe(callbackSettingUpdate());
+
+  setting.subscribe((changedConfig: PartialConfigWithArrayStep) => {
+    slider.update({ ...config, ...changedConfig });
+    slider.subscribe(callbackSettingUpdate());
+  });
+};
+
+createSetting(anchor1, slider1);
+createSetting(anchor2, slider2);
+createSetting(anchor3, slider3);

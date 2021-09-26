@@ -50,16 +50,27 @@ type PartialConfigWithElementType = Partial<IConfigWithElementType>;
 
 type EventCallback = (data: PartialConfigWithArrayStep) => void;
 
+interface IAPI {
+  update(data: IConfig): void;
+  subscribe(fn: EventCallback): void;
+  unsubscribe(fn: EventCallback): void;
+  getConfig(): IConfig;
+  destroy(): void;
+  reset(): void;
+}
+
 export {
   IConfig,
   ICoords,
   IShift,
   IForMouse,
-  PartialConfig,
+  IAPI,
   TypeSlider,
   IConfigWithArrayStep,
   EventCallback,
   IConfigWithElementType,
+  PartialConfig,
+  PartialConfigWithArrayStep,
   PartialConfigWithElementType,
   ElementType,
 };
