@@ -71,10 +71,10 @@ class View extends Observable implements IView {
       percentTo,
       percentSingle,
       type,
-      isInput,
-      isRange,
-      isLabel,
-      isScale,
+      hasInputs,
+      hasRange,
+      hasLabels,
+      hasScale,
       arrayStep,
     } = data;
 
@@ -89,24 +89,24 @@ class View extends Observable implements IView {
       bar.changeBar(percentSingle);
     }
 
-    if (isLabel) {
+    if (hasLabels) {
       if (!label) throw new Error('label - не найдено');
       if (type === SINGLE) label.changeLabelValue(single.toString());
       if (type === DOUBLE) label.changeLabelValue(from.toString(), to.toString());
     }
 
-    if (isInput) {
+    if (hasInputs) {
       if (!input) throw new Error('input - не найдено');
       if (type === SINGLE) input.changeValue(single.toString());
       if (type === DOUBLE) input.changeValue(from.toString(), to.toString());
     }
 
-    if (isRange) {
+    if (hasRange) {
       if (!range) throw new Error('range - не найдено');
       range.changeValue(min.toString(), max.toString());
     }
 
-    if (isScale) {
+    if (hasScale) {
       if (!scale) throw new Error('scale - не найдено');
       scale.changeScale(arrayStep, min, max, step);
     }
@@ -159,15 +159,15 @@ class View extends Observable implements IView {
       this
     );
 
-    if (this.config.isLabel) {
+    if (this.config.hasLabels) {
       this.UI.label = this.factory.createLabel(this.app, this.config.isVertical);
     }
 
-    if (this.config.isRange) {
+    if (this.config.hasRange) {
       this.UI.range = this.factory.createRange(this.app, this.config.min, this.config.max, this);
     }
 
-    if (this.config.isInput) {
+    if (this.config.hasInputs) {
       this.UI.input = this.factory.createInput(this.app, this);
     }
   }

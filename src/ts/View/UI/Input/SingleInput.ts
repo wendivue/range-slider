@@ -5,7 +5,7 @@ import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
 import { ISingleInput } from './ISingleInput';
 
-const { SINGLE, ELEMENTTYPE, INPUT } = Constants;
+const { SINGLE, ELEMENTTYPE, INPUTS } = Constants;
 
 class SingleInput implements ISingleInput {
   constructor(private anchor: HTMLElement, private view: IView) {
@@ -60,7 +60,7 @@ class SingleInput implements ISingleInput {
 
     data[elementType] = value;
     data[ELEMENTTYPE] = elementType;
-    data[INPUT] = true;
+    data[INPUTS] = true;
 
     this.view.notify(data);
   }

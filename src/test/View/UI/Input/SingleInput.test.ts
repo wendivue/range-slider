@@ -14,11 +14,11 @@ const singleConfig: IConfig = {
   min: 30,
   max: 1000,
   type: 'single',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: true,
+  hasScale: true,
 };
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');

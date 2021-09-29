@@ -12,13 +12,13 @@ if (!anchor) throw new Error('anchor - не найдено');
 anchor.insertAdjacentHTML('afterbegin', handleTemplate);
 
 const handleSingle = anchor.querySelector<HTMLElement>('.slider__handle_single');
-const isLabel = true;
+const hasLabels = true;
 
 if (!handleSingle) throw new Error('handleSingle - не найдено');
 
 describe('SingleLabel', () => {
   beforeEach(() => {
-    const label = new SingleLabel(anchor, isLabel);
+    const label = new SingleLabel(anchor, hasLabels);
     label.changeLabelValue('10');
   });
 

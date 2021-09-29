@@ -17,11 +17,11 @@ const intervalConfig: IConfig = {
   min: 30,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: true,
+  hasScale: true,
 };
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');

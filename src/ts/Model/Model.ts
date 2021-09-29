@@ -199,7 +199,7 @@ class Model extends Observable implements IModel {
       let percentage = data[elementType];
       if (percentage === undefined) throw new Error('percentage - не найдено');
 
-      if (data.isInput) {
+      if (data.hasInputs) {
         percentage = this.validateEdgeValue(percentage);
         percentage = this.validateTwoHandleValue(percentage, elementType);
         percentage = this.getPercentageInput(percentage);

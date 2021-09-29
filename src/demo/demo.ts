@@ -16,7 +16,7 @@ const slider1 = $('#slider1').rangeSlider({
   min: 0,
   step: 10,
   type: 'single',
-  isScale: true,
+  hasScale: true,
 });
 
 const slider2 = $('#slider2').rangeSlider({
@@ -31,7 +31,7 @@ const slider3 = $('#slider3').rangeSlider({
   to: 600,
   type: 'double',
   step: 1,
-  isLabel: false,
+  hasLabels: false,
   isVertical: true,
 });
 

@@ -25,11 +25,11 @@ const singleConfig: IConfig = {
   min: 30,
   max: 1000,
   type: 'single',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: true,
+  hasScale: true,
 };
 
 const intervalConfig: IConfig = {
@@ -43,11 +43,11 @@ const intervalConfig: IConfig = {
   min: 30,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: true,
+  hasScale: true,
 };
 
 const configUpdate: IConfig = {
@@ -61,11 +61,11 @@ const configUpdate: IConfig = {
   min: 0,
   max: 100,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 const configSingleUpdate: IConfig = {
@@ -79,11 +79,11 @@ const configSingleUpdate: IConfig = {
   min: 0,
   max: 100,
   type: 'single',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 describe('Create element', () => {

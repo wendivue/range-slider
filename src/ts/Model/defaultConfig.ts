@@ -11,11 +11,11 @@ const defaultConfig: IConfig = {
   min: 0,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 export default defaultConfig;

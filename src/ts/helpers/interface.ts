@@ -14,11 +14,11 @@ interface IConfig {
   percentTo: number;
   percentSingle: number;
   type: TypeSlider;
-  isInput: boolean;
-  isRange: boolean;
-  isLabel: boolean;
+  hasInputs: boolean;
+  hasRange: boolean;
+  hasLabels: boolean;
   isVertical: boolean;
-  isScale: boolean;
+  hasScale: boolean;
 }
 
 interface IConfigWithArrayStep extends IConfig {

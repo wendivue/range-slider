@@ -5,7 +5,7 @@ import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
 import { IScale } from './IScale';
 
-const { DOUBLE, SINGLE, FROM, ELEMENTTYPE, INPUT } = Constants;
+const { DOUBLE, SINGLE, FROM, ELEMENTTYPE, INPUTS } = Constants;
 
 class Scale implements IScale {
   private classType?: string;
@@ -165,7 +165,7 @@ class Scale implements IScale {
 
     data[elementType] = Number(element.textContent);
     data[ELEMENTTYPE] = elementType;
-    data[INPUT] = true;
+    data[INPUTS] = true;
 
     this.view.notify(data);
   }

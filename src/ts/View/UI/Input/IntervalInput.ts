@@ -6,7 +6,7 @@ import { ElementType } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
 import { IIntervalInput } from './IIntervalInput';
 
-const { FROM, TO, ELEMENTTYPE, INPUT } = Constants;
+const { FROM, TO, ELEMENTTYPE, INPUTS } = Constants;
 
 class IntervalInput implements IIntervalInput {
   private inputFrom!: HTMLInputElement;
@@ -82,7 +82,7 @@ class IntervalInput implements IIntervalInput {
 
     data[elementType] = value;
     data[ELEMENTTYPE] = elementType;
-    data[INPUT] = true;
+    data[INPUTS] = true;
 
     this.view.notify(data);
   }

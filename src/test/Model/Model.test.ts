@@ -15,11 +15,11 @@ const config: IConfig = {
   min: 0,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 const configBroke: IConfig = {
@@ -33,11 +33,11 @@ const configBroke: IConfig = {
   min: 0,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 const configFix: IConfig = {
@@ -51,11 +51,11 @@ const configFix: IConfig = {
   min: 0,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 const configInit: IConfig = {
@@ -69,11 +69,11 @@ const configInit: IConfig = {
   min: 0,
   max: 1000,
   type: 'double',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 const configInitSingle: IConfig = {
@@ -87,11 +87,11 @@ const configInitSingle: IConfig = {
   min: 0,
   max: 1000,
   type: 'single',
-  isInput: true,
-  isRange: true,
-  isLabel: true,
+  hasInputs: true,
+  hasRange: true,
+  hasLabels: true,
   isVertical: false,
-  isScale: false,
+  hasScale: false,
 };
 
 let model = new Model(config);
@@ -265,16 +265,16 @@ describe('Counting', () => {
     expect(newConfig.single).toBe(30);
   });
 
-  test('when isInput=true set should set isInput=true', () => {
+  test('when hasInputs=true set should set hasInputs=true', () => {
     const callback = jest.fn();
 
     model.subscribe(callback);
 
-    model.counting({ single: 3, elementType: SINGLE, isInput: true });
+    model.counting({ single: 3, elementType: SINGLE, hasInputs: true });
     const newConfig = model.getConfig();
 
     expect(callback).toHaveBeenCalled();
-    expect(newConfig.isInput).toBe(true);
+    expect(newConfig.hasInputs).toBe(true);
   });
 
   test('should set min & max', () => {

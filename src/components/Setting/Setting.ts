@@ -8,7 +8,7 @@ import Observable from 'Ts/Observable/Observable';
 import { ISetting } from './ISetting';
 import './Setting.scss';
 
-const { SINGLE, TYPE, VERTICAL, DOUBLE, LABEL, SCALE } = Constants;
+const { SINGLE, TYPE, VERTICAL, DOUBLE, LABELS, SCALE } = Constants;
 
 class Setting extends Observable implements ISetting {
   private setting!: HTMLElement;
@@ -55,12 +55,12 @@ class Setting extends Observable implements ISetting {
           </div>
 
           <div class="setting__item">
-            <input name="isLabel" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
+            <input name="hasLabels" id="${labelId}" class="setting__checkbox" type="checkbox" ${checkedLabel}>
             <label for="${labelId}" class="setting__label">Labels</label>
           </div>
 
           <div class="setting__item">
-            <input name="isScale" id="${scaleId}" class="setting__checkbox" type="checkbox" ${checkedScale}>
+            <input name="hasScale" id="${scaleId}" class="setting__checkbox" type="checkbox" ${checkedScale}>
             <label for="${scaleId}" class="setting__label">Scale</label>
           </div>
 
@@ -83,11 +83,11 @@ class Setting extends Observable implements ISetting {
   }
 
   private addChecked(): Array<string> {
-    const { isVertical, isLabel, isScale, type } = this.config;
+    const { isVertical, hasLabels, hasScale, type } = this.config;
     const checkedVertical = isVertical ? 'checked' : '';
     const checkedDouble = type === DOUBLE ? 'checked' : '';
-    const checkedLabel = isLabel ? 'checked' : '';
-    const checkedScale = isScale ? 'checked' : '';
+    const checkedLabel = hasLabels ? 'checked' : '';
+    const checkedScale = hasScale ? 'checked' : '';
 
     return [checkedVertical, checkedDouble, checkedLabel, checkedScale];
   }
@@ -116,11 +116,11 @@ class Setting extends Observable implements ISetting {
     if (!(element instanceof HTMLInputElement)) return;
     const name = element.getAttribute('name');
     const check = element.checked;
-    let { isVertical, isLabel, isScale, type } = this.config;
+    let { isVertical, hasLabels, hasScale, type } = this.config;
 
     if (name === VERTICAL) isVertical = check;
-    if (name === LABEL) isLabel = check;
-    if (name === SCALE) isScale = check;
+    if (name === LABELS) hasLabels = check;
+    if (name === SCALE) hasScale = check;
 
     if (name === TYPE) {
       if (element.checked) {
@@ -130,7 +130,7 @@ class Setting extends Observable implements ISetting {
       }
     }
 
-    this.config = { ...this.config, isVertical, isLabel, isScale, type };
+    this.config = { ...this.config, isVertical, hasLabels, hasScale, type };
     const config = { ...this.config };
 
     this.notify(config);
