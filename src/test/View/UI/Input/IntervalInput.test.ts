@@ -1,7 +1,8 @@
-import { IConfig } from 'Helpers/interface';
 import { JSDOM } from 'jsdom';
-import IntervalInput from 'Ts/View/UI/Input/IntervalInput';
+
+import { IConfig } from 'Helpers/interface';
 import View from 'Ts/View/View';
+import IntervalInput from 'Ts/View/UI/Input/IntervalInput';
 
 const intervalConfig: IConfig = {
   single: 20,

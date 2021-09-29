@@ -1,8 +1,9 @@
 import { boundMethod } from 'autobind-decorator';
 
-import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { TypeSlider } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
+
 import { IScale } from './IScale';
 
 const { DOUBLE, SINGLE, FROM, ELEMENTTYPE, INPUTS } = Constants;

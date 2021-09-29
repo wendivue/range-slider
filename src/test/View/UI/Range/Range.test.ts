@@ -1,7 +1,8 @@
-import { IConfig } from 'Helpers/interface';
 import { JSDOM } from 'jsdom';
-import Range from 'Ts/View/UI/Range/Range';
+
+import { IConfig } from 'Helpers/interface';
 import View from 'Ts/View/View';
+import Range from 'Ts/View/UI/Range/Range';
 
 const intervalConfig: IConfig = {
   single: 20,

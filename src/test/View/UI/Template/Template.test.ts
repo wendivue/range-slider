@@ -1,8 +1,9 @@
 import { JSDOM } from 'jsdom';
+
+import View from 'Ts/View/View';
 import Template from 'Ts/View/UI/Template/Template';
 import Constants from 'Helpers/enums';
 import { IConfig } from 'Helpers/interface';
-import View from 'Ts/View/View';
 
 const { SINGLE } = Constants;
 

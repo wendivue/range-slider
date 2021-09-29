@@ -1,5 +1,6 @@
 import Constants from 'Helpers/enums';
 import { IView } from 'Ts/View/IView';
+
 import EventsHandle from './EventsHandle';
 import { IIntervalHandle } from './IIntervalHandle';
 

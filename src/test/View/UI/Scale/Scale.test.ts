@@ -1,7 +1,8 @@
 import { JSDOM } from 'jsdom';
+
+import View from 'Ts/View/View';
 import Scale from 'Ts/View/UI/Scale/Scale';
 import Constants from 'Helpers/enums';
-import View from 'Ts/View/View';
 import { IConfig } from 'Helpers/interface';
 
 const singleConfig: IConfig = {

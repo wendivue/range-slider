@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+
 import IntervalLabel from 'Ts/View/UI/Label/IntervalLabel';
 
 const dom = new JSDOM('<html><body><div class="anchor"></div></body></html>');

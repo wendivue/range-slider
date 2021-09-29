@@ -1,5 +1,6 @@
 import { IConfig, IConfigWithArrayStep, PartialConfigWithElementType } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+
 import { IObservable } from '../Observable/Observable';
 
 interface IModel extends IObservable {

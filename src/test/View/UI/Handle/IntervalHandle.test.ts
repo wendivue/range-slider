@@ -1,8 +1,9 @@
 import { JSDOM } from 'jsdom';
+
 import Constants from 'Helpers/enums';
-import IntervalHandle from 'Ts/View/UI/Handle/IntervalHandle';
-import View from 'Ts/View/View';
 import { IConfig } from 'Helpers/interface';
+import View from 'Ts/View/View';
+import IntervalHandle from 'Ts/View/UI/Handle/IntervalHandle';
 
 const { FROM, TO } = Constants;
 

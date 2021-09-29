@@ -5,14 +5,14 @@ import Range from 'UI/Range/Range';
 import SingleInput from 'UI/Input/SingleInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
-
-import { TypeSlider } from 'Helpers/interface';
 import { IBar } from 'UI/Bar/IBar';
 import { ISingleHandle } from 'UI/Handle/ISingleHandle';
 import { ISingleInput } from 'UI/Input/ISingleInput';
 import { ISingleLabel } from 'UI/Label/ISingleLabel';
 import { IScale } from 'UI/Scale/IScale';
 import { IRange } from 'UI/Range/IRange';
+import { TypeSlider } from 'Helpers/interface';
+
 import { IView } from '../IView';
 
 export interface ISingleFactory {

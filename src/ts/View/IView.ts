@@ -1,6 +1,6 @@
-import { IShift, IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
-import { IObservable } from '../Observable/Observable';
+import { IShift, IConfig } from 'Helpers/interface';
+
 import { IBar } from './UI/Bar/IBar';
 import { IIntervalHandle } from './UI/Handle/IIntervalHandle';
 import { ISingleHandle } from './UI/Handle/ISingleHandle';
@@ -10,6 +10,7 @@ import { IIntervalInput } from './UI/Input/IIntervalInput';
 import { IScale } from './UI/Scale/IScale';
 import { IRange } from './UI/Range/IRange';
 import { IIntervalLabel } from './UI/Label/IIntervalLabel';
+import { IObservable } from '../Observable/Observable';
 
 interface IUI {
   handle: ISingleHandle | IIntervalHandle;

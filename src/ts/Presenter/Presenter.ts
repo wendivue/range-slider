@@ -1,6 +1,7 @@
 import { EventCallback, IConfig, IConfigWithArrayStep } from 'Helpers/interface';
 import { IModel } from 'Ts/Model/IModel';
 import { IView } from 'Ts/View/IView';
+
 import { IPresenter } from './IPresenter';
 
 class Presenter implements IPresenter {

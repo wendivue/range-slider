@@ -4,6 +4,7 @@ import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { ElementType } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
+
 import { IIntervalInput } from './IIntervalInput';
 
 const { FROM, TO, ELEMENTTYPE, INPUTS } = Constants;

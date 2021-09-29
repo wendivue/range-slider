@@ -3,6 +3,7 @@ import { boundMethod } from 'autobind-decorator';
 import Constants from 'Helpers/enums';
 import { IForMouse, IShift, TypeSlider } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
+
 import { IEventsHandle } from './IEventsHandle';
 
 const { FROM, TO, DOUBLE, SINGLE, ELEMENTTYPE } = Constants;

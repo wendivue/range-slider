@@ -1,5 +1,6 @@
 import { TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+
 import { IBar } from './IBar';
 
 const { SINGLE, DOUBLE } = Constants;

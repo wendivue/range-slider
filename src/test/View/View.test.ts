@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+
 import { IConfig } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import View from 'Ts/View/View';

@@ -1,6 +1,7 @@
 import { IConfig, ICoords, IShift, PartialConfig, IConfigWithArrayStep } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
 import Observable from 'Ts/Observable/Observable';
+
 import { PartialUI, IView } from './IView';
 import SingleFactory from './Factories/SingleFactory';
 import IntervalFactory from './Factories/IntervalFactory';

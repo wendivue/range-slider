@@ -3,6 +3,7 @@ import { boundMethod } from 'autobind-decorator';
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
+
 import { IRange } from './IRange';
 
 const { MIN, MAX } = Constants;

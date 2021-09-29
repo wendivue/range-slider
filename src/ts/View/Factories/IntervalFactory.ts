@@ -5,14 +5,14 @@ import Range from 'UI/Range/Range';
 import IntervalInput from 'UI/Input/IntervalInput';
 import Bar from 'UI/Bar/Bar';
 import Scale from 'UI/Scale/Scale';
-
-import { TypeSlider } from 'Helpers/interface';
 import { IBar } from 'UI/Bar/IBar';
 import { IIntervalHandle } from 'UI/Handle/IIntervalHandle';
 import { IIntervalInput } from 'UI/Input/IIntervalInput';
 import { IIntervalLabel } from 'UI/Label/IIntervalLabel';
 import { IScale } from 'UI/Scale/IScale';
 import { IRange } from 'UI/Range/IRange';
+import { TypeSlider } from 'Helpers/interface';
+
 import { IView } from '../IView';
 
 export interface IIntervalFactory {

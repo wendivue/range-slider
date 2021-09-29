@@ -1,7 +1,8 @@
-import { IConfig } from 'Helpers/interface';
 import { JSDOM } from 'jsdom';
-import SingleInput from 'Ts/View/UI/Input/SingleInput';
+
+import { IConfig } from 'Helpers/interface';
 import View from 'Ts/View/View';
+import SingleInput from 'Ts/View/UI/Input/SingleInput';
 
 const singleConfig: IConfig = {
   single: 20,

@@ -3,6 +3,7 @@ import { boundMethod } from 'autobind-decorator';
 import Constants from 'Helpers/enums';
 import { getUniqueID } from 'Helpers/helpersFunctions';
 import { IView } from 'Ts/View/IView';
+
 import { ISingleInput } from './ISingleInput';
 
 const { SINGLE, ELEMENTTYPE, INPUTS } = Constants;

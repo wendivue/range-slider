@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 
-import { IShift, TypeSlider } from 'Helpers/interface';
 import Constants from 'Helpers/enums';
+import { IShift, TypeSlider } from 'Helpers/interface';
 import { IView } from 'Ts/View/IView';
 
 const { SINGLE, DOUBLE, FROM, ELEMENTTYPE } = Constants;

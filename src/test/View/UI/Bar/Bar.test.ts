@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+
 import Constants from 'Helpers/enums';
 import Bar from 'Ts/View/UI/Bar/Bar';
 
