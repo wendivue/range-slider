@@ -89,8 +89,6 @@ class Model extends Observable implements IModel {
     const max = this.get(MAX);
     const min = this.get(MIN);
 
-    step = this.validateStep(step);
-
     const amount = min / step;
     const lastNumber = 1;
     const maxLength = 1000;
@@ -132,7 +130,7 @@ class Model extends Observable implements IModel {
 
     if (type === MAX && newValue < min + step) newValue = min + step;
     if (type === MIN && newValue > max - step) newValue = max - step;
-    if (type === MAX && newValue < step) newValue = stepTwice;
+    if (type === MAX && newValue < stepTwice) newValue = stepTwice;
 
     return newValue;
   }
@@ -190,7 +188,7 @@ class Model extends Observable implements IModel {
   }
 
   public counting(options: PartialConfigWithElementType): void {
-    let data = { ...options };
+    const data = { ...options };
 
     if (data.min !== undefined || data.max !== undefined) {
       this.addsRange(data);
@@ -213,9 +211,11 @@ class Model extends Observable implements IModel {
       this.adds(percentage, value, elementType);
     }
 
-    data = this.getConfig();
+    this.config = this.validateConfig(this.config);
+    this.initConfigValue();
+
     const arrayStep = this.createStep();
-    const newData = { ...data, arrayStep };
+    const newData = { ...this.config, arrayStep };
 
     this.notify(newData);
   }
@@ -276,7 +276,7 @@ class Model extends Observable implements IModel {
     if (step < minStep) step = minStep;
     if (min > max - step) min = max - step;
     if (max < min + step) max = min + step;
-    if (max < step) max = stepTwice;
+    if (max < stepTwice) max = stepTwice;
     if (step > halfMax) step = halfMax;
     if (step > max - min) step = max - min;
     if (from > to) from = to - step;
