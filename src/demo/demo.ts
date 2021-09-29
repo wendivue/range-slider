@@ -1,6 +1,6 @@
 import 'Ts/plugin';
 import Setting from 'Components/Setting/Setting';
-import { IAPI, PartialConfigWithArrayStep } from 'Helpers/interface';
+import { ISliderAPI, PartialConfigWithArrayStep } from 'Helpers/interface';
 
 const anchor1 = document.getElementById('slider1');
 const anchor2 = document.getElementById('slider2');
@@ -35,7 +35,7 @@ const slider3 = $('#slider3').rangeSlider({
   isVertical: true,
 });
 
-const createSetting = (anchor: HTMLElement, slider: IAPI): void => {
+const createSetting = (anchor: HTMLElement, slider: ISliderAPI): void => {
   const config = slider.getConfig();
   const setting = new Setting(config, anchor);
 

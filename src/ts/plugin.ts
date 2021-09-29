@@ -1,4 +1,4 @@
-import { IAPI, PartialConfig } from 'Helpers/interface';
+import { ISliderAPI, PartialConfig } from 'Helpers/interface';
 
 import Model from './Model/Model';
 import View from './View/View';
@@ -6,8 +6,8 @@ import Presenter from './Presenter/Presenter';
 import defaultConfig from './Model/defaultConfig';
 
 declare global {
-  interface JQuery extends IAPI {
-    rangeSlider(options: PartialConfig): IAPI;
+  interface JQuery extends ISliderAPI {
+    rangeSlider(options: PartialConfig): ISliderAPI;
   }
 }
 

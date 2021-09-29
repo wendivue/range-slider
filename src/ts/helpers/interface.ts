@@ -50,7 +50,7 @@ type PartialConfigWithElementType = Partial<IConfigWithElementType>;
 
 type EventCallback = (data: PartialConfigWithArrayStep) => void;
 
-interface IAPI {
+interface ISliderAPI {
   update(data: IConfig): void;
   subscribe(fn: EventCallback): void;
   unsubscribe(fn: EventCallback): void;
@@ -64,7 +64,7 @@ export {
   ICoords,
   IShift,
   IForMouse,
-  IAPI,
+  ISliderAPI,
   TypeSlider,
   IConfigWithArrayStep,
   EventCallback,

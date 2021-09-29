@@ -226,7 +226,7 @@ describe('Validate range', () => {
     expect(model.validateRange(22, MIN)).toBe(22);
     expect(model.validateRange(2000, MIN)).toBe(999);
     expect(model.validateRange(10, MAX)).toBe(10);
-    expect(model.validateRange(0, MAX)).toBe(1);
+    expect(model.validateRange(0, MAX)).toBe(2);
   });
 });
 

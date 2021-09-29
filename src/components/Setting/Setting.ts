@@ -98,7 +98,7 @@ class Setting extends Observable implements ISetting {
     );
 
     checkbox.forEach((element) => {
-      element.addEventListener('change', this.changePresenter);
+      element.addEventListener('change', this.inputOnChange);
     });
   }
 
@@ -111,7 +111,7 @@ class Setting extends Observable implements ISetting {
   }
 
   @boundMethod
-  private changePresenter(event: Event) {
+  private inputOnChange(event: Event) {
     const element = event.target;
     if (!(element instanceof HTMLInputElement)) return;
     const name = element.getAttribute('name');
@@ -145,6 +145,7 @@ class Setting extends Observable implements ISetting {
     if (step > halfMax) step = halfMax;
     if (step > max - min) step = max - min;
     if (step < minStep) step = minStep;
+
     return step;
   }
 
