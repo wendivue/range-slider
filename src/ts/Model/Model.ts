@@ -285,6 +285,12 @@ class Model extends Observable implements IModel {
     if (from > max) from = max - stepTwice;
     if (to > max) to = max - step;
     if (single > max) single = max - step;
+    if (from < min) from = min;
+    if (to < min) to = min + step;
+    if (single < min) single = min;
+    if (from < step && from !== min) from = step;
+    if (to < step && to !== min) to = step;
+    if (single < step && single !== min) single = step;
 
     config.min = min;
     config.max = max;
