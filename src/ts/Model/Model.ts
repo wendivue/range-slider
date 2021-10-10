@@ -332,7 +332,7 @@ class Model extends Observable implements IModel {
   }
 
   private calcPercentageInput(value: number): number {
-    return (value * 100) / this.get(MAX);
+    return ((value - this.get(MIN)) * 100) / (this.get(MAX) - this.get(MIN));
   }
 
   private validateEdgePercentage(percentage: number): number {

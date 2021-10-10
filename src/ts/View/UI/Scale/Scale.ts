@@ -33,31 +33,46 @@ class Scale implements IScale {
     let maxLength = 12;
 
     if (max >= 100) maxLength = 7;
-    if (max > 1000) maxLength = 4;
+    if (max >= 1000) maxLength = 4;
 
-    while (newPercentage.length > maxLength) {
-      for (let i = 0; i <= newPercentage.length; i += 1) {
-        newPercentage.splice(i, 1);
+    if (newPercentage.length >= 100) {
+      const range = [25, 50, 75];
+      newPercentage = [0, ...range, 100];
+    } else {
+      const isValidArray =
+        newPercentage.length > 2 &&
+        newPercentage[newPercentage.length - 1] + newPercentage[1] >= 100;
+
+      while (newPercentage.length > maxLength) {
+        for (let i = 1; i <= newPercentage.length; i += 1) {
+          newPercentage.splice(i, 1);
+        }
       }
-    }
 
-    if (newPercentage.length > 2) {
-      let lastNumberArray = newPercentage.pop();
-      const stepPercentage = (100 * step) / (max - min);
+      if (isValidArray) {
+        const stepPercentage = (100 * step) / (max - min);
+        let lastNumberArray = newPercentage.pop();
+        if (!lastNumberArray) lastNumberArray = 0;
+        const isFractionalArrayMoreMax =
+          lastNumberArray >= 100 &&
+          !Number.isInteger(step) &&
+          newPercentage[newPercentage.length - 1] + step > 100;
 
-      if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
-
-      if (lastNumberArray >= 100) {
-        lastNumberArray = newPercentage.pop();
         if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
+
+        if (isFractionalArrayMoreMax) {
+          lastNumberArray = newPercentage.pop();
+          if (!lastNumberArray) throw new Error('lastNumberArray - не найдено');
+        }
+
+        if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
+          newPercentage = [...newPercentage, lastNumberArray];
+        }
       }
 
-      if (stepPercentage <= 100 - lastNumberArray && stepPercentage > 10) {
-        newPercentage = [...newPercentage, lastNumberArray];
-      }
+      newPercentage = [0, ...newPercentage, 100];
     }
 
-    newPercentage = [0, ...newPercentage, 100];
     newPercentage = newPercentage.filter((item, index, array) => array.indexOf(item) === index);
 
     const scale = this.anchor.querySelector<HTMLElement>('.slider__scale');

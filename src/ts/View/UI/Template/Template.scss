@@ -182,19 +182,19 @@
 
   &__scale-item {
     position: absolute;
-    font-size: 12px;
+    font-size: 9px;
+    padding: 5px;
     pointer-events: all;
-    transform: translate(-53%, 50%);
+    transform: translate(-53%, 40%);
 
     @media (max-width: $breakpoint-sm) {
-      font-size: 10px;
-    }
-
-    @media (max-width: $breakpoint-xxs) {
-      font-size: 9px;
+      margin-top: 10px;
+      margin-left: -13px;
+      transform: rotate(90deg);
     }
 
     &_vertical {
+      margin: 0;
       transform: translate(0%, 50%);
     }
   }
