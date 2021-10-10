@@ -172,7 +172,7 @@
     user-select: none;
 
     &_vertical {
-      top: -30px;
+      top: -28px;
       left: 25px;
       height: 100%;
       width: 100%;
@@ -195,6 +195,7 @@
 
     &_vertical {
       margin: 0;
+      padding: 0;
       transform: translate(0%, 50%);
     }
   }
